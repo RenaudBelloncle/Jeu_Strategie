@@ -1,0 +1,14 @@
+#ifndef PROJET_CONSTANTES_H
+#define PROJET_CONSTANTES_H
+
+
+#define WIN_WIDTH 800
+#define WIN_HEIGTH 600
+
+#define MAP_WIDTH 25
+#define MAP_HEIGTH 15
+
+#define SPRITE 50
+
+
+#endif //PROJET_CONSTANTES_H

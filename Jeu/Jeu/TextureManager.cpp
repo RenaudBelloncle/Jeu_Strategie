@@ -1,21 +1,16 @@
 #include "TextureManager.h"
 
-TextureManager* TextureManager::s_pInstance = 0;
-std::map<std::string, sf::Texture*> TextureManager::m_textureMap;
+void TextureManager::loadTexture(const std::string &name, const std::string &filename)
+{
+    sf::Texture texture;
+    texture.loadFromFile(filename);
 
-bool TextureManager::load(std::string file, std::string id){
-	sf::Texture* texture = new sf::Texture();
+    m_textures[name] = texture;
 
-	if (!texture->loadFromFile(file))
-	{
-		return false;
-	}
-
-	m_textureMap[id] = texture;
-
-	return true;
+    return;
 }
 
-sf::Texture* TextureManager::getTexture(std::string id){
-	return m_textureMap[id];
+sf::Texture& TextureManager::getRef(const std::string &texture)
+{
+    return m_textures.at(texture);
 }
