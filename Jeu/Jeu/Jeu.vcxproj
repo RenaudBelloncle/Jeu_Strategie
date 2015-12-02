@@ -159,13 +159,22 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
+    <ClCompile Include="EtatJeu.cpp" />
+    <ClCompile Include="EtatMenu.cpp" />
     <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="tile.cpp" />
+    <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Batiment.h" />
+    <ClInclude Include="Jeu.h" />
     <ClInclude Include="map.h" />
+    <ClInclude Include="ProductionsRessource.h" />
+    <ClInclude Include="Etat.h" />
+    <ClInclude Include="EtatJeu.h" />
+    <ClInclude Include="EtatMenu.h" />
+    <ClInclude Include="Ressource.h" />
     <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="tile.h" />
+    <ClInclude Include="Tile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
