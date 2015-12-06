@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entite">
+      <UniqueIdentifier>{29993d9a-7642-42de-8667-6abc848f772f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Entite">
+      <UniqueIdentifier>{494fe8f5-f9aa-4e02-87b4-a8eaa55d7b93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entite\Batiment">
+      <UniqueIdentifier>{0652ff3b-21a4-4deb-9e2d-3a5df89018cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entite\Unite">
+      <UniqueIdentifier>{e9572ca2-ea16-457f-a26e-27b87b1f0579}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Entite\Unite">
+      <UniqueIdentifier>{7aa1307c-9199-4193-b792-f1102b3f2151}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Entite\Batiment">
+      <UniqueIdentifier>{96896684-9a91-44f4-a21c-47502b2cfcac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />
@@ -36,6 +54,30 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Arme.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Entite.cpp">
+      <Filter>Fichiers sources\Entite</Filter>
+    </ClCompile>
+    <ClCompile Include="Unite.cpp">
+      <Filter>Fichiers sources\Entite\Unite</Filter>
+    </ClCompile>
+    <ClCompile Include="UniteArmee.cpp">
+      <Filter>Fichiers sources\Entite\Unite</Filter>
+    </ClCompile>
+    <ClCompile Include="UniteArmeeAerienne.cpp">
+      <Filter>Fichiers sources\Entite\Unite</Filter>
+    </ClCompile>
+    <ClCompile Include="UniteArmeeInfanterie.cpp">
+      <Filter>Fichiers sources\Entite\Unite</Filter>
+    </ClCompile>
+    <ClCompile Include="UniteArmeeMaritime.cpp">
+      <Filter>Fichiers sources\Entite\Unite</Filter>
+    </ClCompile>
+    <ClCompile Include="UniteArmeeMotorise.cpp">
+      <Filter>Fichiers sources\Entite\Unite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="map.h">
@@ -45,9 +87,6 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Ressource.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ProductionsRessource.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Jeu.h">
@@ -62,11 +101,38 @@
     <ClInclude Include="Etat.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Batiment.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Batiment.h">
+      <Filter>Fichiers d%27en-tête\Entite</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductionsRessource.h">
+      <Filter>Fichiers d%27en-tête\Entite</Filter>
+    </ClInclude>
+    <ClInclude Include="Arme.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Unite.h">
+      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
+    </ClInclude>
+    <ClInclude Include="UniteArmee.h">
+      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
+    </ClInclude>
+    <ClInclude Include="UniteArmeeAerienne.h">
+      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
+    </ClInclude>
+    <ClInclude Include="UniteArmeeInfanterie.h">
+      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
+    </ClInclude>
+    <ClInclude Include="UniteArmeeMaritime.h">
+      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
+    </ClInclude>
+    <ClInclude Include="UniteArmeeMotorise.h">
+      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
+    </ClInclude>
+    <ClInclude Include="Entite.h">
+      <Filter>Fichiers d%27en-tête\Entite</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

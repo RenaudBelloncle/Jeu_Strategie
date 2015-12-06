@@ -157,15 +157,25 @@
     <Text Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Arme.cpp" />
+    <ClCompile Include="Entite.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="EtatJeu.cpp" />
     <ClCompile Include="EtatMenu.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="Unite.cpp" />
+    <ClCompile Include="UniteArmee.cpp" />
+    <ClCompile Include="UniteArmeeAerienne.cpp" />
+    <ClCompile Include="UniteArmeeInfanterie.cpp" />
+    <ClCompile Include="UniteArmeeMaritime.cpp" />
+    <ClCompile Include="UniteArmeeMotorise.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Arme.h" />
     <ClInclude Include="Batiment.h" />
+    <ClInclude Include="Entite.h" />
     <ClInclude Include="Jeu.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="ProductionsRessource.h" />
@@ -175,6 +185,12 @@
     <ClInclude Include="Ressource.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="Unite.h" />
+    <ClInclude Include="UniteArmee.h" />
+    <ClInclude Include="UniteArmeeAerienne.h" />
+    <ClInclude Include="UniteArmeeInfanterie.h" />
+    <ClInclude Include="UniteArmeeMaritime.h" />
+    <ClInclude Include="UniteArmeeMotorise.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

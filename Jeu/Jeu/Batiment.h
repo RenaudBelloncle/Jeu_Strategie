@@ -1,8 +1,7 @@
 #pragma once
+#include "Entite.h"
 
-#include "entite.h"
-
-class Batiment : public Entity
+class Batiment : public Entite
 {
 public:
 	Batiment();
