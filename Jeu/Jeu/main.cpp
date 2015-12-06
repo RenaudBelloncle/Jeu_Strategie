@@ -51,6 +51,11 @@ int main()
                         break;
                 }
             }
+            if (event.type == sf::Event::MouseWheelMoved)
+            {
+                if (event.mouseWheel.delta < 0) game.m_view.zoom(1.1);
+                else game.m_view.zoom(0.9);
+            }
             game.m_window.clear(sf::Color::Black);
             game.print();
             game.m_window.display();
