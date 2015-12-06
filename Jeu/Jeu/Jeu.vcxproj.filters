@@ -45,12 +45,6 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="EtatJeu.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="EtatMenu.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -78,6 +72,15 @@
     <ClCompile Include="UniteArmeeMotorise.cpp">
       <Filter>Fichiers sources\Entite\Unite</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="EtatJeu.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="EtatMenu.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="map.h">
@@ -104,12 +107,6 @@
     <ClInclude Include="Tile.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Batiment.h">
-      <Filter>Fichiers d%27en-tête\Entite</Filter>
-    </ClInclude>
-    <ClInclude Include="ProductionsRessource.h">
-      <Filter>Fichiers d%27en-tête\Entite</Filter>
-    </ClInclude>
     <ClInclude Include="Arme.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -133,6 +130,18 @@
     </ClInclude>
     <ClInclude Include="Entite.h">
       <Filter>Fichiers d%27en-tête\Entite</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Constantes.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductionsRessource.h">
+      <Filter>Fichiers d%27en-tête\Entite\Batiment</Filter>
+    </ClInclude>
+    <ClInclude Include="Batiment.h">
+      <Filter>Fichiers d%27en-tête\Entite\Batiment</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
