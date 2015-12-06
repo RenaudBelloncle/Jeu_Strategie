@@ -13,6 +13,7 @@ Game::Game()
     c_view[0] = WIN_WIDTH/2;
     c_view[1] = WIN_HEIGTH/2;
     m_view = sf::View(sf::Vector2f(c_view[0],c_view[1]),sf::Vector2f(WIN_WIDTH,WIN_HEIGTH));
+    m_view.zoom(2);
     m_window.setFramerateLimit(60);
 }
 
