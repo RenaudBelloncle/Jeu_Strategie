@@ -22,30 +22,32 @@ int main()
                     case sf::Keyboard::Left:
                         if (game.c_view[0] - ((WIN_WIDTH/2) - 2*SPRITE) > 0)
                         {
-                            game.c_view[0] -= 20;
+                            game.c_view[0] -= SPRITE / 2;
                         }
                         break;
                     case sf::Keyboard::Right:
                         if (game.c_view[0] - ((WIN_WIDTH/2) - 2*SPRITE) < WIN_WIDTH)
                         {
-                            game.c_view[0] += 20;
+                            game.c_view[0] += SPRITE / 2;
                         }
                         break;
                     case sf::Keyboard::Up:
                         if (game.c_view[1] - ((WIN_HEIGTH/2) - 2*SPRITE) > 0)
                         {
-                            game.c_view[1] -= 20;
+                            game.c_view[1] -= SPRITE / 2;
                         }
                         break;
                     case sf::Keyboard::Down:
                         if (game.c_view[1] - ((WIN_HEIGTH/2) - 2*SPRITE) < WIN_HEIGTH)
                         {
-                            game.c_view[1] += 20;
+                            game.c_view[1] += SPRITE / 2;
                         }
                         break;
                     case sf::Keyboard::Escape:
                         game.c_view[0] = WIN_WIDTH/2;
                         game.c_view[1] = WIN_HEIGTH/2;
+                        break;
+                    default:
                         break;
                 }
             }

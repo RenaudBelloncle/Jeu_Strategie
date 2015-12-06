@@ -3,8 +3,6 @@
 
 void Game::loadTextures()
 {
-    m_textureManager.loadTexture("Vide", "media/Vide.png");
-    m_textureManager.loadTexture("Plaine", "media/Plaine.png");
 }
 
 Game::Game()
@@ -18,9 +16,9 @@ Game::Game()
     m_window.setFramerateLimit(60);
 }
 
-void Game::print()
+void Game::render()
 {
-    m_map.print(&m_window);
+    m_map.render(&m_window);
     m_view.setCenter(c_view[0],c_view[1]);
     m_window.setView(m_view);
 }
