@@ -1,6 +1,4 @@
-#ifndef PROJET_TILE_H
-#define PROJET_TILE_H
-
+#pragma once
 
 #include "TypeCase.h"
 #include "Ressource.h"
@@ -15,7 +13,7 @@ public:
 
     TypeCase getTypeCase();
     Ressource getRessource();
+
+    void initRessource();
+    Ressource whichRessource(int proba, int pVivres, int pMetal, int pPetrole);
 };
-
-
-#endif //PROJET_TILE_H

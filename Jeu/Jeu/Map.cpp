@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "Map.h"
 #include "Constantes.h"
 
@@ -20,10 +21,19 @@ Map::Map(int width, int heigth)
     }
 }
 
-void Map::print(sf::RenderWindow *renderWindow)
+void Map::render(sf::RenderWindow *renderWindow)
 {
-    sf::RectangleShape rectangleShape(sf::Vector2f(SPRITE,SPRITE));
+    sf::Font font;
+    if (!font.loadFromFile("media/Constantine.ttf"))
+    {
+        std::cerr << "Erreur chargement Font" << std::endl;
+        std::exit(1);
 
+    }
+    sf::Text text;
+    text.setFont(font);
+
+    sf::RectangleShape rectangleShape(sf::Vector2f(SPRITE,SPRITE));
     rectangleShape.setOutlineThickness(2);
     rectangleShape.setOutlineColor(sf::Color(255,255,255));
 
@@ -69,9 +79,28 @@ void Map::print(sf::RenderWindow *renderWindow)
                     rectangleShape.setFillColor(sf::Color(0,0,0));
                     break;
             }
+            switch (m_tiles[i][j].getRessource()) {
+                case Ressource::VIVRES :
+                    text.setString("V");
+                    break;
+
+                case Ressource::METAL :
+                    text.setString("M");
+                    break;
+
+                case Ressource::PETROLE :
+                    text.setString("P");
+                    break;
+
+                default:
+                    text.setString("");
+                    break;
+            }
 
             rectangleShape.setPosition(sf::Vector2f(i*SPRITE,j*SPRITE));
+            text.setPosition(sf::Vector2f(i*SPRITE,j*SPRITE));
             renderWindow->draw(rectangleShape);
+            renderWindow->draw(text);
         }
     }
 }
