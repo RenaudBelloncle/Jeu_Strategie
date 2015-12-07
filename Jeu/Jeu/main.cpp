@@ -5,6 +5,7 @@
 int main()
 {
     Game game;
+    float zoom = 2;
 
     while(game.m_window.isOpen())
     {
@@ -20,37 +21,58 @@ int main()
                 switch (event.key.code)
                 {
                     case sf::Keyboard::Left:
-                        if (game.c_view[0] - ((WIN_WIDTH/2) - 2*SPRITE) > 0)
+                        if (game.c_view[0] - ((WIN_WIDTH/2) - SPRITE) > 0)
                         {
-                            game.c_view[0] -= 20;
+                            game.c_view[0] -= (SPRITE / 2) * zoom;
                         }
                         break;
                     case sf::Keyboard::Right:
-                        if (game.c_view[0] - ((WIN_WIDTH/2) - 2*SPRITE) < WIN_WIDTH)
+                        if (game.c_view[0] + ((WIN_WIDTH/2) - SPRITE) < (MAP_WIDTH * SPRITE))
                         {
-                            game.c_view[0] += 20;
+                            game.c_view[0] += (SPRITE / 2) * zoom;
                         }
                         break;
                     case sf::Keyboard::Up:
-                        if (game.c_view[1] - ((WIN_HEIGTH/2) - 2*SPRITE) > 0)
+                        if (game.c_view[1] - ((WIN_HEIGTH/2) - SPRITE) > 0)
                         {
-                            game.c_view[1] -= 20;
+                            game.c_view[1] -= (SPRITE / 2) * zoom;
                         }
                         break;
                     case sf::Keyboard::Down:
-                        if (game.c_view[1] - ((WIN_HEIGTH/2) - 2*SPRITE) < WIN_HEIGTH)
+                        if (game.c_view[1] + ((WIN_HEIGTH/2) - SPRITE) < (MAP_HEIGTH * SPRITE))
                         {
-                            game.c_view[1] += 20;
+                            game.c_view[1] += (SPRITE / 2) * zoom;
                         }
                         break;
                     case sf::Keyboard::Escape:
-                        game.c_view[0] = WIN_WIDTH/2;
-                        game.c_view[1] = WIN_HEIGTH/2;
+                        game.c_view[0] = MAP_WIDTH/2;
+                        game.c_view[1] = MAP_HEIGTH/2;
+                        break;
+                    default:
                         break;
                 }
             }
+            if (event.type == sf::Event::MouseWheelMoved)
+            {
+                if (event.mouseWheel.delta < 0)
+                {
+                    if (zoom < 5)
+                    {
+                        game.m_view.zoom(1.1);
+                        zoom = zoom * 1.1f;
+                    }
+                }
+                else
+                {
+                    if (zoom > 1)
+                    {
+                        game.m_view.zoom(0.9);
+                        zoom = zoom * 0.9f;
+                    }
+                }
+            }
             game.m_window.clear(sf::Color::Black);
-            game.print();
+            game.render();
             game.m_window.display();
         }
     }

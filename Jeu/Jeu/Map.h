@@ -1,6 +1,4 @@
-#ifndef PROJET_MAP_H
-#define PROJET_MAP_H
-
+#pragma once
 
 #include <vector>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -15,8 +13,5 @@ public:
     Map();
     Map(int width, int heigth);
 
-    void print(sf::RenderWindow* renderWindow);
+    void render(sf::RenderWindow* renderWindow);
 };
-
-
-#endif //PROJET_MAP_H
