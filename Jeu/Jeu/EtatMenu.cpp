@@ -1,6 +1,6 @@
 #include "etatmenu.h"
 
-EtatMenu::EtatMenu(Jeu* jeu, sf::RenderWindow* window)
+EtatMenu::EtatMenu(Game* jeu, sf::RenderWindow* window)
 {
 	this->jeu = jeu;
 	this->window = window;

@@ -5,7 +5,10 @@
 int main()
 {
     Game game;
-    float zoom = SPRITE >> 6;
+	bool leftPressed(false), rightPressed(false), upPressed(false), downPressed(false);
+    float zoom(SPRITE >> 6);
+
+	sf::Clock m_clock;
 
     while(game.m_window.isOpen())
     {
@@ -21,28 +24,20 @@ int main()
                 switch (event.key.code)
                 {
                     case sf::Keyboard::Left:
-                        if (game.c_view[0] - ((WIN_WIDTH/2) - SPRITE) > 0)
-                        {
-                            game.c_view[0] -= (SPRITE / 2) * zoom;
-                        }
+						if(!leftPressed)
+							leftPressed = true;
                         break;
                     case sf::Keyboard::Right:
-                        if (game.c_view[0] + ((WIN_WIDTH/2) - SPRITE) < (MAP_WIDTH * SPRITE))
-                        {
-                            game.c_view[0] += (SPRITE / 2) * zoom;
-                        }
+						if(!rightPressed)
+							rightPressed = true;
                         break;
                     case sf::Keyboard::Up:
-                        if (game.c_view[1] - ((WIN_HEIGTH/2) - SPRITE) > 0)
-                        {
-                            game.c_view[1] -= (SPRITE / 2) * zoom;
-                        }
+						if(!upPressed)
+							upPressed = true;
                         break;
                     case sf::Keyboard::Down:
-                        if (game.c_view[1] + ((WIN_HEIGTH/2) - SPRITE) < (MAP_HEIGTH * SPRITE))
-                        {
-                            game.c_view[1] += (SPRITE / 2) * zoom;
-                        }
+						if(!downPressed)
+							downPressed = true;
                         break;
                     case sf::Keyboard::Space:
                         game.c_view[0] = MAP_WIDTH/2;
@@ -52,6 +47,28 @@ int main()
                         break;
                 }
             }
+
+			if (event.type == sf::Event::KeyReleased)
+			{
+				switch (event.key.code)
+				{
+				case sf::Keyboard::Left:
+					leftPressed = false;
+					break;
+				case sf::Keyboard::Right:
+					rightPressed = false;
+					break;
+				case sf::Keyboard::Up:
+					upPressed = false;
+					break;
+				case sf::Keyboard::Down:
+					downPressed = false;
+					break;
+				default:
+					break;
+				}
+			}
+
             if (event.type == sf::Event::MouseWheelMoved)
             {
                 if (event.mouseWheel.delta < 0)
@@ -71,10 +88,45 @@ int main()
                     //}
                 }
             }
-            game.m_window.clear(sf::Color::Black);
-            game.render();
-            game.m_window.display();
+
+			if (leftPressed)
+			{
+				if (game.c_view[0] - ((WIN_WIDTH / 2) - SPRITE) > 0)
+				{
+					game.c_view[0] -= m_clock.getElapsedTime().asMicroseconds() / 20;
+				}
+			}
+
+			if (rightPressed)
+			{
+				if (game.c_view[0] + ((WIN_WIDTH / 2) - SPRITE) < (MAP_WIDTH * SPRITE))
+				{
+					game.c_view[0] += m_clock.getElapsedTime().asMicroseconds() / 20;
+				}
+			}
+
+			if (upPressed)
+			{
+				if (game.c_view[1] - ((WIN_HEIGTH / 2) - SPRITE) > 0)
+				{
+					game.c_view[1] -= m_clock.getElapsedTime().asMicroseconds() / 20;
+				}
+			}
+
+			if (downPressed)
+			{
+				if (game.c_view[1] + ((WIN_HEIGTH / 2) - SPRITE) < (MAP_HEIGTH * SPRITE))
+				{
+					game.c_view[1] += m_clock.getElapsedTime().asMicroseconds() / 20;
+				}
+			}
         }
+
+		game.m_window.clear(sf::Color::Black);
+		game.render();
+		game.m_window.display();
+		int framerate = 1000 /(m_clock.getElapsedTime().asMilliseconds() + 1);
+		m_clock.restart();
     }
 
     return 0;
