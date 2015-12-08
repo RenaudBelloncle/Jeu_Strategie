@@ -1,24 +1,105 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Map.h"
-#include "Constantes.h"
 
 Map::Map()
 {
-    Map(10,10);
-}
-
-Map::Map(int width, int heigth)
-{
-    for (int i = 0; i < width; ++i)
-    {
-        m_tiles.push_back(std::vector<Tile>());
-        for (int j = 0; j < heigth; ++j)
-        {
-            TypeCase typeCase = static_cast<TypeCase>(rand() % 9);
-            m_tiles[i].push_back(Tile(typeCase));
+    //randomMapGenerator();
+    std::vector<int> tab;
+    for (int i = 0; i < MAP_WIDTH; ++i) {
+        for (int j = 0; j < MAP_HEIGTH; ++j) {
+            tab.push_back(i + j);
         }
     }
+    std::random_shuffle(tab.begin(), tab.end());
+
+    for (int i = 0; i < MAP_WIDTH; ++i) {
+        for (int j = 0; j < MAP_HEIGTH; ++j) {
+            permutation[i+j] = (unsigned int)(tab.at((unsigned long)(i + j)));
+        }
+    }
+    mapGenerator();
+}
+
+void Map::randomMapGenerator()
+{
+    for (int i = 0; i < MAP_WIDTH; ++i)
+    {
+        for (int j = 0; j < MAP_HEIGTH; ++j)
+        {
+            TypeCase typeCase = static_cast<TypeCase>(rand() % 9);
+            m_tiles[i][j] = Tile(typeCase);
+        }
+    }
+}
+
+void Map::mapGenerator()
+{
+    for (int i = 0; i < MAP_WIDTH; ++i) {
+        for (int j = 0; j < MAP_HEIGTH; ++j) {
+            m_tiles[i][j] = whichType(bruitPerlin(i+0.5f,j+0.5f,10));
+        }
+    }
+}
+
+float Map::bruitPerlin(float x, float y, float res)
+{
+    float tempX, tempY;
+    int x0, y0, ii, jj, gi0, gi1, gi2, gi3;
+    float unit = (float)(1.0f / sqrt(2));
+    float tmp, s, t, u, v, Cx, Cy, Li1, Li2;
+    float gradient2[8][2] = {{unit,unit},{-unit,unit},{unit,-unit},{-unit,-unit},
+                             {1,0},{-1,0},{0,1},{0,-1}};
+
+    x /= res;
+    y /= res;
+
+    x0 = (int)(x);
+    y0 = (int)(y);
+
+    ii = x0 & 255;
+    jj = y0 & 255;
+
+    gi0 = permutation[ii + permutation[jj]] % 8;
+    gi1 = permutation[ii + 1 + permutation[jj]] % 8;
+    gi2 = permutation[ii + permutation[jj + 1]] % 8;
+    gi3 = permutation[ii + 1 + permutation[jj + 1]] % 8;
+
+    tempX = x - x0;
+    tempY = y - y0;
+    s = gradient2[gi0][0] * tempX + gradient2[gi0][1] * tempY;
+
+    tempX = x - (x0 + 1);
+    tempY = y - y0;
+    t = gradient2[gi1][0] * tempX + gradient2[gi1][1] * tempY;
+
+    tempX = x - x0;
+    tempY = y - (y0 + 1);
+    u = gradient2[gi2][0] * tempX + gradient2[gi2][1] * tempY;
+
+    tempX = x - (x0 + 1);
+    tempY = y - (y0 + 1);
+    v = gradient2[gi3][0] * tempX + gradient2[gi3][1] * tempY;
+
+    tmp = x - x0;
+    Cx = 3 * tmp * tmp - 2 * tmp * tmp * tmp;
+
+    Li1 = s + Cx * (t - s);
+    Li2 = u + Cx * (v - u);
+
+    tmp = y - y0;
+    Cy = 3 * tmp * tmp - 2 * tmp * tmp * tmp;
+
+    return Li1 + Cy * (Li2 - Li1);
+}
+
+TypeCase Map::whichType(float hauteur)
+{
+    if (hauteur <= -0.05) return TypeCase::MER;
+    else if (hauteur <= 0) return TypeCase::PLAGE;
+    else if (hauteur <= 0.3) return TypeCase::PLAINE;
+    else if (hauteur <= 0.4) return TypeCase::COLINE;
+    else return TypeCase::MONTAGNE;
 }
 
 void Map::render(sf::RenderWindow *renderWindow)
@@ -34,12 +115,10 @@ void Map::render(sf::RenderWindow *renderWindow)
     text.setFont(font);
 
     sf::RectangleShape rectangleShape(sf::Vector2f(SPRITE,SPRITE));
-    rectangleShape.setOutlineThickness(2);
-    rectangleShape.setOutlineColor(sf::Color(255,255,255));
 
-    for (int i = 0; i < m_tiles.size(); ++i)
+    for (int i = 0; i < MAP_WIDTH; ++i)
     {
-        for (int j = 0; j < m_tiles[i].size(); ++j)
+        for (int j = 0; j < MAP_HEIGTH; ++j)
         {
             switch (m_tiles[i][j].getTypeCase())
             {

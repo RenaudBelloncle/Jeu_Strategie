@@ -5,7 +5,7 @@
 int main()
 {
     Game game;
-    float zoom = 2;
+    float zoom = SPRITE >> 6;
 
     while(game.m_window.isOpen())
     {
@@ -44,7 +44,7 @@ int main()
                             game.c_view[1] += (SPRITE / 2) * zoom;
                         }
                         break;
-                    case sf::Keyboard::Escape:
+                    case sf::Keyboard::Space:
                         game.c_view[0] = MAP_WIDTH/2;
                         game.c_view[1] = MAP_HEIGTH/2;
                         break;
@@ -56,19 +56,19 @@ int main()
             {
                 if (event.mouseWheel.delta < 0)
                 {
-                    if (zoom < 5)
-                    {
+                    //if (zoom < 5)
+                    //{
                         game.m_view.zoom(1.1);
                         zoom = zoom * 1.1f;
-                    }
+                    //}
                 }
                 else
                 {
-                    if (zoom > 1)
-                    {
+                    //if (zoom > 1)
+                    //{
                         game.m_view.zoom(0.9);
                         zoom = zoom * 0.9f;
-                    }
+                    //}
                 }
             }
             game.m_window.clear(sf::Color::Black);

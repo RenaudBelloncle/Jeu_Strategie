@@ -4,14 +4,20 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "Tile.h"
 #include "TextureManager.h"
+#include "Constantes.h"
 
 class Map {
 private:
-    std::vector<std::vector<Tile>> m_tiles;
+    Tile m_tiles[MAP_WIDTH][MAP_HEIGTH];
+    unsigned int permutation[256];
 
 public:
     Map();
-    Map(int width, int heigth);
+
+    void randomMapGenerator();
+    void mapGenerator();
+    float bruitPerlin(float x, float y, float res);
+    TypeCase whichType(float hauteur);
 
     void render(sf::RenderWindow* renderWindow);
 };
