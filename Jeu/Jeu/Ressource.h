@@ -1,13 +1,9 @@
-#ifndef PROJET_RESSOURCE_H
-#define PROJET_RESSOURCE_H
-
+#pragma once
 
 enum class Ressource : int {
-    ENERGIE,
     VIVRES,
     METAL,
-    PETROLE
+    PETROLE,
+    ENERGIE,
+    AUCUNE
 };
-
-
-#endif //PROJET_RESSOURCE_H
