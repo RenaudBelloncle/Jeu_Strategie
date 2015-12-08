@@ -1,6 +1,6 @@
 #include "etatjeu.h"
 
-EtatJeu::EtatJeu(Jeu* jeu, sf::RenderWindow* window)
+EtatJeu::EtatJeu(Game* jeu, sf::RenderWindow* window)
 {
 	this->jeu = jeu;
 	this->window = window;

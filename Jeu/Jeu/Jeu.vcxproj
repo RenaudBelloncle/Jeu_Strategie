@@ -179,7 +179,6 @@
     <ClInclude Include="Constantes.h" />
     <ClInclude Include="Entite.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Jeu.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="ProductionsRessource.h" />
     <ClInclude Include="Etat.h" />

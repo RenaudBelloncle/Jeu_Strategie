@@ -92,9 +92,6 @@
     <ClInclude Include="Ressource.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Jeu.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="EtatMenu.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
