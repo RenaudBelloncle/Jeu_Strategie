@@ -6,4 +6,4 @@
 #define MAP_WIDTH 30
 #define MAP_HEIGTH 30
 
-#define SPRITE 64
+#define SPRITE 128

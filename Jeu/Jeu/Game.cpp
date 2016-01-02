@@ -7,7 +7,7 @@ void Game::loadTextures()
 
 Game::Game()
 {
-    m_map = Map();
+    m_map = Map(-0.2f, -0.15f, 0.3, 0.4);
     loadTextures();
     m_window.create(sf::VideoMode(WIN_WIDTH,WIN_HEIGTH), "Jeu de Stratégie");
     c_view[0] = WIN_WIDTH/2;

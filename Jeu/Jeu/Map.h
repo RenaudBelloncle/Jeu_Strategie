@@ -12,12 +12,11 @@ private:
     unsigned int permutation[256];
 
 public:
-    Map();
+    Map(float nivMer, float nivPlage, float nivPlaine, float nivColine);
 
-    void randomMapGenerator();
-    void mapGenerator();
+    void mapGenerator(float nivMer, float nivPlage, float nivPlaine, float nivColine);
     float bruitPerlin(float x, float y, float res);
-    TypeCase whichType(float hauteur);
+    TypeCase whichType(float hauteur, float nivMer, float nivPlage, float nivPlaine, float nivColine);
 
     void render(sf::RenderWindow* renderWindow);
 };
