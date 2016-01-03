@@ -19,27 +19,26 @@ Ressource Tile::getRessource()
 
 void Tile::initRessource()
 {
-    Ressource ressource = static_cast<Ressource>(rand() % 3);
     switch (m_typeCase)
     {
         case TypeCase::PLAINE:
-            m_ressource = whichRessource(33,34,33,33);
+            m_ressource = whichRessource(10,34,33,33);
             break;
 
         case TypeCase::PLAGE:
-            m_ressource = whichRessource(33,34,33,33);
+            m_ressource = whichRessource(10,34,33,33);
             break;
 
         case TypeCase::FORET:
-            m_ressource = whichRessource(33,80,10,10);
+            m_ressource = whichRessource(10,80,10,10);
             break;
 
         case TypeCase::MARAIS:
-            m_ressource = whichRessource(33,10,10,80);
+            m_ressource = whichRessource(10,10,10,80);
             break;
 
         case TypeCase::COLINE:
-            m_ressource = whichRessource(33,10,80,10);
+            m_ressource = whichRessource(10,10,80,10);
             break;
 
         default:

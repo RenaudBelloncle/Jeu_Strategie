@@ -20,7 +20,7 @@ public:
     int c_view[2];
     TextureManager m_textureManager;
 
-    Map m_map;
+    Map m_map = Map(0, 0, 0, 0);
 
     void render();
 };

@@ -6,9 +6,9 @@
 class Etat
 {
 public:
-	virtual void render() = 0;
-	virtual void update(int delta) = 0;
+    virtual void render() = 0;
+    virtual void update(int delta) = 0;
 protected:
-	Game* jeu;
-	sf::RenderWindow* window;
+    Game* jeu;
+    sf::RenderWindow* window;
 };
