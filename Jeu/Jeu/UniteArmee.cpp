@@ -1,7 +1,7 @@
 #include "UniteArmee.h"
 
-UniteArmee::UniteArmee(std::string _nom, std::string _desc, int _ressMax, int _deplacementMax, int _champVision,
-	int _munMax, int _rangeMax, int _rangeMin,Arme principale, Arme secondaire) : Unite(_nom, _desc, _ressMax, _deplacementMax, _champVision) 
+UniteArmee::UniteArmee(int _x, int _y, std::string _nom, std::string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type,
+	int _munMax, int _rangeMax, int _rangeMin,Arme principale, Arme secondaire) : Unite(_x,_y,_nom, _desc, _ressMax, _deplacementMax, _champVision, _type) 
 {
 	rangeMin = _rangeMin;
 	rangeMax = _rangeMax;

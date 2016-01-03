@@ -4,6 +4,7 @@
 
 Map::Map()
 {
+	std::cout << "Creation de la map" << std::endl;
     //randomMapGenerator();
     std::vector<int> tab;
     for (int i = 0; i < MAP_WIDTH; ++i) {
@@ -19,6 +20,7 @@ Map::Map()
         }
     }
     mapGenerator();
+	std::cout << "Création de la map terminee" << std::endl;
 }
 
 void Map::randomMapGenerator()
@@ -102,84 +104,92 @@ TypeCase Map::whichType(float hauteur)
     else return TypeCase::MONTAGNE;
 }
 
-void Map::render(sf::RenderWindow *renderWindow)
-{
-    sf::Font font;
-    if (!font.loadFromFile("media/Constantine.ttf"))
-    {
-        std::cerr << "Erreur chargement Font" << std::endl;
-        std::exit(1);
-
-    }
-    sf::Text text;
-    text.setFont(font);
-
-    sf::RectangleShape rectangleShape(sf::Vector2f(SPRITE,SPRITE));
-
-    for (int i = 0; i < MAP_WIDTH; ++i)
-    {
-        for (int j = 0; j < MAP_HEIGTH; ++j)
-        {
-            switch (m_tiles[i][j].getTypeCase())
-            {
-                case TypeCase::PLAINE:
-                    rectangleShape.setFillColor(sf::Color(0,255,0));
-                    break;
-
-                case TypeCase::PLAGE:
-                    rectangleShape.setFillColor(sf::Color(255,255,0));
-                    break;
-
-                case TypeCase::MONTAGNE:
-                    rectangleShape.setFillColor(sf::Color(90,60,30));
-                    break;
-
-                case TypeCase::MER:
-                    rectangleShape.setFillColor(sf::Color(0,0,255));
-                    break;
-
-                case TypeCase::FORET:
-                    rectangleShape.setFillColor(sf::Color(0,100,0));
-                    break;
-
-                case TypeCase::MARAIS:
-                    rectangleShape.setFillColor(sf::Color(150,255,150));
-                    break;
-
-                case TypeCase::COLINE:
-                    rectangleShape.setFillColor(sf::Color(170,140,100));
-                    break;
-
-                case TypeCase::VILLE:
-                    rectangleShape.setFillColor(sf::Color(150,150,150));
-                    break;
-
-                case TypeCase::RUINE:
-                    rectangleShape.setFillColor(sf::Color(0,0,0));
-                    break;
-            }
-            switch (m_tiles[i][j].getRessource()) {
-                case Ressource::VIVRES :
-                    text.setString("V");
-                    break;
-
-                case Ressource::METAL :
-                    text.setString("M");
-                    break;
-
-                case Ressource::PETROLE :
-                    text.setString("P");
-                    break;
-
-                default:
-                    text.setString("");
-                    break;
-            }
-
-            rectangleShape.setPosition(sf::Vector2f(i*SPRITE,j*SPRITE));
-            text.setPosition(sf::Vector2f(i*SPRITE,j*SPRITE));
-            renderWindow->draw(rectangleShape);
-            renderWindow->draw(text);
-        }
-    }
+Tile Map::getTile(int x, int y) {
+	return m_tiles[x][y];
 }
+
+void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager)
+{
+	m_imageMinimap.create(MAP_WIDTH, MAP_HEIGTH);
+	m_imageRessource.create(MAP_WIDTH, MAP_HEIGTH);
+	for (int i = 0; i < MAP_WIDTH; ++i)
+	{
+		for (int j = 0; j < MAP_HEIGTH; ++j)
+		{
+			sf::Sprite terrain, ressource;
+			switch (m_tiles[i][j].getTypeCase())
+			{
+				case TypeCase::PLAINE:
+					m_imageMinimap.setPixel(i, j, sf::Color(0, 255, 0));
+					terrain = manager->getRef("plaine");
+					break;
+
+				case TypeCase::PLAGE:
+					m_imageMinimap.setPixel(i, j, sf::Color(255, 255, 0));
+					terrain = manager->getRef("plage");
+					break;
+
+				case TypeCase::MONTAGNE:
+					m_imageMinimap.setPixel(i, j, sf::Color(90, 60, 30));
+					terrain = manager->getRef("montagne");
+					break;
+
+				case TypeCase::MER:
+					m_imageMinimap.setPixel(i, j, sf::Color(0, 0, 255));
+					terrain = manager->getRef("mer");
+					break;
+
+				case TypeCase::FORET:
+					m_imageMinimap.setPixel(i, j, sf::Color(0, 100, 0));
+					terrain = manager->getRef("foret");
+					break;
+
+				case TypeCase::MARAIS:
+					m_imageMinimap.setPixel(i, j, sf::Color(150, 255, 150));
+					terrain = manager->getRef("marais");
+					break;
+
+				case TypeCase::COLINE:
+					m_imageMinimap.setPixel(i, j, sf::Color(170, 140, 100));
+					terrain = manager->getRef("coline");
+					break;
+
+				case TypeCase::VILLE:
+					m_imageMinimap.setPixel(i, j, sf::Color(0, 0, 0));
+					terrain = manager->getRef("ville");
+					break;
+
+				case TypeCase::RUINE:
+					m_imageMinimap.setPixel(i, j, sf::Color(150, 150, 150));
+					terrain = manager->getRef("ruine");
+					break;
+				default : 
+					m_imageMinimap.setPixel(i, j, sf::Color(0,0,0));
+					terrain = manager->getRef("void");
+					break;
+				}
+			switch (m_tiles[i][j].getRessource()) {
+			case Ressource::VIVRES:
+				ressource = manager->getRef("vivre");
+				m_imageRessource.setPixel(i, j, sf::Color(250, 90, 0));
+				break;
+
+			case Ressource::METAL:
+				ressource = manager->getRef("metal");
+				m_imageRessource.setPixel(i, j, sf::Color(250, 250, 250));
+				break;
+
+			case Ressource::PETROLE:
+				ressource = manager->getRef("petrole");
+				m_imageRessource.setPixel(i, j, sf::Color(50, 50, 50));
+				break;
+			}
+
+			terrain.setPosition(sf::Vector2f(i*SPRITE, j*SPRITE));
+			ressource.setPosition(sf::Vector2f(i*SPRITE, j*SPRITE));
+			renderWindow->draw(terrain);
+			renderWindow->draw(ressource);
+		}
+	}
+}
+

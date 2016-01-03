@@ -10,14 +10,15 @@ private:
 	Arme *armePrincipale, *armeSecondaire;
 
 public :
-	UniteArmee(std::string _nom, std::string _desc, int _ressMax, int _deplacementMax, int _champVision,
+	UniteArmee(int _x, int _y, std::string _nom, std::string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type, 
 		int _munMax, int _rangeMax, int _rangeMin, Arme principale, Arme secondaire);
-	int UniteArmee::getRangeMin()const;
-	int UniteArmee::getRangeMax()const;
-	int UniteArmee::getStockMunActuel()const;
-	int UniteArmee::getStockMaxMun()const;
+	int getRangeMin()const;
+	int getRangeMax()const;
+	int getStockMunActuel()const;
+	int getStockMaxMun()const;
 	
 	void attaque(Entite *ennemi);
 	void attaqueUnite(Unite *ennemi);
+
 	//void attaqueBatiment();
 };
