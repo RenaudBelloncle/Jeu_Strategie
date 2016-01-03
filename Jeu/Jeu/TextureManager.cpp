@@ -4,6 +4,7 @@ void TextureManager::loadTexture(const std::string &name, const std::string &fil
 {
     sf::Texture texture;
     texture.loadFromFile(filename);
+	//texture.setSmooth(true);
 
     m_textures[name] = texture;
 

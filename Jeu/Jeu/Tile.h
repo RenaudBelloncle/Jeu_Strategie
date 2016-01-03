@@ -14,6 +14,7 @@ public:
     TypeCase getTypeCase();
     Ressource getRessource();
 
+
     void initRessource();
     Ressource whichRessource(int proba, int pVivres, int pMetal, int pPetrole);
 };

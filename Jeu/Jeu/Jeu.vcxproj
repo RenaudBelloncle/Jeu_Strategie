@@ -158,20 +158,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arme.cpp" />
+    <ClCompile Include="CouleurJoueur.h" />
     <ClCompile Include="Entite.cpp" />
     <ClCompile Include="EtatJeu.cpp" />
     <ClCompile Include="EtatMenu.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
+    <ClCompile Include="Minimap.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TypeUnite.h" />
     <ClCompile Include="Unite.cpp" />
     <ClCompile Include="UniteArmee.cpp" />
-    <ClCompile Include="UniteArmeeAerienne.cpp" />
-    <ClCompile Include="UniteArmeeInfanterie.cpp" />
-    <ClCompile Include="UniteArmeeMaritime.cpp" />
-    <ClCompile Include="UniteArmeeMotorise.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arme.h" />
@@ -180,19 +181,19 @@
     <ClInclude Include="Entite.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="map.h" />
+    <ClInclude Include="Minimap.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="ProductionsRessource.h" />
     <ClInclude Include="Etat.h" />
     <ClInclude Include="EtatJeu.h" />
     <ClInclude Include="EtatMenu.h" />
     <ClInclude Include="Ressource.h" />
+    <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="TypeCase.h" />
     <ClInclude Include="Unite.h" />
     <ClInclude Include="UniteArmee.h" />
-    <ClInclude Include="UniteArmeeAerienne.h" />
-    <ClInclude Include="UniteArmeeInfanterie.h" />
-    <ClInclude Include="UniteArmeeMaritime.h" />
-    <ClInclude Include="UniteArmeeMotorise.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
