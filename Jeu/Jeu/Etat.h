@@ -1,16 +1,15 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "jeu.h"
+#include "Game.h"
 
 class Etat
 {
 public:
-	Etat();
-	virtual ~Etat() = 0;
-	virtual void render() = 0;
-	virtual void update(int delta) = 0;
+
+    virtual void render() = 0;
+    virtual void update(int delta) = 0;
 protected:
-	Jeu* jeu;
-	sf::RenderWindow* window;
+    Game* jeu;
+    sf::RenderWindow* window;
 };

@@ -1,22 +1,27 @@
-#ifndef PROJET_MAP_H
-#define PROJET_MAP_H
-
+#pragma once
 
 #include <vector>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "Tile.h"
-#include "TextureManager.h"
+#include "SpriteManager.h"
+#include "Constantes.h"
 
 class Map {
 private:
-    std::vector<std::vector<Tile>> m_tiles;
+    Tile m_tiles[MAP_WIDTH][MAP_HEIGTH];
+    unsigned int permutation[256];
+	sf::Image m_image, m_imageMinimap, m_imageRessource;
+	bool m_topo, m_ressource, m_unite;
 
 public:
-    Map();
-    Map(int width, int heigth);
 
-    void print(sf::RenderWindow* renderWindow);
+    Map(float nivMer, float nivPlage, float nivPlaine, float nivColine);
+
+    void mapGenerator(float nivMer, float nivPlage, float nivPlaine, float nivColine);
+    float bruitPerlin(float x, float y, float res);
+    TypeCase whichType(float hauteur, float nivMer, float nivPlage, float nivPlaine, float nivColine);
+
+	Tile getTile(int x, int y);
+
+    void render(sf::RenderWindow* renderWindow, SpriteManager *manager);
 };
-
-
-#endif //PROJET_MAP_H

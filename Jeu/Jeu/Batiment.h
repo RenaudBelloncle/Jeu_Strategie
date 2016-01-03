@@ -1,13 +1,16 @@
 #pragma once
+
 #include "Entite.h"
 
-class Batiment : public Entite
+class Batiment : public Entity
 {
 public:
-	Batiment();
-	~Batiment();
-	int getTempsConstruction();
-	int setTempsContruction(int tempsConstruction);
+    Batiment();
+    ~Batiment();
+
+    int getTempsConstruction();
+    int setTempsContruction(int tempsConstruction);
+
 private:
-	int tempsConstruction;
+    int tempsConstruction;
 };

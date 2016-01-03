@@ -1,23 +1,23 @@
-#include "etatjeu.h"
+#include "EtatJeu.h"
 
-EtatJeu::EtatJeu(Jeu* jeu, sf::RenderWindow* window)
+EtatJeu::EtatJeu(Game* jeu, sf::RenderWindow* window)
 {
-	this->jeu = jeu;
-	this->window = window;
-	//Constructeur avec initialisation
+    this->jeu = jeu;
+    this->window = window;
+    //Constructeur avec initialisation
 }
 
 EtatJeu::~EtatJeu()
 {
-	//Destructeur
+    //Destructeur
 }
 
 void EtatJeu::update(int delta)
 {
-	//Mise à jour
+    //Mise Ã  jour
 }
 
 void EtatJeu::render()
 {
-	//Rendu
+    //Rendu
 }

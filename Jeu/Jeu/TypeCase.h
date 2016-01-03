@@ -1,18 +1,13 @@
-#ifndef PROJET_TYPECASE_H
-#define PROJET_TYPECASE_H
-
+#pragma once
 
 enum class TypeCase : int {
-    PLAINE,
-    PLAGE,
-    MONTAGNE,
     MER,
-    FORET,
-    MARAIS,
+    PLAGE,
+    PLAINE,
     COLINE,
+    MONTAGNE,
+    MARAIS,
+    FORET,
     VILLE,
     RUINE
 };
-
-
-#endif //PROJET_TYPECASE_H

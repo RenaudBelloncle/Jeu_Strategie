@@ -1,23 +1,23 @@
-#include "etatmenu.h"
+#include "EtatMenu.h"
 
-EtatMenu::EtatMenu(Jeu* jeu, sf::RenderWindow* window)
+EtatMenu::EtatMenu(Game* jeu, sf::RenderWindow* window)
 {
-	this->jeu = jeu;
-	this->window = window;
-	//Constructeur avec initialisation
+    this->jeu = jeu;
+    this->window = window;
+    //Constructeur avec initialisation
 }
 
 EtatMenu::~EtatMenu()
 {
-	//Destructeur
+    //Destructeur
 }
 
 void EtatMenu::update(int delta)
 {
-	//Mise à jour
+    //Mise Ã  jour
 }
 
 void EtatMenu::render()
 {
-	//Rendu
+    //Rendu
 }
