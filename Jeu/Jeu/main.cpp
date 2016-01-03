@@ -5,6 +5,7 @@
 int main()
 {
     Game game;
+
 	bool leftPressed(false), rightPressed(false), upPressed(false), downPressed(false);
     float zoom(SPRITE >> 6);
 

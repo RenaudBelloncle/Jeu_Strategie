@@ -52,7 +52,7 @@ Game::Game()
 	std::cout << "Chargement des sprites ..." << std::endl;
 	loadSprites();
 	std::cout << "Chargement des sprites termine" << std::endl;
-	m_map = Map();
+	m_map = Map(-0.2f, -0.15f, 0.3, 0.4);
 	m_minimap = Minimap(&m_map);
     m_window.create(sf::VideoMode(WIN_WIDTH,WIN_HEIGTH), "Jeu de Strategie", sf::Style::Close);
 
@@ -62,8 +62,8 @@ Game::Game()
     m_view = sf::View(sf::Vector2f((float)c_view[0],(float)c_view[1]),sf::Vector2f((float)WIN_WIDTH,(float)WIN_HEIGTH));
     m_view.zoom(SPRITE >> 6);
     m_window.setFramerateLimit(60);
+
 	m_player = new Player(sf::Color(127,127,127));
-	
 }
 
 void Game::render()

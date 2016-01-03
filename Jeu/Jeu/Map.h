@@ -14,12 +14,12 @@ private:
 	bool m_topo, m_ressource, m_unite;
 
 public:
-	Map();
 
-    void randomMapGenerator();
-    void mapGenerator();
+    Map(float nivMer, float nivPlage, float nivPlaine, float nivColine);
+
+    void mapGenerator(float nivMer, float nivPlage, float nivPlaine, float nivColine);
     float bruitPerlin(float x, float y, float res);
-    TypeCase whichType(float hauteur);
+    TypeCase whichType(float hauteur, float nivMer, float nivPlage, float nivPlaine, float nivColine);
 
 	Tile getTile(int x, int y);
 

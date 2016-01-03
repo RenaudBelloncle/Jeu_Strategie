@@ -2,10 +2,9 @@
 #include <iostream>
 #include "Map.h"
 
-Map::Map()
+Map::Map(float nivMer, float nivPlage, float nivPlaine, float nivColine)
 {
 	std::cout << "Creation de la map" << std::endl;
-    //randomMapGenerator();
     std::vector<int> tab;
     for (int i = 0; i < MAP_WIDTH; ++i) {
         for (int j = 0; j < MAP_HEIGTH; ++j) {
@@ -19,27 +18,15 @@ Map::Map()
             permutation[i+j] = (unsigned int)(tab.at((unsigned long)(i + j)));
         }
     }
-    mapGenerator();
+	mapGenerator(nivMer, nivPlage, nivPlaine, nivColine);
 	std::cout << "Création de la map terminee" << std::endl;
 }
 
-void Map::randomMapGenerator()
-{
-    for (int i = 0; i < MAP_WIDTH; ++i)
-    {
-        for (int j = 0; j < MAP_HEIGTH; ++j)
-        {
-            TypeCase typeCase = static_cast<TypeCase>(rand() % 9);
-            m_tiles[i][j] = Tile(typeCase);
-        }
-    }
-}
-
-void Map::mapGenerator()
+void Map::mapGenerator(float nivMer, float nivPlage, float nivPlaine, float nivColine)
 {
     for (int i = 0; i < MAP_WIDTH; ++i) {
         for (int j = 0; j < MAP_HEIGTH; ++j) {
-            m_tiles[i][j] = whichType(bruitPerlin(i+0.5f,j+0.5f,10));
+            m_tiles[i][j] = whichType(bruitPerlin(i+0.5f,j+0.5f,10), nivMer, nivPlage, nivPlaine, nivColine);
         }
     }
 }
@@ -95,12 +82,12 @@ float Map::bruitPerlin(float x, float y, float res)
     return Li1 + Cy * (Li2 - Li1);
 }
 
-TypeCase Map::whichType(float hauteur)
+TypeCase Map::whichType(float hauteur, float nivMer, float nivPlage, float nivPlaine, float nivColine)
 {
-    if (hauteur <= -0.05) return TypeCase::MER;
-    else if (hauteur <= 0) return TypeCase::PLAGE;
-    else if (hauteur <= 0.3) return TypeCase::PLAINE;
-    else if (hauteur <= 0.4) return TypeCase::COLINE;
+    if (hauteur <= nivMer) return TypeCase::MER;
+    else if (hauteur <= nivPlage) return TypeCase::PLAGE;
+    else if (hauteur <= nivPlaine) return TypeCase::PLAINE;
+    else if (hauteur <= nivColine) return TypeCase::COLINE;
     else return TypeCase::MONTAGNE;
 }
 
