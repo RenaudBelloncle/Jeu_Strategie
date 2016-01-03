@@ -60,18 +60,6 @@
     <ClCompile Include="UniteArmee.cpp">
       <Filter>Fichiers sources\Entite\Unite</Filter>
     </ClCompile>
-    <ClCompile Include="UniteArmeeAerienne.cpp">
-      <Filter>Fichiers sources\Entite\Unite</Filter>
-    </ClCompile>
-    <ClCompile Include="UniteArmeeInfanterie.cpp">
-      <Filter>Fichiers sources\Entite\Unite</Filter>
-    </ClCompile>
-    <ClCompile Include="UniteArmeeMaritime.cpp">
-      <Filter>Fichiers sources\Entite\Unite</Filter>
-    </ClCompile>
-    <ClCompile Include="UniteArmeeMotorise.cpp">
-      <Filter>Fichiers sources\Entite\Unite</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -79,6 +67,21 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="EtatMenu.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeUnite.h">
+      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
+    </ClCompile>
+    <ClCompile Include="CouleurJoueur.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Minimap.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,18 +116,6 @@
     <ClInclude Include="UniteArmee.h">
       <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
     </ClInclude>
-    <ClInclude Include="UniteArmeeAerienne.h">
-      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
-    </ClInclude>
-    <ClInclude Include="UniteArmeeInfanterie.h">
-      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
-    </ClInclude>
-    <ClInclude Include="UniteArmeeMaritime.h">
-      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
-    </ClInclude>
-    <ClInclude Include="UniteArmeeMotorise.h">
-      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
-    </ClInclude>
     <ClInclude Include="Entite.h">
       <Filter>Fichiers d%27en-tête\Entite</Filter>
     </ClInclude>
@@ -139,6 +130,18 @@
     </ClInclude>
     <ClInclude Include="Batiment.h">
       <Filter>Fichiers d%27en-tête\Entite\Batiment</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeCase.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteManager.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Minimap.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

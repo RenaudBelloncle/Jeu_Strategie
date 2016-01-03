@@ -1,9 +1,11 @@
+#include <SFML/Graphics.hpp>
+#include <iostream>
 #include <string>
 #include "Unite.h"
 using namespace std;
 
 
-Unite::Unite(string _nom, string _desc, int _ressMax, int _deplacementMax, int _champVision) : Entite(_nom, _desc)
+Unite::Unite(int _x, int _y, string _nom, string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type) : Entite(_x, _y, _nom, _desc)
 {
 	stockResssourceMax = _ressMax;
 	deplacementMax = _deplacementMax;
@@ -11,6 +13,7 @@ Unite::Unite(string _nom, string _desc, int _ressMax, int _deplacementMax, int _
 	deplacementRestant = deplacementMax;
 	champVision = _champVision;
 	resistance = 0;
+	type = _type;
 }
 
 int Unite::getStockMaxRess() const
@@ -54,15 +57,10 @@ bool Unite::peutSeDeplacer()const
 	return deplacementRestant > 0;
 }
 
-void Unite::update()
+/*void Unite::update()
 {
 
-}
-
-void Unite::render()
-{
-
-}
+}*/
 
 void Unite::soin() {
 	setPvRestant(getPvRestant() + 2);
@@ -92,17 +90,137 @@ bool Unite::isUnite() {
 }
 
 bool Unite::isAerienne() {
-	return false;
+	return type == TypeUnite::AERIENNE;
 }
 
 bool Unite::isMotorise() {
-	return false;
+	return type == TypeUnite::MOTORISE;
 }
 
 bool Unite::isInfanterie() {
-	return false;
+	return type == TypeUnite::INFANTERIE;
 }
 
 bool Unite::isMaritime() {
-	return false;
+	return type == TypeUnite::MARITIME;
+}
+
+void Unite::render(sf::RenderWindow *renderWindow, sf::Color color, SpriteManager *manager) {
+	sf::Sprite fond = getFond(manager);
+	fond.setPosition(sf::Vector2f(getCoordX()*SPRITE, getCoordY()*SPRITE));
+	fond.setColor(color);
+	renderWindow->draw(fond);
+	//Draw unite icon
+	sf::Sprite icon = getIcon(manager);
+	icon.setPosition(sf::Vector2f(getCoordX()*SPRITE, getCoordY()*SPRITE));
+	icon.setColor(color);
+	renderWindow->draw(icon);
+}
+
+sf::Sprite Unite::getFond(SpriteManager *manager) {
+	sf::Sprite sprite;
+	if (type == TypeUnite::AERIENNE) {
+		sprite = manager->getRef("aerien");
+	}
+	else if (type == TypeUnite::INFANTERIE) {
+		sprite = manager->getRef("infanterie");
+	}
+	else if (type == TypeUnite::MOTORISE) {
+		sprite = manager->getRef("motorise");
+	}
+	else if (type == TypeUnite::MARITIME) {
+		sprite = manager->getRef("maritime");
+	}
+	return sprite;
+}
+
+sf::Sprite Unite::getIcon(SpriteManager *manager) {
+	sf::Sprite sprite;
+	if (type == TypeUnite::AERIENNE) {
+		sprite = getIconAerienne(manager);
+	}
+	else if (type == TypeUnite::INFANTERIE) {
+		sprite = getIconInfanterie(manager);
+	}
+	else if (type == TypeUnite::MOTORISE) {
+		sprite = getIconMotorise(manager);
+	}
+	else if (type == TypeUnite::MARITIME) {
+		sprite = getIconMaritime(manager);
+	}
+	return sprite;
+}
+
+sf::Sprite Unite::getIconInfanterie(SpriteManager *manager) {
+	sf::Sprite sprite;
+	if (getNom() == "Soldat") {
+		sprite = manager->getRef("soldat");
+	}
+	else if (getNom() == "Soldat arme") {
+		sprite = manager->getRef("soldat_arme");
+	}
+	else if (getNom() == "Demolisseur") {
+		sprite = manager->getRef("demolisseur");
+	}
+	else if (getNom() == "Explorateur") {
+		sprite = manager->getRef("explorateur");
+	}
+	else if (getNom() == "Recruteur") {
+		sprite = manager->getRef("recruteur");
+	}
+	return sprite;
+}
+
+sf::Sprite Unite::getIconAerienne(SpriteManager *manager) {
+	sf::Sprite sprite;
+	if (getNom() == "Chasseur") {
+		sprite = manager->getRef("chasseur");
+	}
+	else if (getNom() == "Bombardier") {
+		sprite = manager->getRef("bombardier");
+	}
+	else if (getNom() == "Helicoptere") {
+		sprite = manager->getRef("helicoptere");
+	}
+	else if (getNom() == "Helicoptere de transport") {
+		sprite = manager->getRef("helico_transport");
+	}
+	return sprite;
+}
+
+sf::Sprite Unite::getIconMotorise(SpriteManager *manager) {
+	sf::Sprite sprite;
+	if (getNom() == "Jeep") {
+		sprite = manager->getRef("jeep");
+	}
+	else if (getNom() == "Char") {
+		sprite = manager->getRef("char");
+	}
+	else if (getNom() == "Artillerie") {
+		sprite = manager->getRef("artillerie");
+	}
+	else if (getNom() == "DCA") {
+		sprite = manager->getRef("dca");
+	}
+	else if (getNom() == "Transporteur") {
+		sprite = manager->getRef("transporteur");
+	}
+	return sprite;
+}
+
+sf::Sprite Unite::getIconMaritime(SpriteManager *manager) {
+	sf::Sprite sprite;
+	if (getNom() == "Cuirasse") {
+		sprite = manager->getRef("cuirasse");
+	}
+	else if (getNom() == "Torpilleur") {
+		sprite = manager->getRef("torpilleur");
+	}
+	else if (getNom() == "Corvette") {
+		sprite = manager->getRef("corvette");
+	}
+	else if (getNom() == "Barge") {
+		sprite = manager->getRef("barge");
+	}
+	return sprite;
 }

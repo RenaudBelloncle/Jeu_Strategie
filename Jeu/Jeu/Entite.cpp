@@ -1,9 +1,13 @@
+#include <SFML/Graphics.hpp>
+#include <iostream>
 #include "Entite.h"
 
-Entite::Entite(std::string _nom, std::string _desc) {
+Entite::Entite(int _x, int _y, std::string _nom, std::string _desc) {
 	nom = _nom;
 	description = _desc;
 	pvRestant = PV_MAX;
+	coordX = _x;
+	coordY = _y;
 }
 
 std::string Entite::getNom() const{
@@ -16,6 +20,19 @@ std::string Entite::getDescription() const{
 
 int Entite::getPvRestant() const {
 	return pvRestant;
+}
+
+int Entite::getCoordX() const {
+	return coordX;
+}
+
+void Entite::setCoord(int x, int y) {
+	coordX = x; 
+	coordY = y;
+}
+
+int Entite::getCoordY() const {
+	return coordY;
 }
 
 void Entite::setPvRestant(int pv){
