@@ -26,7 +26,7 @@ public:
     TextureManager m_textureManager;
 	SpriteManager m_spriteManager;
 
-    Map m_map = Map(0, 0, 0, 0);
+    Map m_map = Map();
 	Minimap m_minimap;
 
 	Player *m_player;
