@@ -2,7 +2,7 @@
 
 #include "Entite.h"
 
-class Batiment : public Entity
+class Batiment : public Entite
 {
 public:
     Batiment();

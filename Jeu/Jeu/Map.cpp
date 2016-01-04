@@ -4,6 +4,7 @@
 
 Map::Map(float nivMer, float nivPlage, float nivPlaine, float nivColine)
 {
+	srand(time(NULL));
 	std::cout << "Creation de la map" << std::endl;
     std::vector<int> tab;
     for (int i = 0; i < MAP_WIDTH; ++i) {
