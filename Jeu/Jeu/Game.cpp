@@ -56,11 +56,17 @@ Game::Game()
 	m_minimap = Minimap(&m_map);
     m_window.create(sf::VideoMode(WIN_WIDTH,WIN_HEIGTH), "Jeu de Strategie", sf::Style::Close);
 
-    c_view[0] = (MAP_WIDTH * SPRITE) / 2;;
-    c_view[1] = (MAP_HEIGTH * SPRITE) / 2;;
+	if (MAP_WIDTH % 2 == 0)
+		c_view[0] = (MAP_WIDTH * SPRITE) / 2;
+	else
+		c_view[0] = ((MAP_WIDTH-1) * SPRITE) / 2;
+	if (MAP_HEIGTH % 2 == 0)
+		c_view[1] = (MAP_HEIGTH * SPRITE) / 2;
+	else
+		c_view[1] = ((MAP_HEIGTH - 1) * SPRITE) / 2;
 
     m_view = sf::View(sf::Vector2f((float)c_view[0],(float)c_view[1]),sf::Vector2f((float)WIN_WIDTH,(float)WIN_HEIGTH));
-    m_view.zoom(SPRITE >> 6);
+    //m_view.zoom(SPRITE >> 6);
     m_window.setFramerateLimit(60);
 
 	m_player = new Player(sf::Color(127,127,127));
@@ -73,6 +79,16 @@ void Game::render()
 	m_window.setView(m_view);
 	m_map.render(&m_window, &m_spriteManager);
 	m_player->render(&m_window, &m_spriteManager);
+
+	//Croix rouge au milieu de l'écran
+	sf::RectangleShape shape(sf::Vector2f(2, 10));
+	shape.setPosition(c_view[0]-1,c_view[1]-5);
+	shape.setFillColor(sf::Color(255, 0, 0));
+	m_window.draw(shape);
+	sf::RectangleShape shape2(sf::Vector2f(10, 2));
+	shape2.setPosition(c_view[0]-5, c_view[1]-1);
+	shape2.setFillColor(sf::Color(255, 0, 0));
+	m_window.draw(shape2);
 
 	// Render de l'interface
 	m_window.setView(m_viewInterface);

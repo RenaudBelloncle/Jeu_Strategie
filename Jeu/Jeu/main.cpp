@@ -2,13 +2,31 @@
 #include "Game.h"
 #include "Constantes.h"
 
+bool testClicZoneJeu(int x, int y) {
+	// Zone principale
+	if (y < WIN_HEIGTH - INTERFACE_HEIGTH)
+		return true;
+	// Rectangle au dessus de l'interface
+	else if (x >= 226 && y >= 469 && y <= 506)
+		return true;
+	// Triangle au dessus de l'interface
+	else if (x < 226 && x >= 177 && y < 506 && y > 469) {
+		float coeffDir = (506.0 - 469.0) / (226.0 - 177.0);
+		float ordonneeOri = 469 - coeffDir * 177.0;
+		std::cout << coeffDir<< std::endl;
+		if( y < x*coeffDir + ordonneeOri)
+			return true;
+	}
+	return false;
+}
+
 int main()
 {
     Game game;
 
 	bool leftPressed(false), rightPressed(false), upPressed(false), downPressed(false);
-    float zoom(SPRITE >> 6);
-
+	//float zoom = SPRITE >> 6;
+	float zoom = 1;
 	sf::Clock m_clock;
 
 	UniteArmee* infanterie = new UniteArmee(0, 0, "Soldat", "Je suis un test et n'ai aucune raison de vivre", 50, 5, 7, TypeUnite::INFANTERIE, 10, 2, 1,
@@ -23,7 +41,7 @@ int main()
 	game.getPlayer()->creerUnite(bateau);
 	game.getPlayer()->creerUnite(avion);
 	game.getPlayer()->creerUnite(vehicule);
-
+	sf::Vector2i centreImage(MAP_WIDTH/2,MAP_HEIGTH/2);
     while(game.m_window.isOpen())
     {
         sf::Event event;
@@ -55,8 +73,14 @@ int main()
 							downPressed = true;
                         break;
                     case sf::Keyboard::Space:
-                        game.c_view[0] = (MAP_WIDTH * SPRITE)/2;
-                        game.c_view[1] = (MAP_HEIGTH * SPRITE)/2;
+						if (MAP_WIDTH % 2 == 0)
+							game.c_view[0] = (MAP_WIDTH * SPRITE) / 2;
+						else
+							game.c_view[0] = ((MAP_WIDTH - 1) * SPRITE) / 2;
+						if (MAP_HEIGTH % 2 == 0)
+							game.c_view[1] = (MAP_HEIGTH * SPRITE) / 2;
+						else
+							game.c_view[1] = ((MAP_HEIGTH - 1) * SPRITE) / 2;
                         break;
                     default:
                         break;
@@ -106,23 +130,46 @@ int main()
 
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
-					if (event.mouseButton.x < 225 && 185 < event.mouseButton.x && event.mouseButton.y < 538 && 523 < event.mouseButton.y) {
-						std::cout << "Topo" << std::endl;
-						game.m_minimap.changeModeTopo();
+					// Zone clique jeu
+					if (testClicZoneJeu(event.mouseButton.x, event.mouseButton.y)) {
+						sf::Vector2i caseClique(0, 0);
+						int nbCaseAfficheParLigne = WIN_WIDTH / SPRITE;
+						int nbCaseAfficheParColonne= (WIN_HEIGTH - INTERFACE_HEIGTH) / SPRITE;
+						int decalageX = (WIN_WIDTH - (nbCaseAfficheParLigne * SPRITE)) / 2;
+						int decalageY = ((WIN_HEIGTH - INTERFACE_HEIGTH) - nbCaseAfficheParColonne * SPRITE)/2;
+						for (int i = 0; i < nbCaseAfficheParLigne; i++) {
+							for (int j = 0; j < nbCaseAfficheParColonne; j++) {
+								if (event.mouseButton.x >= decalageX + i*SPRITE && event.mouseButton.x < decalageX + (i + 1)*SPRITE - 1
+									&& event.mouseButton.y < decalageY + (j + 1)*SPRITE - 1 && event.mouseButton.y >= (j*SPRITE) + decalageY) {
+
+									caseClique.y = centreImage.y + (-nbCaseAfficheParLigne/2 + 1 + j);
+									caseClique.x = centreImage.x + (-nbCaseAfficheParColonne+1 / 2 + i);
+
+									std::cout << nbCaseAfficheParColonne << std::endl;
+									std::cout << nbCaseAfficheParLigne << std::endl;
+
+									std::cout << "X" << caseClique.x << std::endl;
+									std::cout << "Y" << caseClique.y << std::endl;
+
+									break;
+								}
+							}
+						}
+					}// Zone clique interface
+					else {
+						if (event.mouseButton.x < 225 && 185 < event.mouseButton.x && event.mouseButton.y < 538 && 523 < event.mouseButton.y) {
+							game.m_minimap.changeModeTopo();
+						}
+						else if (event.mouseButton.x < 225 && 185 < event.mouseButton.x && event.mouseButton.y < 560 && 546 < event.mouseButton.y) {
+							game.m_minimap.changeModeRessource();
+						}
+						else if (event.mouseButton.x < 225 && 185 < event.mouseButton.x && event.mouseButton.y < 683 && 568 < event.mouseButton.y) {
+							game.m_minimap.changeModeUnite();
+						}
 					}
-					else if (event.mouseButton.x < 225 && 185 < event.mouseButton.x && event.mouseButton.y < 560 && 546 < event.mouseButton.y) {
-						std::cout << "Res " << std::endl;
-						game.m_minimap.changeModeRessource();
-					}
-					else if (event.mouseButton.x < 225 && 185 < event.mouseButton.x && event.mouseButton.y < 683 && 568 < event.mouseButton.y) {
-						std::cout << "Unite" << std::endl;
-						game.m_minimap.changeModeUnite();
-					}
-					std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-					std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+					//std::cout << event.mouseButton.x << std::endl;
+					//std::cout << event.mouseButton.y << std::endl;
 					sf::Vector2f worldPos = game.m_window.mapPixelToCoords(sf::Mouse::getPosition(game.m_window));
-					std::cout << "world x: " << worldPos.x << std::endl;
-					std::cout << "world y: " << worldPos.y << std::endl;
 				}
 			}
 
@@ -132,6 +179,9 @@ int main()
 				{
 					//game.c_view[0] -= m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[0] -= SPRITE;
+					centreImage.x --;
+					std::cout << centreImage.x << std::endl;
+					std::cout << centreImage.y << std::endl;
 				}
 			}
 
@@ -141,6 +191,9 @@ int main()
 				{
 					//game.c_view[0] += m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[0] += SPRITE;
+					centreImage.x ++;
+					std::cout << centreImage.x << std::endl;
+					std::cout << centreImage.y << std::endl;
 				}
 			}
 
@@ -150,6 +203,9 @@ int main()
 				{
 					//game.c_view[1] -= m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[1] -= SPRITE;
+					centreImage.y --;
+					std::cout << centreImage.x << std::endl;
+					std::cout << centreImage.y << std::endl;
 				}
 			}
 
@@ -159,6 +215,9 @@ int main()
 				{
 					//game.c_view[1] += m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[1] += SPRITE;
+					centreImage.y ++;
+					std::cout << centreImage.x << std::endl;
+					std::cout << centreImage.y << std::endl;
 				}
 			}
         }		
