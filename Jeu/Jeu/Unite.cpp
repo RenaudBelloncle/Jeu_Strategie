@@ -153,6 +153,7 @@ sf::Sprite Unite::getIcon(SpriteManager *manager) {
 
 sf::Sprite Unite::getIconInfanterie(SpriteManager *manager) {
 	sf::Sprite sprite;
+	//std::cout << getNom() << std::endl;
 	if (getNom() == "Soldat") {
 		sprite = manager->getRef("soldat");
 	}

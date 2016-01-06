@@ -1,27 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 #include "Constantes.h"
-
-bool testClicZoneJeu(int x, int y) {
-	// Zone principale
-	if (y < WIN_HEIGTH - INTERFACE_HEIGTH)
-		return true;
-	// Rectangle au dessus de l'interface
-	else if (x >= 226 && y >= 469 && y <= 506)
-		return true;
-	// Triangle au dessus de l'interface
-	else if (x < 226 && x >= 177 && y < 506 && y > 469) {
-		float coeffDir = (506.0 - 469.0) / (226.0 - 177.0);
-		float ordonneeOri = 469 - coeffDir * 177.0;
-		std::cout << coeffDir<< std::endl;
-		if( y < x*coeffDir + ordonneeOri)
-			return true;
-	}
-	return false;
-}
+#include "UniteManager.h"
 
 int main()
 {
+	UniteManager unites;
     Game game;
 
 	bool leftPressed(false), rightPressed(false), upPressed(false), downPressed(false);
@@ -29,19 +13,12 @@ int main()
 	float zoom = 1;
 	sf::Clock m_clock;
 
-	UniteArmee* infanterie = new UniteArmee(0, 0, "Soldat", "Je suis un test et n'ai aucune raison de vivre", 50, 5, 7, TypeUnite::INFANTERIE, 10, 2, 1,
-		Arme("test", 0, 0, 0, 0), Arme("test2", 0, 0, 0, 0));
-	UniteArmee* bateau = new UniteArmee(1, 0, "Bateau", "Je suis un test et n'ai aucune raison de vivre", 50, 5, 7, TypeUnite::MARITIME, 10, 2, 1,
-		Arme("test", 0, 0, 0, 0), Arme("test2", 0, 0, 0, 0));
-	UniteArmee* avion = new UniteArmee(0, 1, "Avion", "Je suis un test et n'ai aucune raison de vivre", 50, 5, 7, TypeUnite::AERIENNE, 10, 2, 1,
-		Arme("test", 0, 0, 0, 0), Arme("test2", 0, 0, 0, 0));
-	UniteArmee* vehicule = new UniteArmee(1, 1, "Vehicule", "Je suis un test et n'ai aucune raison de vivre", 50, 5, 7, TypeUnite::MOTORISE, 10, 2, 1,
-		Arme("test", 0, 0, 0, 0), Arme("test2", 0, 0, 0, 0));
-	game.getPlayer()->creerUnite(infanterie);
-	game.getPlayer()->creerUnite(bateau);
-	game.getPlayer()->creerUnite(avion);
-	game.getPlayer()->creerUnite(vehicule);
-	sf::Vector2i centreImage(MAP_WIDTH/2,MAP_HEIGTH/2);
+	std::cout << unites.getRef("Soldat").getNom() << std::endl;
+
+	game.getPlayer()->creerUnite(&unites.getRef("Soldat"),0,0);
+	//game.getPlayer()->creerUnite(&(unites.getRef("SoldatArmee")),0,1);
+	//game.getPlayer()->creerUnite(&(unites.getRef("Demolisseur")),1,0);
+	//game.getPlayer()->creerUnite(&(unites.getRef("")),1,1);
     while(game.m_window.isOpen())
     {
         sf::Event event;
@@ -130,46 +107,9 @@ int main()
 
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
-					// Zone clique jeu
-					if (testClicZoneJeu(event.mouseButton.x, event.mouseButton.y)) {
-						sf::Vector2i caseClique(0, 0);
-						int nbCaseAfficheParLigne = WIN_WIDTH / SPRITE;
-						int nbCaseAfficheParColonne= (WIN_HEIGTH - INTERFACE_HEIGTH) / SPRITE;
-						int decalageX = (WIN_WIDTH - (nbCaseAfficheParLigne * SPRITE)) / 2;
-						int decalageY = ((WIN_HEIGTH - INTERFACE_HEIGTH) - nbCaseAfficheParColonne * SPRITE)/2;
-						for (int i = 0; i < nbCaseAfficheParLigne; i++) {
-							for (int j = 0; j < nbCaseAfficheParColonne; j++) {
-								if (event.mouseButton.x >= decalageX + i*SPRITE && event.mouseButton.x < decalageX + (i + 1)*SPRITE - 1
-									&& event.mouseButton.y < decalageY + (j + 1)*SPRITE - 1 && event.mouseButton.y >= (j*SPRITE) + decalageY) {
-
-									caseClique.y = centreImage.y + (-nbCaseAfficheParLigne/2 + 1 + j);
-									caseClique.x = centreImage.x + (-nbCaseAfficheParColonne+1 / 2 + i);
-
-									std::cout << nbCaseAfficheParColonne << std::endl;
-									std::cout << nbCaseAfficheParLigne << std::endl;
-
-									std::cout << "X" << caseClique.x << std::endl;
-									std::cout << "Y" << caseClique.y << std::endl;
-
-									break;
-								}
-							}
-						}
-					}// Zone clique interface
-					else {
-						if (event.mouseButton.x < 225 && 185 < event.mouseButton.x && event.mouseButton.y < 538 && 523 < event.mouseButton.y) {
-							game.m_minimap.changeModeTopo();
-						}
-						else if (event.mouseButton.x < 225 && 185 < event.mouseButton.x && event.mouseButton.y < 560 && 546 < event.mouseButton.y) {
-							game.m_minimap.changeModeRessource();
-						}
-						else if (event.mouseButton.x < 225 && 185 < event.mouseButton.x && event.mouseButton.y < 683 && 568 < event.mouseButton.y) {
-							game.m_minimap.changeModeUnite();
-						}
-					}
+					game.clic(event.mouseButton.x, event.mouseButton.y);
 					//std::cout << event.mouseButton.x << std::endl;
 					//std::cout << event.mouseButton.y << std::endl;
-					sf::Vector2f worldPos = game.m_window.mapPixelToCoords(sf::Mouse::getPosition(game.m_window));
 				}
 			}
 
@@ -179,9 +119,7 @@ int main()
 				{
 					//game.c_view[0] -= m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[0] -= SPRITE;
-					centreImage.x --;
-					std::cout << centreImage.x << std::endl;
-					std::cout << centreImage.y << std::endl;
+					game.centreImage.x --;
 				}
 			}
 
@@ -191,9 +129,7 @@ int main()
 				{
 					//game.c_view[0] += m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[0] += SPRITE;
-					centreImage.x ++;
-					std::cout << centreImage.x << std::endl;
-					std::cout << centreImage.y << std::endl;
+					game.centreImage.x ++;
 				}
 			}
 
@@ -203,9 +139,7 @@ int main()
 				{
 					//game.c_view[1] -= m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[1] -= SPRITE;
-					centreImage.y --;
-					std::cout << centreImage.x << std::endl;
-					std::cout << centreImage.y << std::endl;
+					game.centreImage.y --;
 				}
 			}
 
@@ -215,9 +149,7 @@ int main()
 				{
 					//game.c_view[1] += m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[1] += SPRITE;
-					centreImage.y ++;
-					std::cout << centreImage.x << std::endl;
-					std::cout << centreImage.y << std::endl;
+					game.centreImage.y ++;
 				}
 			}
         }		

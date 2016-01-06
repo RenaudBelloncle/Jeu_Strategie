@@ -5,7 +5,9 @@ Player::Player(sf::Color color) {
 	couleur = color;
 }
 
-void Player::creerUnite(Unite *unite) {
+void Player::creerUnite(Unite *unite, int x, int y) {
+	std::cout << unite->getNom() << std::endl;
+	unite->setCoord(x, y);
 	listUnite.push_back(unite);
 }
 /*

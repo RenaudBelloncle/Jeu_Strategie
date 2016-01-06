@@ -15,6 +15,12 @@ void Game::loadSprites()
 	m_spriteManager.loadSprite("interface", m_textureManager.getRef("interface"), 800, 175, 0, 0);
 	m_spriteManager.getRef("interface").setPosition(0, WIN_HEIGTH + 181);
 	m_spriteManager.getRef("interface").scale(1.25, 1.25);
+	m_spriteManager.loadSprite("interface_unite", m_textureManager.getRef("interface"), 800, 175, 0, 0);
+	m_spriteManager.getRef("interface_unite").setPosition(0, WIN_HEIGTH + 181);
+	m_spriteManager.getRef("interface_unite").scale(1.25, 1.25);
+	m_spriteManager.loadSprite("interface_batiment", m_textureManager.getRef("interface"), 800, 175, 0, 0);
+	m_spriteManager.getRef("interface_batiment").setPosition(0, WIN_HEIGTH + 181);
+	m_spriteManager.getRef("interface_batiment").scale(1.25, 1.25);
 
 	m_spriteManager.loadSprite("petrole",m_textureManager.getRef("ressource"),32,32,0,0);
 	m_spriteManager.loadSprite("vivre", m_textureManager.getRef("ressource"), 32, 32, 1, 0);
@@ -54,7 +60,9 @@ Game::Game()
 	std::cout << "Chargement des sprites termine" << std::endl;
 	m_map = Map(-0.2f, -0.15f, 0.3, 0.4);
 	m_minimap = Minimap(&m_map);
+	m_interface = Interface();
     m_window.create(sf::VideoMode(WIN_WIDTH,WIN_HEIGTH), "Jeu de Strategie", sf::Style::Close);
+	centreImage.x = MAP_WIDTH / 2; centreImage.y = MAP_HEIGTH / 2;
 
 	if (MAP_WIDTH % 2 == 0)
 		c_view[0] = (MAP_WIDTH * SPRITE) / 2;
@@ -92,13 +100,90 @@ void Game::render()
 
 	// Render de l'interface
 	m_window.setView(m_viewInterface);
-	m_window.draw(m_spriteManager.getRef("interface"));
+	m_interface.render(&m_window, &m_spriteManager);
 
 	// Render de la minimap
 	m_window.setView(m_viewMinimap);
 	m_minimap.render(&m_window);
 	if (m_minimap.getUniteMode()) {
 		m_minimap.renderPlayer(&m_window,m_player);
+	}
+}
+
+void Game::clic(int x, int y) {
+	// Zone clique jeu
+	if (testClicZoneJeu(x, y)) {
+		sf::Vector2i caseClique(0, 0);
+		// Variable à modifier pour gérer le zoom
+		int tailleCaseSurEcran = SPRITE;
+		int nbCaseAfficheParLigne = WIN_WIDTH / tailleCaseSurEcran;
+		int nbCaseAfficheParColonne = (WIN_HEIGTH - INTERFACE_HEIGTH) / tailleCaseSurEcran;
+		int decalageX = (WIN_WIDTH - (nbCaseAfficheParLigne * tailleCaseSurEcran)) / 2;
+		int decalageY = ((WIN_HEIGTH - INTERFACE_HEIGTH) - nbCaseAfficheParColonne * tailleCaseSurEcran) / 2;
+		for (int i = 0; i < nbCaseAfficheParLigne; i++) {
+			for (int j = 0; j < nbCaseAfficheParColonne; j++) {
+				if (x >= decalageX + i*tailleCaseSurEcran && x < decalageX + (i + 1)*tailleCaseSurEcran - 1
+					&& y < decalageY + (j + 1)*tailleCaseSurEcran - 1 && y >= (j*tailleCaseSurEcran) + decalageY) {
+
+					caseClique.y = centreImage.y + (-nbCaseAfficheParLigne / 2 + 1 + j);
+					caseClique.x = centreImage.x + (-nbCaseAfficheParColonne + 1 / 2 + i);
+
+					std::cout << "X" << caseClique.x << std::endl;
+					std::cout << "Y" << caseClique.y << std::endl;
+
+					break;
+				}
+			}
+		}
+		for (int i = 0; i < getPlayer()->getNombreUnite(); i++) {
+			if (getPlayer()->getUnite(i)->getCoordX() == caseClique.x && getPlayer()->getUnite(i)->getCoordY() == caseClique.y) {
+				std::cout << "Unite clique" << std::endl;
+			}
+		}
+		for (int i = 0; i < getPlayer()->getNombreBatiment(); i++) {
+			if (getPlayer()->getBatiment(i)->getCoordX() == caseClique.x && getPlayer()->getBatiment(i)->getCoordY() == caseClique.y) {
+				std::cout << "Batiment clique" << std::endl;
+			}
+		}
+	}// Zone clique interface
+	else {
+		clicInterface(x, y);
+	}
+}
+
+bool Game::testClicZoneJeu(int x, int y) {
+	// Zone principale
+	if (y < WIN_HEIGTH - INTERFACE_HEIGTH)
+		return true;
+	// Rectangle au dessus de l'interface
+	else if (x >= 226 && y >= 469 && y <= 506)
+		return true;
+	// Triangle au dessus de l'interface
+	else if (x < 226 && x >= 177 && y < 506 && y > 469) {
+		float coeffDir = (506.0 - 469.0) / (226.0 - 177.0);
+		float ordonneeOri = 469 - coeffDir * 177.0;
+		std::cout << coeffDir << std::endl;
+		if (y < x*coeffDir + ordonneeOri)
+			return true;
+	}
+	return false;
+}
+
+void Game::clicUnite(int x, int y) {
+	m_interface.setModeUnite();
+}
+
+void Game::clicInterface(int x, int y) {
+	if (x < 225 && 185 < x) {
+		if (y < 538 && 523 < y) {
+			m_minimap.changeModeTopo();
+		}
+		else if (y < 560 && 546 < y) {
+			m_minimap.changeModeRessource();
+		}
+		else if (y < 683 && 568 < y) {
+			m_minimap.changeModeUnite();
+		}
 	}
 }
 

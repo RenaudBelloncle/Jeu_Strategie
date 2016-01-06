@@ -15,3 +15,4 @@ sf::Sprite& SpriteManager::getRef(const std::string &sprite)
 {
 	return m_sprites.at(sprite);
 }
+

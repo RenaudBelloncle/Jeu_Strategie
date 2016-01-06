@@ -14,7 +14,7 @@ private :
 
 public : 
 	Player(sf::Color color);
-	void creerUnite(Unite *unite);
+	void creerUnite(Unite *unite,int x, int y);
 	void deplacerUnite(Unite *unite, int newX, int newY);
 	void attaquer(Unite *unite, Entite *ennemi);
 	//void creerBatiment(Batiment batiment);
