@@ -52,7 +52,7 @@ Game::Game()
 	std::cout << "Chargement des sprites ..." << std::endl;
 	loadSprites();
 	std::cout << "Chargement des sprites termine" << std::endl;
-	m_map = Map(-0.2f, -0.15f, 0.3, 0.4);
+	m_map = Map();
 	m_minimap = Minimap(&m_map);
     m_window.create(sf::VideoMode(WIN_WIDTH,WIN_HEIGTH), "Jeu de Strategie", sf::Style::Close);
 

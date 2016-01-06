@@ -2,8 +2,9 @@
 #include <iostream>
 #include "Map.h"
 
-Map::Map(float nivMer, float nivPlage, float nivPlaine, float nivColine)
+Map::Map()
 {
+	srand((unsigned int) time(NULL));
 	std::cout << "Creation de la map" << std::endl;
     std::vector<int> tab;
     for (int i = 0; i < MAP_WIDTH; ++i) {
@@ -18,15 +19,15 @@ Map::Map(float nivMer, float nivPlage, float nivPlaine, float nivColine)
             permutation[i+j] = (unsigned int)(tab.at((unsigned long)(i + j)));
         }
     }
-	mapGenerator(nivMer, nivPlage, nivPlaine, nivColine);
-	std::cout << "Création de la map terminee" << std::endl;
+	mapGenerator();
+	std::cout << "Creation de la map terminee" << std::endl;
 }
 
-void Map::mapGenerator(float nivMer, float nivPlage, float nivPlaine, float nivColine)
+void Map::mapGenerator()
 {
     for (int i = 0; i < MAP_WIDTH; ++i) {
         for (int j = 0; j < MAP_HEIGTH; ++j) {
-            m_tiles[i][j] = whichType(bruitPerlin(i+0.5f,j+0.5f,10), nivMer, nivPlage, nivPlaine, nivColine);
+            m_tiles[i][j] = whichType(bruitPerlin(i+0.5f,j+0.5f,10));
         }
     }
 }
@@ -82,16 +83,21 @@ float Map::bruitPerlin(float x, float y, float res)
     return Li1 + Cy * (Li2 - Li1);
 }
 
-TypeCase Map::whichType(float hauteur, float nivMer, float nivPlage, float nivPlaine, float nivColine)
+TypeCase Map::whichType(float hauteur)
 {
-    if (hauteur <= nivMer) return TypeCase::MER;
-    else if (hauteur <= nivPlage) return TypeCase::PLAGE;
-    else if (hauteur <= nivPlaine) return TypeCase::PLAINE;
-    else if (hauteur <= nivColine) return TypeCase::COLINE;
+    if (hauteur <= -0.3f) return TypeCase::MER;
+    else if (hauteur <= -0.25f) return TypeCase::PLAGE;
+	else if (hauteur <= -0.1f) return TypeCase::PLAINE;
+	else if (hauteur <= -0.05f) return TypeCase::MARAIS;
+    else if (hauteur <= 0.15f) return TypeCase::PLAINE;
+	else if (hauteur <= 0.20f) return TypeCase::FORET;
+	else if (hauteur <= 0.35f) return TypeCase::PLAINE;
+    else if (hauteur <= 0.4f) return TypeCase::COLINE;
     else return TypeCase::MONTAGNE;
 }
 
-Tile Map::getTile(int x, int y) {
+Tile Map::getTile(int x, int y)
+{
 	return m_tiles[x][y];
 }
 
@@ -99,9 +105,9 @@ void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager)
 {
 	m_imageMinimap.create(MAP_WIDTH, MAP_HEIGTH);
 	m_imageRessource.create(MAP_WIDTH, MAP_HEIGTH);
-	for (int i = 0; i < MAP_WIDTH; ++i)
+	for (unsigned int i = 0; i < MAP_WIDTH; ++i)
 	{
-		for (int j = 0; j < MAP_HEIGTH; ++j)
+		for (unsigned int j = 0; j < MAP_HEIGTH; ++j)
 		{
 			sf::Sprite terrain, ressource;
 			switch (m_tiles[i][j].getTypeCase())
@@ -110,66 +116,54 @@ void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager)
 					m_imageMinimap.setPixel(i, j, sf::Color(0, 255, 0));
 					terrain = manager->getRef("plaine");
 					break;
-
 				case TypeCase::PLAGE:
 					m_imageMinimap.setPixel(i, j, sf::Color(255, 255, 0));
 					terrain = manager->getRef("plage");
 					break;
-
 				case TypeCase::MONTAGNE:
 					m_imageMinimap.setPixel(i, j, sf::Color(90, 60, 30));
 					terrain = manager->getRef("montagne");
 					break;
-
 				case TypeCase::MER:
 					m_imageMinimap.setPixel(i, j, sf::Color(0, 0, 255));
 					terrain = manager->getRef("mer");
 					break;
-
 				case TypeCase::FORET:
 					m_imageMinimap.setPixel(i, j, sf::Color(0, 100, 0));
 					terrain = manager->getRef("foret");
 					break;
-
 				case TypeCase::MARAIS:
 					m_imageMinimap.setPixel(i, j, sf::Color(150, 255, 150));
 					terrain = manager->getRef("marais");
 					break;
-
 				case TypeCase::COLINE:
 					m_imageMinimap.setPixel(i, j, sf::Color(170, 140, 100));
 					terrain = manager->getRef("coline");
 					break;
-
 				case TypeCase::VILLE:
 					m_imageMinimap.setPixel(i, j, sf::Color(0, 0, 0));
 					terrain = manager->getRef("ville");
 					break;
-
 				case TypeCase::RUINE:
 					m_imageMinimap.setPixel(i, j, sf::Color(150, 150, 150));
 					terrain = manager->getRef("ruine");
 					break;
-				default : 
-					m_imageMinimap.setPixel(i, j, sf::Color(0,0,0));
-					terrain = manager->getRef("void");
-					break;
 				}
 			switch (m_tiles[i][j].getRessource()) {
-			case Ressource::VIVRES:
-				ressource = manager->getRef("vivre");
-				m_imageRessource.setPixel(i, j, sf::Color(250, 90, 0));
-				break;
-
-			case Ressource::METAL:
-				ressource = manager->getRef("metal");
-				m_imageRessource.setPixel(i, j, sf::Color(250, 250, 250));
-				break;
-
-			case Ressource::PETROLE:
-				ressource = manager->getRef("petrole");
-				m_imageRessource.setPixel(i, j, sf::Color(50, 50, 50));
-				break;
+				case Ressource::VIVRES:
+					ressource = manager->getRef("vivre");
+					m_imageRessource.setPixel(i, j, sf::Color(250, 90, 0));
+					break;
+				case Ressource::METAL:
+					ressource = manager->getRef("metal");
+					m_imageRessource.setPixel(i, j, sf::Color(250, 250, 250));
+					break;
+				case Ressource::PETROLE:
+					ressource = manager->getRef("petrole");
+					m_imageRessource.setPixel(i, j, sf::Color(50, 50, 50));
+					break;
+				default:
+					break;
 			}
 
 			terrain.setPosition(sf::Vector2f(i*SPRITE, j*SPRITE));
