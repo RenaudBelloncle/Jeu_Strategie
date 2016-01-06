@@ -97,8 +97,8 @@ void Minimap::render(sf::RenderWindow *renderWindow) {
 	}
 
 	sprite.scale(scale, scale);
-	int x = 33 + (165 - MAP_WIDTH*scale) / 2;
-	int y = WIN_HEIGTH + 205 + (165 - MAP_HEIGTH*scale) / 2;
+	int x = 33 + (165 - MAP_WIDTH*scale) / 2 +70;
+	int y = WIN_HEIGTH + 205 + (165 - MAP_HEIGTH*scale) / 2 +20;
 	sprite.setPosition(x, y);
 	renderWindow->draw(sprite);
 }
@@ -136,8 +136,8 @@ void Minimap::renderPlayer(sf::RenderWindow *renderWindow, Player *player) {
 	sprite.setTexture(texture);
 
 	sprite.scale(scale, scale);
-	int x = 33 + (165 - MAP_WIDTH*scale) / 2;
-	int y = WIN_HEIGTH + 205 + (165 - MAP_HEIGTH*scale) / 2;
+	int x = 33 + (165 - MAP_WIDTH*scale) / 2 + 70;
+	int y = WIN_HEIGTH + 205 + (165 - MAP_HEIGTH*scale) / 2+20;
 	sprite.setPosition(x, y);
 	renderWindow->draw(sprite);
 }

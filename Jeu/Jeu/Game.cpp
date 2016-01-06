@@ -6,15 +6,20 @@ void Game::loadTextures()
 	m_textureManager.loadTexture("unite","media/res/SpriteSheetUnite.png");
 	m_textureManager.getRef("unite").setSmooth(true);
 	m_textureManager.loadTexture("interface", "media/res/Interface.png");
+	m_textureManager.loadTexture("interfaceBarre", "media/res/InterfaceBarre.png");
 	m_textureManager.loadTexture("tile", "media/res/Tile.png");
 	m_textureManager.loadTexture("ressource", "media/res/Ressource.png");
 }
 
 void Game::loadSprites()
 {
-	m_spriteManager.loadSprite("interface", m_textureManager.getRef("interface"), 800, 175, 0, 0);
-	m_spriteManager.getRef("interface").setPosition(0, WIN_HEIGTH + 181);
+	m_spriteManager.loadSprite("interface", m_textureManager.getRef("interface"), 800, 200, 0, 0);
+	m_spriteManager.getRef("interface").setPosition(0, WIN_HEIGTH+156);
 	m_spriteManager.getRef("interface").scale(1.25, 1.25);
+
+	m_spriteManager.loadSprite("interfaceBarre", m_textureManager.getRef("interfaceBarre"), 800, 60, 0, 0);
+	m_spriteManager.getRef("interfaceBarre").setPosition(0, 0);
+	m_spriteManager.getRef("interfaceBarre").scale(1.25, 1.25);
 
 	m_spriteManager.loadSprite("petrole",m_textureManager.getRef("ressource"),32,32,0,0);
 	m_spriteManager.loadSprite("vivre", m_textureManager.getRef("ressource"), 32, 32, 1, 0);
@@ -77,6 +82,7 @@ void Game::render()
 	// Render de l'interface
 	m_window.setView(m_viewInterface);
 	m_window.draw(m_spriteManager.getRef("interface"));
+	m_window.draw(m_spriteManager.getRef("interfaceBarre"));
 
 	// Render de la minimap
 	m_window.setView(m_viewMinimap);
