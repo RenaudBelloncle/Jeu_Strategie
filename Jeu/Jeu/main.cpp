@@ -106,17 +106,38 @@ int main()
 
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
-					if (event.mouseButton.x < 225 && 185 < event.mouseButton.x && event.mouseButton.y < 538 && 523 < event.mouseButton.y) {
+					if (event.mouseButton.x < 43 && 6 < event.mouseButton.x && event.mouseButton.y < 485 && 465 < event.mouseButton.y) {
 						std::cout << "Topo" << std::endl;
 						game.m_minimap.changeModeTopo();
 					}
-					else if (event.mouseButton.x < 225 && 185 < event.mouseButton.x && event.mouseButton.y < 560 && 546 < event.mouseButton.y) {
+					else if (event.mouseButton.x < 43 && 6 < event.mouseButton.x && event.mouseButton.y < 530 && 510 < event.mouseButton.y) {
 						std::cout << "Res " << std::endl;
 						game.m_minimap.changeModeRessource();
 					}
-					else if (event.mouseButton.x < 225 && 185 < event.mouseButton.x && event.mouseButton.y < 683 && 568 < event.mouseButton.y) {
+					else if (event.mouseButton.x < 43 && 6 < event.mouseButton.x && event.mouseButton.y < 575 && 555 < event.mouseButton.y) {
 						std::cout << "Unite" << std::endl;
 						game.m_minimap.changeModeUnite();
+					}
+					else if (event.mouseButton.x < 233 && 64 < event.mouseButton.x && event.mouseButton.y < 485 && 460 < event.mouseButton.y) {
+						std::cout << "Fin " << std::endl;
+					}
+					else if (event.mouseButton.x < 312 && 266 < event.mouseButton.x && event.mouseButton.y < 575 && 490 < event.mouseButton.y) {
+						std::cout << "Flèche gauche " << std::endl;
+					}
+					else if (event.mouseButton.x < 786 && 740 < event.mouseButton.x && event.mouseButton.y < 575 && 490 < event.mouseButton.y) {
+						std::cout << "Flèche droite " << std::endl;
+					}
+					else if (event.mouseButton.x < 395 && 261 < event.mouseButton.x && event.mouseButton.y < 30 && 4 < event.mouseButton.y) {
+						std::cout << "Technologies " << std::endl;
+					}
+					else if (event.mouseButton.x < 544 && 410 < event.mouseButton.x && event.mouseButton.y < 30 && 4 < event.mouseButton.y) {
+						std::cout << "Construction " << std::endl;
+					}
+					else if (event.mouseButton.x < 744 && 710 < event.mouseButton.x && event.mouseButton.y < 31 && 2 < event.mouseButton.y) {
+						std::cout << "Options " << std::endl;
+					}
+					else if (event.mouseButton.x < 787 && 753 < event.mouseButton.x && event.mouseButton.y < 31 && 2 < event.mouseButton.y) {
+						std::cout << "Exit " << std::endl;
 					}
 					std::cout << "mouse x: " << event.mouseButton.x << std::endl;
 					std::cout << "mouse y: " << event.mouseButton.y << std::endl;
