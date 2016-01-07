@@ -5,27 +5,24 @@ Player::Player(sf::Color color) {
 	couleur = color;
 }
 
-void Player::creerUnite(Unite *unite, int x, int y) {
-	std::cout << unite->getNom() << std::endl;
+void Player::creerUnite(Unite *unite, int x, int y,int resistance) {
+	unite->setResistance(resistance);
 	unite->setCoord(x, y);
 	listUnite.push_back(unite);
+}
+
+void Player::detruireUnite(int index) {
+	listUnite.erase(listUnite.begin() + (index -1));
 }
 /*
 void Player::creerBatiment(Batiment batiment) {
 
 }
-
-void Player::detruireBatiment(Batiment batiement) {
-
-}
 */
-void Player::deplacerUnite(Unite *unite, int newX, int newY) {
-
+void Player::detruireBatiment(int index) {
+	listBatiment.erase(listBatiment.begin() + (index -1));
 }
 
-void Player::attaquer(Unite *unite, Entite *ennemi) {
-
-}
 
 int Player::getNombreUnite() {
 	return listUnite.size();
@@ -55,4 +52,10 @@ void Player::render(sf::RenderWindow *renderWindow, SpriteManager *manager) {
 	/*for (std::list<Batiment>::iterator it = listBatiment.begin(); it != listBatiment.end(); ++it) {
 		it->render(renderWindow);
 	}*/
+}
+
+void Player::update() {
+	for (unsigned int i = 0; i < listUnite.size(); i++) {
+		listUnite[i]->update();
+	}
 }

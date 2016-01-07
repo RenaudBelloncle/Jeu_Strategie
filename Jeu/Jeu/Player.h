@@ -14,12 +14,12 @@ private :
 
 public : 
 	Player(sf::Color color);
-	void creerUnite(Unite *unite,int x, int y);
-	void deplacerUnite(Unite *unite, int newX, int newY);
-	void attaquer(Unite *unite, Entite *ennemi);
+	void creerUnite(Unite *unite,int x, int y, int resistance);
+	void detruireUnite(int index);
 	//void creerBatiment(Batiment batiment);
-	//void detruireBatiment(Batiment batiment);
+	void detruireBatiment(int index);
 	void render(sf::RenderWindow *renderWindow, SpriteManager *manager);
+	void update();
 	int getNombreUnite();
 	int getNombreBatiment();
 	Unite* getUnite(int index);

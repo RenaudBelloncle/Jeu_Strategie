@@ -40,11 +40,11 @@ void Interface::render(sf::RenderWindow *renderWindow, SpriteManager *manager) {
 		return;
 	}
 	else if (modeUnite) {
-		renderWindow->draw(manager->getRef("interface_unite"));
+		renderWindow->draw(manager->getRef("interface"));
 		return;
 	}
 	else if (modeBatiment) {
-		renderWindow->draw(manager->getRef("interface_batiment"));
+		renderWindow->draw(manager->getRef("interface"));
 		return;
 	}
 }

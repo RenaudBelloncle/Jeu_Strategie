@@ -17,7 +17,7 @@ public:
 
 	void addUnite(const std::string& name, Unite unite);
 
-	Unite getRef(const std::string& unite);
+	Unite* getRef(const std::string& unite);
 };
 
 

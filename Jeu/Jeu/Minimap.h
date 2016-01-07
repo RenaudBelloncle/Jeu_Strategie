@@ -18,7 +18,7 @@ public:
 	Minimap(Map *map);
 
 	void render(sf::RenderWindow* renderWindow);
-	void renderPlayer(sf::RenderWindow *renderWindow, Player *player);
+	void renderPlayer(sf::RenderWindow *renderWindow, Player *player[], int nbJoueur);
 
 	void changeModeTopo();
 	void changeModeRessource();

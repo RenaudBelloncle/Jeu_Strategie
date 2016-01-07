@@ -34,8 +34,11 @@ int UniteArmee::getStockMaxMun()const
 
 void UniteArmee::attaque(Entite *ennemi)
 {
+	std::cout << ennemi->isUnite() << std::endl;
 	if (ennemi->isUnite()) {
+		std::cout << "Attaque unite !" << std::endl;
 		attaqueUnite((Unite*) ennemi);
+		std::cout << ennemi->getPvRestant() << std::endl;
 	}
 	else if (ennemi->isBatiment()) {
 		//attaqueBatiment();

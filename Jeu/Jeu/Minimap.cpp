@@ -97,26 +97,27 @@ void Minimap::render(sf::RenderWindow *renderWindow) {
 	}
 
 	sprite.scale(scale, scale);
-	int x = 33 + (165 - MAP_WIDTH*scale) / 2;
-	int y = WIN_HEIGTH + 205 + (165 - MAP_HEIGTH*scale) / 2;
+	int x = 105 + (165 - MAP_WIDTH*scale) / 2;
+	int y = WIN_HEIGTH + 215 + (165 - MAP_HEIGTH*scale) / 2;
 	sprite.setPosition(x, y);
 	renderWindow->draw(sprite);
 }
 
-void Minimap::renderPlayer(sf::RenderWindow *renderWindow, Player *player) {
+void Minimap::renderPlayer(sf::RenderWindow *renderWindow, Player *player[], int nbJoueur) {
 	sf::Sprite sprite;
 	sf::Texture texture;
 	sf::Image img;
 	img.create(MAP_WIDTH, MAP_HEIGTH);
+	for (int j = 0; j < nbJoueur; j ++) {
+		for (int i = 0; i < player[j]->getNombreUnite(); i++) {
+			Unite* unite = player[j]->getUnite(i);
+			img.setPixel(unite->getCoordX(), unite->getCoordY(), player[j]->getColor());
+		}
 
-	for (int i = 0; i < player->getNombreUnite(); i++) {
-		Unite* unite = player->getUnite(i);
-		img.setPixel(unite->getCoordX(),unite->getCoordY(), player->getColor());
-	}
-
-	for (int i = 0; i < player->getNombreBatiment(); i++) {
-		Batiment* batiment = player->getBatiment(i);
-		img.setPixel(batiment->getCoordX(), batiment->getCoordY(), player->getColor());
+		for (int i = 0; i < player[j]->getNombreBatiment(); i++) {
+			Batiment* batiment = player[j]->getBatiment(i);
+			img.setPixel(batiment->getCoordX(), batiment->getCoordY(), player[j]->getColor());
+		}
 	}
 
 	for (int i = 0; i < MAP_WIDTH; i++) {
@@ -136,8 +137,8 @@ void Minimap::renderPlayer(sf::RenderWindow *renderWindow, Player *player) {
 	sprite.setTexture(texture);
 
 	sprite.scale(scale, scale);
-	int x = 33 + (165 - MAP_WIDTH*scale) / 2;
-	int y = WIN_HEIGTH + 205 + (165 - MAP_HEIGTH*scale) / 2;
+	int x = 105 + (165 - MAP_WIDTH*scale) / 2;
+	int y = WIN_HEIGTH + 215 + (165 - MAP_HEIGTH*scale) / 2;
 	sprite.setPosition(x, y);
 	renderWindow->draw(sprite);
 }

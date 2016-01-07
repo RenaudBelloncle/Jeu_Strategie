@@ -30,4 +30,5 @@ public :
 	bool isBatiment();
 
 	void virtual render(sf::RenderWindow *renderWindow, sf::Color color, SpriteManager *manager) = 0;
+	void virtual update() = 0;
 };

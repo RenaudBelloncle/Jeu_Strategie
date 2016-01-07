@@ -13,12 +13,12 @@ int main()
 	float zoom = 1;
 	sf::Clock m_clock;
 
-	std::cout << unites.getRef("Soldat").getNom() << std::endl;
+	game.m_playerActif->creerUnite(unites.getRef("Soldat"),10,10, game.m_map.getTile(10,10).getBonusRes());
+	game.joueurSuivant();
+	game.getPlayerActif()->creerUnite(unites.getRef("SoldatArmee"),11,11, game.m_map.getTile(11, 11).getBonusRes());
+	game.joueurSuivant();
+	game.getPlayerActif()->creerUnite(unites.getRef("Demolisseur"),1,0, game.m_map.getTile(1, 0).getBonusRes());
 
-	game.getPlayer()->creerUnite(&unites.getRef("Soldat"),0,0);
-	//game.getPlayer()->creerUnite(&(unites.getRef("SoldatArmee")),0,1);
-	//game.getPlayer()->creerUnite(&(unites.getRef("Demolisseur")),1,0);
-	//game.getPlayer()->creerUnite(&(unites.getRef("")),1,1);
     while(game.m_window.isOpen())
     {
         sf::Event event;
@@ -85,7 +85,7 @@ int main()
 				}
 			}
 
-            if (event.type == sf::Event::MouseWheelMoved)
+            /*if (event.type == sf::Event::MouseWheelMoved)
             {
                 if (event.mouseWheel.delta < 0)
                 {
@@ -103,13 +103,16 @@ int main()
                         zoom = zoom * 0.9f;
                     }
                 }
-            }
+            }*/
 
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					game.clic(event.mouseButton.x, event.mouseButton.y);
 					//std::cout << event.mouseButton.x << std::endl;
 					//std::cout << event.mouseButton.y << std::endl;
+				}
+				if (event.mouseButton.button == sf::Mouse::Right) {
+					game.deselection();
 				}
 			}
 

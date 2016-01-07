@@ -15,11 +15,11 @@ private:
 
 public:
 
-    Map(float nivMer, float nivPlage, float nivPlaine, float nivColine);
+    Map();
 
-    void mapGenerator(float nivMer, float nivPlage, float nivPlaine, float nivColine);
+    void mapGenerator();
     float bruitPerlin(float x, float y, float res);
-    TypeCase whichType(float hauteur, float nivMer, float nivPlage, float nivPlaine, float nivColine);
+    TypeCase whichType(float hauteur);
 
 	Tile getTile(int x, int y);
 
