@@ -18,6 +18,8 @@ public:
 	void addUnite(const std::string& name, Unite unite);
 
 	Unite* getRef(const std::string& unite);
+
+	Unite* creerUnite(const std::string &unite, int x, int y);
 };
 
 
