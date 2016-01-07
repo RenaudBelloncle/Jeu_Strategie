@@ -10,10 +10,10 @@ Unite::Unite(int _x, int _y, string _nom, string _desc, int _ressMax, int _depla
 	stockResssourceMax = _ressMax;
 	deplacementMax = _deplacementMax;
 	stockRessourceActuel = stockResssourceMax;
-	deplacementRestant = deplacementMax;
 	champVision = _champVision;
 	resistance = 0;
 	type = _type;
+	aAgi = false;
 }
 
 int Unite::getStockMaxRess() const
@@ -31,7 +31,7 @@ int Unite::getChampVision()const
 	return champVision;
 }
 
-int Unite::getResistance() const
+int Unite::getResistance()const
 {
 	return resistance;
 }
@@ -47,20 +47,20 @@ int Unite::getStockRessActuel()const
 	return stockRessourceActuel;
 }
 
-int Unite::getDeplacementRestant()const
+bool Unite::peutSeDeplacer(int distance)
 {
-	return deplacementRestant;
+	return (!aAgi && stockRessourceActuel-distance > 0);
 }
 
-bool Unite::peutSeDeplacer()const
+bool Unite::peutAgir()
 {
-	return deplacementRestant > 0;
+	return !aAgi;
 }
 
-/*void Unite::update()
+void Unite::update()
 {
-
-}*/
+	aAgi = false;
+}
 
 void Unite::soin() {
 	setPvRestant(getPvRestant() + 2);
@@ -80,9 +80,17 @@ void Unite::prendDegat(int degat)
 	setPvRestant(getPvRestant() - (degat - resistance));
 }
 
-void Unite::seDeplace(int nbCaseDeplace)
+void Unite::seDeplace(int x, int y)
 {
-	deplacementRestant -= nbCaseDeplace;
+	int temp = std::abs(getCoordX() - x);
+	temp += std::abs(getCoordY() - y);
+	
+	if (peutSeDeplacer(temp)) {
+		stockRessourceActuel = stockRessourceActuel - temp;
+		aAgi = true;
+		setCoord(x, y);
+	}
+	
 }
 
 bool Unite::isUnite() {
@@ -115,6 +123,12 @@ void Unite::render(sf::RenderWindow *renderWindow, sf::Color color, SpriteManage
 	icon.setPosition(sf::Vector2f(getCoordX()*SPRITE, getCoordY()*SPRITE));
 	icon.setColor(color);
 	renderWindow->draw(icon);
+	if (aAgi) {
+		sf::Sprite filtreAgi = manager->getRef("filtre agi");
+		filtreAgi.setPosition(sf::Vector2f(getCoordX()*SPRITE, getCoordY()*SPRITE));
+		filtreAgi.setColor(color);
+		renderWindow->draw(filtreAgi);
+	}
 }
 
 sf::Sprite Unite::getFond(SpriteManager *manager) {
@@ -153,6 +167,7 @@ sf::Sprite Unite::getIcon(SpriteManager *manager) {
 
 sf::Sprite Unite::getIconInfanterie(SpriteManager *manager) {
 	sf::Sprite sprite;
+	//std::cout << getNom() << std::endl;
 	if (getNom() == "Soldat") {
 		sprite = manager->getRef("soldat");
 	}

@@ -8,8 +8,9 @@
 class Unite : public Entite {
 
 private : 
-	int stockRessourceActuel, deplacementRestant, stockResssourceMax, deplacementMax, champVision, resistance,
+	int stockRessourceActuel, stockResssourceMax, deplacementMax, champVision, resistance,
 		stockMunitionActuel, stockMunitionMax, rangeMin, rangeMax;
+	bool aAgi;
 	TypeUnite type;
 
 	sf::Sprite getFond(SpriteManager *manager);
@@ -26,16 +27,17 @@ public :
 	int getDeplacementMax()const;
 	int getChampVision()const;
 	int getResistance() const;
+
 	void setResistance(int _res);
 
 	int getStockRessActuel()const;
-	int getDeplacementRestant()const;
 	
-	bool peutSeDeplacer()const;
+	bool peutSeDeplacer(int distance);
+	bool peutAgir();
 
 	void reaprovisionnement();
 	void prendDegat(int degat);
-	void seDeplace(int nbCaseDeplace);
+	void seDeplace(int x, int y);
 	void soin();
 	bool estDetruit();
 
@@ -46,5 +48,5 @@ public :
 	bool isMaritime();
 
 	void render(sf::RenderWindow *renderWindow, sf::Color color, SpriteManager *manager);
+	void update();
 };
-//static UniteArmee soldat("Soldat", "Unite d'infanterie basique", 50, 5, 4, 12, 2, 1, Arme::Balle, NULL);
