@@ -6,6 +6,7 @@ void Game::loadTextures()
 	m_textureManager.loadTexture("unite","media/res/SpriteSheetUnite.png");
 	m_textureManager.getRef("unite").setSmooth(true);
 	m_textureManager.loadTexture("interface", "media/res/Interface.png");
+	m_textureManager.loadTexture("interfaceBarre", "media/res/InterfaceBarre.png");
 	m_textureManager.loadTexture("tile", "media/res/Tile.png");
 	m_textureManager.loadTexture("ressource", "media/res/Ressource.png");
 	m_textureManager.loadTexture("filtre", "media/res/Filtre.png");
@@ -14,13 +15,17 @@ void Game::loadTextures()
 void Game::loadSprites()
 {
 	m_spriteManager.loadSprite("interface", m_textureManager.getRef("interface"), 800, 200, 0, 0);
-	m_spriteManager.getRef("interface").setPosition(0, WIN_HEIGTH + 140 );
-	m_spriteManager.getRef("interface").scale(1.25, 1.30);
+	m_spriteManager.getRef("interface").setPosition(0, WIN_HEIGTH + 156);
+	m_spriteManager.getRef("interface").scale(1.25, 1.25);
 
 	m_spriteManager.loadSprite("filtre selection", m_textureManager.getRef("filtre"), 128, 128, 0, 0);
 	m_spriteManager.loadSprite("filtre attaque", m_textureManager.getRef("filtre"), 128, 128, 1, 0);
 	m_spriteManager.loadSprite("filtre deplacement", m_textureManager.getRef("filtre"), 128, 128, 0, 1);
 	m_spriteManager.loadSprite("filtre agi", m_textureManager.getRef("filtre"), 128, 128, 1, 1);
+
+	m_spriteManager.loadSprite("interfaceBarre", m_textureManager.getRef("interfaceBarre"), 800, 60, 0, 0);
+	m_spriteManager.getRef("interfaceBarre").setPosition(0, 0);
+	m_spriteManager.getRef("interfaceBarre").scale(1.25, 1.25);
 
 	m_spriteManager.loadSprite("petrole",m_textureManager.getRef("ressource"),32,32,0,0);
 	m_spriteManager.loadSprite("vivre", m_textureManager.getRef("ressource"), 32, 32, 1, 0);
@@ -118,6 +123,7 @@ void Game::render()
 	m_window.setView(m_viewInterface);
 	m_interface.render(&m_window, &m_spriteManager);
 
+
 	// Render de la minimap
 	m_window.setView(m_viewMinimap);
 	m_minimap.render(&m_window);
@@ -145,17 +151,21 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	sf::Vector2i caseClique(-1, -1);
 	// Variable à modifier pour gérer le zoom
 	int tailleCaseSurEcran = SPRITE;
-	int nbCaseAfficheParLigne = WIN_WIDTH / tailleCaseSurEcran;
-	int nbCaseAfficheParColonne = (WIN_HEIGTH - INTERFACE_HEIGTH) / tailleCaseSurEcran;
-	int decalageX = (WIN_WIDTH - (nbCaseAfficheParLigne * tailleCaseSurEcran)) / 2;
-	int decalageY = ((WIN_HEIGTH - INTERFACE_HEIGTH) - nbCaseAfficheParColonne * tailleCaseSurEcran) / 2;
+	int nbCaseAfficheParLigne = round(WIN_WIDTH / tailleCaseSurEcran);
+	int nbCaseAfficheParColonne = round((float)(WIN_HEIGTH - INTERFACE_HEIGTH ) / (float)tailleCaseSurEcran);
+	int decalageX = round((WIN_WIDTH - (nbCaseAfficheParLigne * tailleCaseSurEcran)) / 2);
+	int decalageY = INTERFACE_HAUT_HEIGHT;
+
 	// Défini les zones de clics
 	for (int i = 0; i < nbCaseAfficheParLigne; i++) {
 		for (int j = 0; j < nbCaseAfficheParColonne; j++) {
-			if (x >= decalageX + i*tailleCaseSurEcran && x < decalageX + (i + 1)*tailleCaseSurEcran - 1
-				&& y < decalageY + (j + 1)*tailleCaseSurEcran - 1 && y >= (j*tailleCaseSurEcran) + decalageY) {
+			if (x >= decalageX + i*tailleCaseSurEcran && x < decalageX + (i + 1)*tailleCaseSurEcran 
+				&& y < decalageY + (j + 1)*tailleCaseSurEcran  && y >= (j*tailleCaseSurEcran) + decalageY) {
 				caseClique.y = centreImage.y + (-nbCaseAfficheParLigne / 2 + 1 + j);
 				caseClique.x = centreImage.x + (-nbCaseAfficheParColonne + 1 / 2 + i);
+
+				std::cout << caseClique.x << std::endl;
+				std::cout << caseClique.y << std::endl;
 				break;
 			}
 		}
@@ -209,19 +219,37 @@ void Game::clicUnite(int x, int y, Unite *unite) {
 }
 
 void Game::clicInterface(int x, int y) {
-	if (x < 43 && 5 < x) {
-		if (y < 475 && 455 < y) {
+	if (x < 43 && 6 < x) {
+		if (y < 485 && 465 < y) {
 			m_minimap.changeModeTopo();
 		}
-		else if (y < 521 && 501 < y) {
+		else if (y < 530 && 510 < y) {
 			m_minimap.changeModeRessource();
 		}
-		else if (y < 567 && 547 < y) {
+		else if (y < 575 && 555 < y) {
 			m_minimap.changeModeUnite();
 		}
 	}
-	else if (x <= 233 && 65 <= x && y <= 475 && 453 <= y ) {
+	else if (x < 233 && 64 < x && y < 485 && 460 < y) {
 		finTour();
+	}
+	else if (x < 312 && 266 < x && y < 575 && 490 < y) {
+		std::cout << "Flèche gauche " << std::endl;
+	}
+	else if (x < 786 && 740 < x && y < 575 && 490 < y) {
+		std::cout << "Flèche droite " << std::endl;
+	}
+	else if (x < 395 && 261 < x && y < 30 && 4 < y) {
+		std::cout << "Technologies " << std::endl;
+	}
+	else if (x < 544 && 410 < x && y < 30 && 4 < y) {
+		std::cout << "Construction " << std::endl;
+	}
+	else if (x < 744 && 710 < x && y < 31 && 2 < y) {
+		std::cout << "Options " << std::endl;
+	}
+	else if (x < 787 && 753 < x && y < 31 && 2 < y) {
+		std::cout << "Exit " << std::endl;
 	}
 }
 

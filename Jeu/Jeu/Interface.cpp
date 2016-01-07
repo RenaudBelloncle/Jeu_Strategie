@@ -37,14 +37,17 @@ bool Interface::getModeBatiment() {
 void Interface::render(sf::RenderWindow *renderWindow, SpriteManager *manager) {
 	if (modeNormal) {
 		renderWindow->draw(manager->getRef("interface"));
+		renderWindow->draw(manager->getRef("interfaceBarre"));
 		return;
 	}
 	else if (modeUnite) {
 		renderWindow->draw(manager->getRef("interface"));
+		renderWindow->draw(manager->getRef("interfaceBarre"));
 		return;
 	}
 	else if (modeBatiment) {
 		renderWindow->draw(manager->getRef("interface"));
+		renderWindow->draw(manager->getRef("interfaceBarre"));
 		return;
 	}
 }

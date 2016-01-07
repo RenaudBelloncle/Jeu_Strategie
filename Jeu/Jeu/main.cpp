@@ -113,6 +113,8 @@ int main()
 				}
 				if (event.mouseButton.button == sf::Mouse::Right) {
 					game.deselection();
+					std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+					std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 				}
 			}
 
