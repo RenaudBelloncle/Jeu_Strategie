@@ -8,10 +8,11 @@ class UniteArmee : public Unite {
 private:
 	int munMax, munRestante, rangeMax, rangeMin;
 	Arme *armePrincipale, *armeSecondaire;
+	bool peutBougerEtAttaquer;
 
 public :
 	UniteArmee(int _x, int _y, std::string _nom, std::string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type, 
-		int _munMax, int _rangeMax, int _rangeMin, Arme principale, Arme secondaire);
+		int _munMax, int _rangeMax, int _rangeMin, Arme principale, Arme secondaire, bool bougeEtAttaque);
 	int getRangeMin()const;
 	int getRangeMax()const;
 	int getStockMunActuel()const;
@@ -19,6 +20,8 @@ public :
 	
 	void attaque(Entite *ennemi);
 	void attaqueUnite(Unite *ennemi);
+
+	bool getPeutBougerEtAttaquer();
 
 	//void attaqueBatiment();
 };

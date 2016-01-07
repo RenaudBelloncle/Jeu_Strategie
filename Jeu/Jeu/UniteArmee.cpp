@@ -1,7 +1,7 @@
 #include "UniteArmee.h"
 
 UniteArmee::UniteArmee(int _x, int _y, std::string _nom, std::string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type,
-	int _munMax, int _rangeMax, int _rangeMin,Arme principale, Arme secondaire) : Unite(_x,_y,_nom, _desc, _ressMax, _deplacementMax, _champVision, _type) 
+	int _munMax, int _rangeMax, int _rangeMin,Arme principale, Arme secondaire, bool bougeEtAttaque) : Unite(_x,_y,_nom, _desc, _ressMax, _deplacementMax, _champVision, _type) 
 {
 	rangeMin = _rangeMin;
 	rangeMax = _rangeMax;
@@ -9,6 +9,7 @@ UniteArmee::UniteArmee(int _x, int _y, std::string _nom, std::string _desc, int 
 	munRestante = munMax;
 	armePrincipale = &principale;
 	armeSecondaire = &secondaire;
+	peutBougerEtAttaquer = bougeEtAttaque;
 }
 
 int UniteArmee::getRangeMin()const
@@ -33,8 +34,11 @@ int UniteArmee::getStockMaxMun()const
 
 void UniteArmee::attaque(Entite *ennemi)
 {
+	std::cout << ennemi->isUnite() << std::endl;
 	if (ennemi->isUnite()) {
+		std::cout << "Attaque unite !" << std::endl;
 		attaqueUnite((Unite*) ennemi);
+		std::cout << ennemi->getPvRestant() << std::endl;
 	}
 	else if (ennemi->isBatiment()) {
 		//attaqueBatiment();
@@ -86,4 +90,8 @@ void UniteArmee::attaqueUnite(Unite *ennemi)
 			munRestante--;
 		}
 	}
+}
+
+bool UniteArmee::getPeutBougerEtAttaquer() {
+	return peutBougerEtAttaquer;
 }

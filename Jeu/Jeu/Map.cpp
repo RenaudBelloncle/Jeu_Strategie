@@ -173,4 +173,3 @@ void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager)
 		}
 	}
 }
-
