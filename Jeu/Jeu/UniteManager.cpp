@@ -25,3 +25,10 @@ Unite* UniteManager::getRef(const std::string &unite)
 {
 	return m_unites.at(unite);
 }
+
+Unite* UniteManager::creerUnite(const std::string &unite, int x, int y)
+{
+	Unite* nouvelleUnite = new Unite(*getRef(unite));
+	nouvelleUnite->setCoord(x, y);
+	return nouvelleUnite;
+}
