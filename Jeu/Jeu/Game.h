@@ -13,6 +13,8 @@
 class Game
 {
 private:
+
+	bool brouillardDeGuerre;
     void loadTextures();
 	void loadSprites();	
 

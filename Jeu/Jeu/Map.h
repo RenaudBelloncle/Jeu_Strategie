@@ -5,12 +5,12 @@
 #include "Tile.h"
 #include "SpriteManager.h"
 #include "Constantes.h"
+#include "Player.h"
 
 class Map {
 private:
     Tile m_tiles[MAP_WIDTH][MAP_HEIGTH];
     unsigned int permutation[256];
-	sf::Image m_image, m_imageMinimap, m_imageRessource;
 	bool m_topo, m_ressource, m_unite;
 
 public:
@@ -23,5 +23,6 @@ public:
 
 	Tile getTile(int x, int y);
 
-    void render(sf::RenderWindow* renderWindow, SpriteManager *manager);
+    void render(sf::RenderWindow* renderWindow, SpriteManager *manager, Player *player);
+	void render(sf::RenderWindow* renderWindow, SpriteManager *manager);
 };

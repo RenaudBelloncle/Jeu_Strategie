@@ -30,6 +30,7 @@ public :
 	void creerBatiment(Batiment *batiment);
 	void detruireBatiment(int index);
 	void render(sf::RenderWindow *renderWindow, SpriteManager *manager);
+	void render(sf::RenderWindow *renderWindow, SpriteManager *manager, Player *player);
 	void update();
 	int getNombreUnite();
 	int getNombreBatiment();

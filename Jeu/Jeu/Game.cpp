@@ -58,6 +58,7 @@ void Game::loadSprites()
 
 Game::Game()
 {
+	brouillardDeGuerre = true;
 	m_uniteSelectionne = NULL;
 	m_batimentSelectionne = NULL;
 	m_tour = 0;
@@ -92,6 +93,7 @@ Game::Game()
 
 	m_numJoueurActif = 0;
 	m_playerActif = m_players[m_numJoueurActif];
+	m_players[0]->decouvre();
 }
 
 void Game::render()
@@ -99,9 +101,18 @@ void Game::render()
 	//Render de la map et des entites (batiments et unite) 
 	m_view.setCenter((float)c_view[0],(float) c_view[1]);
 	m_window.setView(m_view);
-	m_map.render(&m_window, &m_spriteManager);
+	if (brouillardDeGuerre) {
+		m_map.render(&m_window, &m_spriteManager, m_playerActif);
+	}
+	else {
+		m_map.render(&m_window, &m_spriteManager);
+	}
 	for (int i = 0; i < m_nbJoueur; i++) {
-		m_players[i]->render(&m_window, &m_spriteManager);
+		if (brouillardDeGuerre) {
+			m_players[i]->render(&m_window, &m_spriteManager, m_playerActif);
+		}
+		else
+			m_players[i]->render(&m_window, &m_spriteManager);
 	}
 
 	if (m_uniteSelectionne != NULL) {
@@ -175,6 +186,7 @@ void Game::actionUnite(sf::Vector2i caseClique) {
 	for (int i = 0; i < m_deplacement.size(); i++) {
 		if (caseClique.x == m_deplacement[i].x / SPRITE && caseClique.y == m_deplacement[i].y / SPRITE) {
 			m_uniteSelectionne->seDeplace(caseClique.x, caseClique.y, &m_window, m_playerActif->getColor(), &m_spriteManager);
+			m_playerActif->decouvre();
 		}
 	}
 	for (int i = 0; i < m_attaque.size(); i++) {
@@ -191,11 +203,7 @@ void Game::actionUnite(sf::Vector2i caseClique) {
 
 							if (distance > unite->getRangeMax()) {
 								deplacementAutoPourAttaque(ecartUniteX, ecartUniteY, distance, unite, m_players[j]->getUnite(k)->getCoordX(), m_players[j]->getUnite(k)->getCoordY());
-
-								ecartUniteX = unite->getCoordX() - m_players[j]->getUnite(k)->getCoordX();
-								ecartUniteY = unite->getCoordY() - m_players[j]->getUnite(k)->getCoordY();
-								distance = abs(ecartUniteX) + abs(ecartUniteY);
-								std::cout << distance << std::endl;
+								m_playerActif->decouvre();
 							}
 							unite->attaque(m_players[j]->getUnite(k));
 							
@@ -232,7 +240,6 @@ void Game::deplacementAutoPourAttaque(int ecartX, int ecartY, int distance, Unit
 		ecartX = unite->getCoordX() + deplacementX - posXEnnemi;
 		ecartY = unite->getCoordY() + deplacementY - posYEnnemi;
 		distance = abs(ecartX) + abs(ecartY);
-		std::cout << distance << std::endl;
 	}
 	unite->seDeplace(unite->getCoordX() + deplacementX, unite->getCoordY() + deplacementY, &m_window, m_playerActif->getColor(),&m_spriteManager);
 }
@@ -305,6 +312,7 @@ void Game::joueurSuivant() {
 	}
 	std::cout << "c'est au tour du joueur " << m_numJoueurActif << std::endl;
 	m_playerActif = m_players[m_numJoueurActif];
+	m_playerActif->decouvre();
 }
 
 void Game::finTour() {
