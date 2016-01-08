@@ -12,7 +12,7 @@ void Player::creerUnite(Unite *unite, int x, int y,int resistance) {
 }
 
 void Player::detruireUnite(int index) {
-	listUnite.erase(listUnite.begin() + (index -1));
+	listUnite.erase(listUnite.begin() + index );
 }
 /*
 void Player::creerBatiment(Batiment batiment) {
@@ -20,7 +20,7 @@ void Player::creerBatiment(Batiment batiment) {
 }
 */
 void Player::detruireBatiment(int index) {
-	listBatiment.erase(listBatiment.begin() + (index -1));
+	listBatiment.erase(listBatiment.begin() + index );
 }
 
 

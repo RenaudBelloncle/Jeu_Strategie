@@ -12,7 +12,7 @@ private:
 public:
 	ArmeManager();
 
-	Arme& getRef(const std::string &arme);
+	Arme* getRef(const std::string &arme);
 };
 
 
