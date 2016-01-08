@@ -9,6 +9,11 @@ void Player::creerUnite(Unite *unite, int x, int y,int resistance) {
 	unite->setResistance(resistance);
 	unite->setCoord(x, y);
 	listUnite.push_back(unite);
+	for (int i = 0; i < MAP_WIDTH; i++) {
+		for (int j = 0; j < MAP_HEIGTH; j++) {
+			caseDecouverte[i][j] = false;
+		}
+	}
 }
 
 void Player::detruireUnite(int index) {
@@ -156,5 +161,20 @@ void Player::render(sf::RenderWindow *renderWindow, SpriteManager *manager) {
 void Player::update() {
 	for (unsigned int i = 0; i < listUnite.size(); i++) {
 		listUnite[i]->update();
+	}
+}
+
+bool Player::aDecouvertLaCase(int x, int y) {
+	return caseDecouverte[x][y];
+}
+
+void Player::decouvre() {
+	for (int i = 0; i < listUnite.size(); i++) {
+		Unite* unite = listUnite[i];
+		for (int j = unite->getCoordY() - unite->getChampVision(); j < unite->getCoordY() + unite->getChampVision(); j++) {
+			if (j >= 0 && j < MAP_HEIGTH) {
+				for (int k = unite->getCoordX() - (unite->getChampVision() - abs(j - unite->getCoordY())); k < truc ;k++ )
+			}
+		}
 	}
 }
