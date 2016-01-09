@@ -8,7 +8,7 @@ UniteManager::UniteManager() {
 	m_unites["Helicoptere"] = new UniteArmee(0, 0, "Helicoptere", "Unite aerienne polyvalente.", 35, 7, 5, TypeUnite::AERIENNE, 15, 3, 1, manager.getRef("Roquette"), manager.getRef("Balle"), true);
 	m_unites["Jeep"] = new UniteArmee(0, 0, "Jeep", "Unite motorisee de reconnaissance", 60, 7, 9, TypeUnite::MOTORISE, 15, 2, 1, manager.getRef("Balle"), manager.getRef("null"), true);
 	m_unites["Char"] = new UniteArmee(0, 0, "Char", "Unite motorisee puissante", 60, 6, 5, TypeUnite::MOTORISE, 10, 3, 1, manager.getRef("Canon"), manager.getRef("Balle"), true);
-	m_unites["Artillerie"] = new UniteArmee(0, 0, "Artillerie", "Unite motorisee de longue distance", 60, 4, 6, TypeUnite::MOTORISE, 5, 8, 3, manager.getRef("Canon"), manager.getRef("null"), false);
+	m_unites["Artillerie"] = new UniteArmee(0, 0, "Artillerie", "Unite motorisee de longue distance", 60, 4, 6, TypeUnite::MOTORISE, 5, 5, 2, manager.getRef("Canon"), manager.getRef("null"), false);
 	m_unites["DCA"] = new UniteArmee(0, 0, "DCA", "Unite motorisee anti-aerienne", 60, 7, 6, TypeUnite::MOTORISE, 15, 2, 1, manager.getRef("Missile"), manager.getRef("null"), true);
 	m_unites["Cuirasse"] = new UniteArmee(0, 0, "Cuirasse", "Unite maritime de longue distance", 30, 8, 6, TypeUnite::MARITIME, 5, 8, 3, manager.getRef("Canon"), manager.getRef("null"), false);
 	m_unites["Torpilleur"] = new UniteArmee(0, 0, "Torpilleur", "Unite maritime anti-martime", 30, 10, 8, TypeUnite::MARITIME, 10, 3, 1, manager.getRef("Torpille"), manager.getRef("null"), true);
@@ -28,7 +28,14 @@ Unite* UniteManager::getRef(const std::string &unite)
 
 Unite* UniteManager::creerUnite(const std::string &unite, int x, int y)
 {
-	Unite* nouvelleUnite = new Unite(*getRef(unite));
+	Unite* nouvelleUnite;
+	if (getRef(unite)->isArmee()) {
+		nouvelleUnite = new UniteArmee(*(UniteArmee*)getRef(unite));
+	}
+	else {
+		nouvelleUnite = new Unite(*getRef(unite));
+	}
+	
 	nouvelleUnite->setCoord(x, y);
 	return nouvelleUnite;
 }

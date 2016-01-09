@@ -13,6 +13,7 @@ private :
 	int pvRestant,coordX, coordY;
 
 public : 
+	bool estUnite, estBatiment;
 	Entite(int _x, int _y, std::string _nom,std::string _desc);
 
 	std::string getNom() const;

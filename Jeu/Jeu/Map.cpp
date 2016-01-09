@@ -103,8 +103,6 @@ Tile Map::getTile(int x, int y)
 
 void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager)
 {
-	m_imageMinimap.create(MAP_WIDTH, MAP_HEIGTH);
-	m_imageRessource.create(MAP_WIDTH, MAP_HEIGTH);
 	for (unsigned int i = 0; i < MAP_WIDTH; ++i)
 	{
 		for (unsigned int j = 0; j < MAP_HEIGTH; ++j)
@@ -113,54 +111,42 @@ void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager)
 			switch (m_tiles[i][j].getTypeCase())
 			{
 				case TypeCase::PLAINE:
-					m_imageMinimap.setPixel(i, j, sf::Color(0, 255, 0));
 					terrain = manager->getRef("plaine");
 					break;
 				case TypeCase::PLAGE:
-					m_imageMinimap.setPixel(i, j, sf::Color(255, 255, 0));
 					terrain = manager->getRef("plage");
 					break;
 				case TypeCase::MONTAGNE:
-					m_imageMinimap.setPixel(i, j, sf::Color(90, 60, 30));
 					terrain = manager->getRef("montagne");
 					break;
 				case TypeCase::MER:
-					m_imageMinimap.setPixel(i, j, sf::Color(0, 0, 255));
 					terrain = manager->getRef("mer");
 					break;
 				case TypeCase::FORET:
-					m_imageMinimap.setPixel(i, j, sf::Color(0, 100, 0));
 					terrain = manager->getRef("foret");
 					break;
 				case TypeCase::MARAIS:
-					m_imageMinimap.setPixel(i, j, sf::Color(150, 255, 150));
 					terrain = manager->getRef("marais");
 					break;
 				case TypeCase::COLINE:
-					m_imageMinimap.setPixel(i, j, sf::Color(170, 140, 100));
 					terrain = manager->getRef("coline");
 					break;
 				case TypeCase::VILLE:
-					m_imageMinimap.setPixel(i, j, sf::Color(0, 0, 0));
 					terrain = manager->getRef("ville");
 					break;
 				case TypeCase::RUINE:
-					m_imageMinimap.setPixel(i, j, sf::Color(150, 150, 150));
 					terrain = manager->getRef("ruine");
 					break;
 				}
 			switch (m_tiles[i][j].getRessource()) {
 				case Ressource::VIVRES:
 					ressource = manager->getRef("vivre");
-					m_imageRessource.setPixel(i, j, sf::Color(250, 90, 0));
 					break;
 				case Ressource::METAL:
 					ressource = manager->getRef("metal");
-					m_imageRessource.setPixel(i, j, sf::Color(250, 250, 250));
 					break;
 				case Ressource::PETROLE:
 					ressource = manager->getRef("petrole");
-					m_imageRessource.setPixel(i, j, sf::Color(50, 50, 50));
 					break;
 				default:
 					break;
@@ -170,6 +156,67 @@ void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager)
 			ressource.setPosition(sf::Vector2f(i*SPRITE, j*SPRITE));
 			renderWindow->draw(terrain);
 			renderWindow->draw(ressource);
+		}
+	}
+}
+
+void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager, Player *player)
+{
+	for (unsigned int i = 0; i < MAP_WIDTH; ++i)
+	{
+		for (unsigned int j = 0; j < MAP_HEIGTH; ++j)
+		{
+			if (player->aDecouvertLaCase(i, j)) {
+				sf::Sprite terrain, ressource;
+				switch (m_tiles[i][j].getTypeCase())
+				{
+				case TypeCase::PLAINE:
+					terrain = manager->getRef("plaine");
+					break;
+				case TypeCase::PLAGE:
+					terrain = manager->getRef("plage");
+					break;
+				case TypeCase::MONTAGNE:
+					terrain = manager->getRef("montagne");
+					break;
+				case TypeCase::MER:
+					terrain = manager->getRef("mer");
+					break;
+				case TypeCase::FORET:
+					terrain = manager->getRef("foret");
+					break;
+				case TypeCase::MARAIS:
+					terrain = manager->getRef("marais");
+					break;
+				case TypeCase::COLINE:
+					terrain = manager->getRef("coline");
+					break;
+				case TypeCase::VILLE:
+					terrain = manager->getRef("ville");
+					break;
+				case TypeCase::RUINE:
+					terrain = manager->getRef("ruine");
+					break;
+				}
+				switch (m_tiles[i][j].getRessource()) {
+				case Ressource::VIVRES:
+					ressource = manager->getRef("vivre");
+					break;
+				case Ressource::METAL:
+					ressource = manager->getRef("metal");
+					break;
+				case Ressource::PETROLE:
+					ressource = manager->getRef("petrole");
+					break;
+				default:
+					break;
+				}
+
+				terrain.setPosition(sf::Vector2f(i*SPRITE, j*SPRITE));
+				ressource.setPosition(sf::Vector2f(i*SPRITE, j*SPRITE));
+				renderWindow->draw(terrain);
+				renderWindow->draw(ressource);
+			}
 		}
 	}
 }
