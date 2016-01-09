@@ -21,7 +21,7 @@ void Player::detruireUnite(int index) {
 }
 
 void Player::creerBatiment(Batiment* batiment) {
-
+	listBatiment.push_back(batiment);
 }
 
 void Player::detruireBatiment(int index) {
@@ -181,7 +181,7 @@ bool Player::aDecouvertLaCase(int x, int y) {
 }
 
 void Player::decouvre() {
-	for (int i = 0; i < listUnite.size(); i++) {
+	for (unsigned int i = 0; i < listUnite.size(); i++) {
 		Unite* unite = listUnite[i];
 		for (int j = unite->getCoordY() - unite->getChampVision(); j < unite->getCoordY() + unite->getChampVision(); j++) {
 			if (j >= 0 && j < MAP_HEIGTH) {
