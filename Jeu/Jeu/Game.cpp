@@ -294,6 +294,7 @@ void Game::clicInterface(int x, int y) {
 	}
 	else if (x < 787 && 753 < x && y < 31 && 2 < y) {
 		std::cout << "Exit " << std::endl;
+		m_window.close();
 	}
 }
 
