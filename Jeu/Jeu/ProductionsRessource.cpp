@@ -33,6 +33,11 @@ void ProductionRessource::setRessourceProduite(Ressource _ressourceProduite)
 	ressourceProduite = _ressourceProduite;
 }
 
+bool ProductionRessource::isProductionRessource()
+{
+	return true;
+}
+
 void ProductionRessource::update()
 {
 	setStock(getQuantiteProduite() + getStock());

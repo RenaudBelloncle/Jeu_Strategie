@@ -41,6 +41,16 @@ bool Batiment::isBatiment()
 	return true;
 }
 
+bool Batiment::isProductionRessource()
+{
+	return false;
+}
+
+bool Batiment::isProductionUnite()
+{
+	return false;
+}
+
 Ressource Batiment::getRessourceStocked()
 {
 	return ressourceStock;

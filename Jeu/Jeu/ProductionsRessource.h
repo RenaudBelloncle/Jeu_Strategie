@@ -12,6 +12,7 @@ public:
 	void setQuantiteProduite(int quantiteProduite);
 	Ressource getRessourceProduite();
 	void setRessourceProduite(Ressource ressource);
+	bool isProductionRessource();
 
 	void update();
 private:

@@ -24,6 +24,8 @@ public:
 
 	bool estDetruit();
 	bool isBatiment();
+	bool isProductionRessource();
+	bool isProductionUnite();
 	
 	Ressource getRessourceStocked();
 
