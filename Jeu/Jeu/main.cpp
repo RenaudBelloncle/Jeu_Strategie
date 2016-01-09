@@ -8,16 +8,10 @@ int main()
 	UniteManager unites;
     Game game;
 
-	std::cout << 3 / 2 << std::endl;
-
 	bool leftPressed(false), rightPressed(false), upPressed(false), downPressed(false);
 	//float zoom = SPRITE >> 6;
 	float zoom = 1;
 	sf::Clock m_clock;
-	game.m_playerActif->creerUnite(unites.creerUnite("SoldatArmee",10,10),10,10, game.m_map.getTile(10,10).getBonusRes());
-	game.joueurSuivant();
-	game.getPlayerActif()->creerUnite(unites.creerUnite("SoldatArmee",11,11),11,11, game.m_map.getTile(11, 11).getBonusRes());
-	game.joueurSuivant();
 
     while(game.m_window.isOpen())
     {
@@ -26,7 +20,7 @@ int main()
         {
             if (event.type == sf::Event::Closed)
             {
-                game.m_window.close();
+				game.m_window.close();
             }
 
             if (event.type == sf::Event::KeyPressed)
@@ -111,8 +105,8 @@ int main()
 				}
 				if (event.mouseButton.button == sf::Mouse::Right) {
 					game.deselection();
-					//std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-					//std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+					std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+					std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 				}
 			}
 

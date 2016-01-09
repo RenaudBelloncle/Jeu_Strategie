@@ -13,7 +13,6 @@
 class Game
 {
 private:
-
 	bool brouillardDeGuerre;
     void loadTextures();
 	void loadSprites();	
@@ -44,10 +43,10 @@ public:
 
 	std::vector<sf::Vector2f> m_deplacement, m_attaque;
 
-    Map m_map = Map();
+    Map m_map;
 	Minimap m_minimap;
 
-	Player *m_players[NB_JOUEUR_MAX], *m_playerActif;
+	Player **m_players, *m_playerActif;
 
     void render();
 	Player* getPlayerActif();

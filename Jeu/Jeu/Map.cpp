@@ -2,20 +2,29 @@
 #include <iostream>
 #include "Map.h"
 
-Map::Map()
+Map::Map(int width, int heigth)
 {
+	m_width = width;
+	m_heigth = heigth;
+	m_tiles = new Tile* [m_width];
+	for (int i = 0; i < m_width; i++) {
+		m_tiles[i] = new Tile[m_heigth];
+	}
+	m_tiles[0][0] = Tile(TypeCase::PLAINE);
+	std::cout<< getTile(0, 0).getBonusRes() << std::endl;
+
 	srand((unsigned int) time(NULL));
 	std::cout << "Creation de la map" << std::endl;
     std::vector<int> tab;
-    for (int i = 0; i < MAP_WIDTH; ++i) {
-        for (int j = 0; j < MAP_HEIGTH; ++j) {
+    for (int i = 0; i < m_width; ++i) {
+        for (int j = 0; j < m_heigth; ++j) {
             tab.push_back(i + j);
         }
     }
     std::random_shuffle(tab.begin(), tab.end());
 
-    for (int i = 0; i < MAP_WIDTH; ++i) {
-        for (int j = 0; j < MAP_HEIGTH; ++j) {
+    for (int i = 0; i < m_width; ++i) {
+        for (int j = 0; j < m_heigth; ++j) {
             permutation[i+j] = (unsigned int)(tab.at((unsigned long)(i + j)));
         }
     }
@@ -25,9 +34,9 @@ Map::Map()
 
 void Map::mapGenerator()
 {
-    for (int i = 0; i < MAP_WIDTH; ++i) {
-        for (int j = 0; j < MAP_HEIGTH; ++j) {
-            m_tiles[i][j] = whichType(bruitPerlin(i+0.5f,j+0.5f,10));
+    for (int i = 0; i < m_width; ++i) {
+        for (int j = 0; j < m_heigth; ++j) {
+            m_tiles[i][j] = Tile(whichType(bruitPerlin(i+0.5f,j+0.5f,10)));
         }
     }
 }
@@ -103,9 +112,9 @@ Tile Map::getTile(int x, int y)
 
 void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager)
 {
-	for (unsigned int i = 0; i < MAP_WIDTH; ++i)
+	for (unsigned int i = 0; i < m_width; ++i)
 	{
-		for (unsigned int j = 0; j < MAP_HEIGTH; ++j)
+		for (unsigned int j = 0; j < m_heigth; ++j)
 		{
 			sf::Sprite terrain, ressource;
 			switch (m_tiles[i][j].getTypeCase())
@@ -162,9 +171,9 @@ void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager)
 
 void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager, Player *player)
 {
-	for (unsigned int i = 0; i < MAP_WIDTH; ++i)
+	for (unsigned int i = 0; i < m_width; ++i)
 	{
-		for (unsigned int j = 0; j < MAP_HEIGTH; ++j)
+		for (unsigned int j = 0; j < m_heigth; ++j)
 		{
 			if (player->aDecouvertLaCase(i, j)) {
 				sf::Sprite terrain, ressource;
@@ -219,4 +228,12 @@ void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager, Player 
 			}
 		}
 	}
+}
+
+int Map::getWidth() {
+	return m_width;
+}
+
+int Map::getHeigth() {
+	return m_heigth;
 }
