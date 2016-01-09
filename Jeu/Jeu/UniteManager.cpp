@@ -18,7 +18,6 @@ UniteManager::UniteManager() {
 void UniteManager::addUnite(const std::string &name, Unite unite)
 {
 	m_unites[name] = &unite;
-	return;
 }
 
 Unite* UniteManager::getRef(const std::string &unite)
