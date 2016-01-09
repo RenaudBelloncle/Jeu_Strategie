@@ -1,14 +1,16 @@
 #include "UniteArmee.h"
 
 UniteArmee::UniteArmee(int _x, int _y, std::string _nom, std::string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type,
-	int _munMax, int _rangeMax, int _rangeMin,Arme principale, Arme secondaire) : Unite(_x,_y,_nom, _desc, _ressMax, _deplacementMax, _champVision, _type) 
+	int _munMax, int _rangeMax, int _rangeMin,Arme* principale, Arme* secondaire, bool bougeEtAttaque) : Unite(_x,_y,_nom, _desc, _ressMax, _deplacementMax, _champVision, _type) 
 {
+	estArmee = true;
 	rangeMin = _rangeMin;
 	rangeMax = _rangeMax;
 	munMax = _munMax;
 	munRestante = munMax;
-	armePrincipale = &principale;
-	armeSecondaire = &secondaire;
+	armePrincipale = principale;
+	armeSecondaire = secondaire;
+	peutBougerEtAttaquer = bougeEtAttaque;
 }
 
 int UniteArmee::getRangeMin()const
@@ -21,7 +23,7 @@ int UniteArmee::getRangeMax()const
 	return rangeMax;
 }
 
-int UniteArmee::getStockMunActuel()const
+int UniteArmee::getStockMunActuel()
 {
 	return munRestante;
 }
@@ -39,6 +41,7 @@ void UniteArmee::attaque(Entite *ennemi)
 	else if (ennemi->isBatiment()) {
 		//attaqueBatiment();
 	}
+	aAgi = true;
 }
 
 void UniteArmee::attaqueUnite(Unite *ennemi)
@@ -48,9 +51,8 @@ void UniteArmee::attaqueUnite(Unite *ennemi)
 			ennemi->prendDegat(armePrincipale->getDegatAerien());
 			munRestante--;
 		}
-		else if (munRestante < 0 && armeSecondaire != NULL){
+		else if (munRestante <= 0 && armeSecondaire->getType() != "null"){
 			ennemi->prendDegat(armeSecondaire->getDegatAerien());
-			munRestante--;
 		}
 	}
 
@@ -59,9 +61,8 @@ void UniteArmee::attaqueUnite(Unite *ennemi)
 			ennemi->prendDegat(armePrincipale->getDegatInfanterie());
 			munRestante--;
 		}
-		else if (munRestante < 0 && armeSecondaire != NULL) {
+		else if (munRestante <= 0 && armeSecondaire->getType() != "null") {
 			ennemi->prendDegat(armeSecondaire->getDegatInfanterie());
-			munRestante--;
 		}
 	}
 
@@ -70,9 +71,8 @@ void UniteArmee::attaqueUnite(Unite *ennemi)
 			ennemi->prendDegat(armePrincipale->getDegatMarin());
 			munRestante--;
 		}
-		else if (munRestante < 0 && armeSecondaire != NULL) {
+		else if (munRestante <= 0 && armeSecondaire->getType() != "null") {
 			ennemi->prendDegat(armeSecondaire->getDegatMarin());
-			munRestante--;
 		}
 	}
 
@@ -81,9 +81,22 @@ void UniteArmee::attaqueUnite(Unite *ennemi)
 			ennemi->prendDegat(armePrincipale->getDegatMotorise());
 			munRestante--;
 		}
-		else if (munRestante < 0 && armeSecondaire != NULL) {
+		else if (munRestante <= 0 && armeSecondaire->getType() != "null") {
 			ennemi->prendDegat(armeSecondaire->getDegatMotorise());
-			munRestante--;
 		}
 	}
+}
+
+bool UniteArmee::getPeutBougerEtAttaquer() {
+	return peutBougerEtAttaquer;
+}
+
+bool UniteArmee::peutAttaquer() {
+	if (munRestante > 0) {
+		return true;
+	}
+	else if (armeSecondaire->getType() != "null") {
+		return true;
+	}
+	return false;
 }

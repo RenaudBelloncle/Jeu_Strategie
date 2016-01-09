@@ -1,28 +1,23 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 #include "Constantes.h"
+#include "UniteManager.h"
 
 int main()
 {
+	UniteManager unites;
     Game game;
 
+	std::cout << 3 / 2 << std::endl;
+
 	bool leftPressed(false), rightPressed(false), upPressed(false), downPressed(false);
-    float zoom(SPRITE >> 6);
-
+	//float zoom = SPRITE >> 6;
+	float zoom = 1;
 	sf::Clock m_clock;
-
-	UniteArmee* infanterie = new UniteArmee(0, 0, "Soldat", "Je suis un test et n'ai aucune raison de vivre", 50, 5, 7, TypeUnite::INFANTERIE, 10, 2, 1,
-		Arme("test", 0, 0, 0, 0), Arme("test2", 0, 0, 0, 0));
-	UniteArmee* bateau = new UniteArmee(1, 0, "Bateau", "Je suis un test et n'ai aucune raison de vivre", 50, 5, 7, TypeUnite::MARITIME, 10, 2, 1,
-		Arme("test", 0, 0, 0, 0), Arme("test2", 0, 0, 0, 0));
-	UniteArmee* avion = new UniteArmee(0, 1, "Avion", "Je suis un test et n'ai aucune raison de vivre", 50, 5, 7, TypeUnite::AERIENNE, 10, 2, 1,
-		Arme("test", 0, 0, 0, 0), Arme("test2", 0, 0, 0, 0));
-	UniteArmee* vehicule = new UniteArmee(1, 1, "Vehicule", "Je suis un test et n'ai aucune raison de vivre", 50, 5, 7, TypeUnite::MOTORISE, 10, 2, 1,
-		Arme("test", 0, 0, 0, 0), Arme("test2", 0, 0, 0, 0));
-	game.getPlayer()->creerUnite(infanterie);
-	game.getPlayer()->creerUnite(bateau);
-	game.getPlayer()->creerUnite(avion);
-	game.getPlayer()->creerUnite(vehicule);
+	game.m_playerActif->creerUnite(unites.creerUnite("SoldatArmee",10,10),10,10, game.m_map.getTile(10,10).getBonusRes());
+	game.joueurSuivant();
+	game.getPlayerActif()->creerUnite(unites.creerUnite("SoldatArmee",11,11),11,11, game.m_map.getTile(11, 11).getBonusRes());
+	game.joueurSuivant();
 
     while(game.m_window.isOpen())
     {
@@ -55,8 +50,14 @@ int main()
 							downPressed = true;
                         break;
                     case sf::Keyboard::Space:
-                        game.c_view[0] = (MAP_WIDTH * SPRITE)/2;
-                        game.c_view[1] = (MAP_HEIGTH * SPRITE)/2;
+						if (MAP_WIDTH % 2 == 0)
+							game.c_view[0] = (MAP_WIDTH * SPRITE) / 2;
+						else
+							game.c_view[0] = ((MAP_WIDTH - 1) * SPRITE) / 2;
+						if (MAP_HEIGTH % 2 == 0)
+							game.c_view[1] = (MAP_HEIGTH * SPRITE) / 2;
+						else
+							game.c_view[1] = ((MAP_HEIGTH - 1) * SPRITE) / 2;
                         break;
                     default:
                         break;
@@ -84,7 +85,7 @@ int main()
 				}
 			}
 
-            if (event.type == sf::Event::MouseWheelMoved)
+            /*if (event.type == sf::Event::MouseWheelMoved)
             {
                 if (event.mouseWheel.delta < 0)
                 {
@@ -102,48 +103,16 @@ int main()
                         zoom = zoom * 0.9f;
                     }
                 }
-            }
+            }*/
 
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
-					if (event.mouseButton.x < 43 && 6 < event.mouseButton.x && event.mouseButton.y < 485 && 465 < event.mouseButton.y) {
-						std::cout << "Topo" << std::endl;
-						game.m_minimap.changeModeTopo();
-					}
-					else if (event.mouseButton.x < 43 && 6 < event.mouseButton.x && event.mouseButton.y < 530 && 510 < event.mouseButton.y) {
-						std::cout << "Res " << std::endl;
-						game.m_minimap.changeModeRessource();
-					}
-					else if (event.mouseButton.x < 43 && 6 < event.mouseButton.x && event.mouseButton.y < 575 && 555 < event.mouseButton.y) {
-						std::cout << "Unite" << std::endl;
-						game.m_minimap.changeModeUnite();
-					}
-					else if (event.mouseButton.x < 233 && 64 < event.mouseButton.x && event.mouseButton.y < 485 && 460 < event.mouseButton.y) {
-						std::cout << "Fin " << std::endl;
-					}
-					else if (event.mouseButton.x < 312 && 266 < event.mouseButton.x && event.mouseButton.y < 575 && 490 < event.mouseButton.y) {
-						std::cout << "Flèche gauche " << std::endl;
-					}
-					else if (event.mouseButton.x < 786 && 740 < event.mouseButton.x && event.mouseButton.y < 575 && 490 < event.mouseButton.y) {
-						std::cout << "Flèche droite " << std::endl;
-					}
-					else if (event.mouseButton.x < 395 && 261 < event.mouseButton.x && event.mouseButton.y < 30 && 4 < event.mouseButton.y) {
-						std::cout << "Technologies " << std::endl;
-					}
-					else if (event.mouseButton.x < 544 && 410 < event.mouseButton.x && event.mouseButton.y < 30 && 4 < event.mouseButton.y) {
-						std::cout << "Construction " << std::endl;
-					}
-					else if (event.mouseButton.x < 744 && 710 < event.mouseButton.x && event.mouseButton.y < 31 && 2 < event.mouseButton.y) {
-						std::cout << "Options " << std::endl;
-					}
-					else if (event.mouseButton.x < 787 && 753 < event.mouseButton.x && event.mouseButton.y < 31 && 2 < event.mouseButton.y) {
-						std::cout << "Exit " << std::endl;
-					}
-					std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-					std::cout << "mouse y: " << event.mouseButton.y << std::endl;
-					sf::Vector2f worldPos = game.m_window.mapPixelToCoords(sf::Mouse::getPosition(game.m_window));
-					std::cout << "world x: " << worldPos.x << std::endl;
-					std::cout << "world y: " << worldPos.y << std::endl;
+					game.clic(event.mouseButton.x, event.mouseButton.y);
+				}
+				if (event.mouseButton.button == sf::Mouse::Right) {
+					game.deselection();
+					//std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+					//std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 				}
 			}
 
@@ -153,6 +122,7 @@ int main()
 				{
 					//game.c_view[0] -= m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[0] -= SPRITE;
+					game.centreImage.x --;
 				}
 			}
 
@@ -162,6 +132,7 @@ int main()
 				{
 					//game.c_view[0] += m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[0] += SPRITE;
+					game.centreImage.x ++;
 				}
 			}
 
@@ -171,6 +142,7 @@ int main()
 				{
 					//game.c_view[1] -= m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[1] -= SPRITE;
+					game.centreImage.y --;
 				}
 			}
 
@@ -180,6 +152,7 @@ int main()
 				{
 					//game.c_view[1] += m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[1] += SPRITE;
+					game.centreImage.y ++;
 				}
 			}
         }		

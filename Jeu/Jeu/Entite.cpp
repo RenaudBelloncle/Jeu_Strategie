@@ -3,6 +3,8 @@
 #include "Entite.h"
 
 Entite::Entite(int _x, int _y, std::string _nom, std::string _desc) {
+	estUnite = false;
+	estBatiment = false;
 	nom = _nom;
 	description = _desc;
 	pvRestant = PV_MAX;
@@ -40,10 +42,10 @@ void Entite::setPvRestant(int pv){
 }
 
 bool Entite::isUnite() {
-	return false;
+	return estUnite;
 }
 
 bool Entite::isBatiment() {
-	return false;
+	return estBatiment;
 }
 

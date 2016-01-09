@@ -13,6 +13,7 @@ private :
 	int pvRestant,coordX, coordY;
 
 public : 
+	bool estUnite, estBatiment;
 	Entite(int _x, int _y, std::string _nom,std::string _desc);
 
 	std::string getNom() const;
@@ -30,4 +31,5 @@ public :
 	bool isBatiment();
 
 	void virtual render(sf::RenderWindow *renderWindow, sf::Color color, SpriteManager *manager) = 0;
+	void virtual update() = 0;
 };

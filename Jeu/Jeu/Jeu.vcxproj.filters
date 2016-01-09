@@ -1,153 +1,162 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Fichiers sources">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Fichiers de ressources">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête\Entite">
-      <UniqueIdentifier>{29993d9a-7642-42de-8667-6abc848f772f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers sources\Entite">
-      <UniqueIdentifier>{494fe8f5-f9aa-4e02-87b4-a8eaa55d7b93}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête\Entite\Batiment">
-      <UniqueIdentifier>{0652ff3b-21a4-4deb-9e2d-3a5df89018cc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête\Entite\Unite">
-      <UniqueIdentifier>{e9572ca2-ea16-457f-a26e-27b87b1f0579}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers sources\Entite\Unite">
-      <UniqueIdentifier>{7aa1307c-9199-4193-b792-f1102b3f2151}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers sources\Entite\Batiment">
-      <UniqueIdentifier>{96896684-9a91-44f4-a21c-47502b2cfcac}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="EtatJeu.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
+    <ClCompile Include="EtatMenu.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
+    <ClCompile Include="Minimap.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteManager.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
+    <ClCompile Include="Technologie.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
+    <ClCompile Include="CouleurJoueur.h">
+      <Filter>Fichier entête</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeUnite.h">
+      <Filter>Fichier entête</Filter>
+    </ClCompile>
+    <ClCompile Include="Arme.cpp">
+      <Filter>Fichier source\Entite</Filter>
+    </ClCompile>
+    <ClCompile Include="ArmeManager.cpp">
+      <Filter>Fichier source\Entite</Filter>
+    </ClCompile>
+    <ClCompile Include="Entite.cpp">
+      <Filter>Fichier source\Entite</Filter>
+    </ClCompile>
+    <ClCompile Include="Unite.cpp">
+      <Filter>Fichier source\Entite\Unite</Filter>
+    </ClCompile>
+    <ClCompile Include="UniteArmee.cpp">
+      <Filter>Fichier source\Entite\Unite</Filter>
+    </ClCompile>
+    <ClCompile Include="UniteManager.cpp">
+      <Filter>Fichier source\Entite\Unite</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Constantes.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="Etat.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="EtatJeu.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="EtatMenu.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="Minimap.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="Ressource.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteManager.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="Technologie.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeCase.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="Arme.h">
+      <Filter>Fichier entête\Entite</Filter>
+    </ClInclude>
+    <ClInclude Include="ArmeManager.h">
+      <Filter>Fichier entête\Entite</Filter>
+    </ClInclude>
+    <ClInclude Include="Batiment.h">
+      <Filter>Fichier entête\Entite\Batiment</Filter>
+    </ClInclude>
+    <ClInclude Include="Unite.h">
+      <Filter>Fichier entête\Entite\Unite</Filter>
+    </ClInclude>
+    <ClInclude Include="UniteArmee.h">
+      <Filter>Fichier entête\Entite\Unite</Filter>
+    </ClInclude>
+    <ClInclude Include="UniteManager.h">
+      <Filter>Fichier entête\Entite\Unite</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductionsRessource.h">
+      <Filter>Fichier entête\Entite\Batiment</Filter>
+    </ClInclude>
+    <ClInclude Include="Entite.h">
+      <Filter>Fichier entête\Entite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="map.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Arme.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Entite.cpp">
-      <Filter>Fichiers sources\Entite</Filter>
-    </ClCompile>
-    <ClCompile Include="Unite.cpp">
-      <Filter>Fichiers sources\Entite\Unite</Filter>
-    </ClCompile>
-    <ClCompile Include="UniteArmee.cpp">
-      <Filter>Fichiers sources\Entite\Unite</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="EtatJeu.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="EtatMenu.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="TypeUnite.h">
-      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
-    </ClCompile>
-    <ClCompile Include="CouleurJoueur.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Minimap.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Technologie.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="map.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Ressource.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="EtatMenu.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="EtatJeu.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Etat.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Arme.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Unite.h">
-      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
-    </ClInclude>
-    <ClInclude Include="UniteArmee.h">
-      <Filter>Fichiers d%27en-tête\Entite\Unite</Filter>
-    </ClInclude>
-    <ClInclude Include="Entite.h">
-      <Filter>Fichiers d%27en-tête\Entite</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Constantes.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ProductionsRessource.h">
-      <Filter>Fichiers d%27en-tête\Entite\Batiment</Filter>
-    </ClInclude>
-    <ClInclude Include="Batiment.h">
-      <Filter>Fichiers d%27en-tête\Entite\Batiment</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="TypeCase.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Minimap.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Technologie.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
+    <Filter Include="Fichier entête">
+      <UniqueIdentifier>{e3a78fc1-c2da-44d0-be98-f6f6fdca3990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichier source">
+      <UniqueIdentifier>{1cc4ac38-0e64-4495-a8ee-75b0ccd98f7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichier entête\Entite">
+      <UniqueIdentifier>{dfa212cc-9ab8-49e8-b3bf-adc1a53aaf7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichier entête\Entite\Unite">
+      <UniqueIdentifier>{ffb8490b-0637-4792-ae07-ec7b67496274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichier entête\Entite\Batiment">
+      <UniqueIdentifier>{0cd29d5e-1832-4cd1-b9ba-3f06fd99c77c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichier source\Entite">
+      <UniqueIdentifier>{dfc529f7-2eb4-4073-a0df-21949e43772e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichier source\Entite\Unite">
+      <UniqueIdentifier>{dce1b913-c020-43d7-b224-8ca2b15610ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

@@ -16,20 +16,27 @@ private :
 	int vivre;
 	std::vector<Unite*> listUnite;
 	std::vector<Batiment*> listBatiment;
+	bool caseDecouverte[MAP_WIDTH][MAP_HEIGTH];
 
 public : 
 	Player(sf::Color color);
+
+	void creerUnite(Unite *unite,int x, int y, int resistance);
+	void detruireUnite(int index);
+
 	void initTechnologies();
 	void rechercheTechnologie(Technologie *tech);
-	void creerUnite(Unite *unite);
-	void deplacerUnite(Unite *unite, int newX, int newY);
-	void attaquer(Unite *unite, Entite *ennemi);
-	//void creerBatiment(Batiment batiment);
-	//void detruireBatiment(Batiment batiment);
+	
+	void creerBatiment(Batiment *batiment);
+	void detruireBatiment(int index);
 	void render(sf::RenderWindow *renderWindow, SpriteManager *manager);
+	void render(sf::RenderWindow *renderWindow, SpriteManager *manager, Player *player);
+	void update();
 	int getNombreUnite();
 	int getNombreBatiment();
 	Unite* getUnite(int index);
 	Batiment* getBatiment(int index);
 	sf::Color getColor();
+	bool aDecouvertLaCase(int x, int y);
+	void decouvre();
 };

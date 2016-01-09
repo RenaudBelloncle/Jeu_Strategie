@@ -5,6 +5,7 @@
 Tile::Tile(TypeCase type) : m_typeCase(type)
 {
     initRessource();
+	setBonusRes();
 }
 
 TypeCase Tile::getTypeCase()
@@ -57,4 +58,37 @@ Ressource Tile::whichRessource(int proba, int pVivres, int pMetal, int pPetrole)
         else if (random <= pVivres+pMetal) return Ressource::METAL;
         else if (random <= pVivres+pMetal+pPetrole) return Ressource::PETROLE;
     }
+}
+
+void Tile::setBonusRes() {
+	switch (m_typeCase)
+	{
+	case TypeCase::FORET:
+		bonusRes = 2;
+		break;
+
+	case TypeCase::MARAIS:
+		bonusRes = 2;
+		break;
+
+	case TypeCase::COLINE:
+		bonusRes = 3;
+		break;
+
+	case TypeCase::VILLE:
+		bonusRes = 3;
+		break;
+
+	case TypeCase::RUINE:
+		bonusRes = 3;
+		break;
+
+	default:
+		bonusRes = 0;
+		break;
+	}
+}
+
+int Tile::getBonusRes() {
+	return bonusRes;
 }

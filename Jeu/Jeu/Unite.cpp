@@ -7,13 +7,15 @@ using namespace std;
 
 Unite::Unite(int _x, int _y, string _nom, string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type) : Entite(_x, _y, _nom, _desc)
 {
+	estUnite = true;
+	estArmee = false;
 	stockResssourceMax = _ressMax;
 	deplacementMax = _deplacementMax;
 	stockRessourceActuel = stockResssourceMax;
-	deplacementRestant = deplacementMax;
 	champVision = _champVision;
 	resistance = 0;
 	type = _type;
+	aAgi = false;
 }
 
 int Unite::getStockMaxRess() const
@@ -31,7 +33,7 @@ int Unite::getChampVision()const
 	return champVision;
 }
 
-int Unite::getResistance() const
+int Unite::getResistance()
 {
 	return resistance;
 }
@@ -42,25 +44,25 @@ void Unite::setResistance(int _res)
 }
 
 
-int Unite::getStockRessActuel()const
+int Unite::getStockRessActuel()
 {
 	return stockRessourceActuel;
 }
 
-int Unite::getDeplacementRestant()const
+bool Unite::peutSeDeplacer(int distance)
 {
-	return deplacementRestant;
+	return (!aAgi && stockRessourceActuel-distance > 0);
 }
 
-bool Unite::peutSeDeplacer()const
+bool Unite::peutAgir()
 {
-	return deplacementRestant > 0;
+	return !aAgi;
 }
 
-/*void Unite::update()
+void Unite::update()
 {
-
-}*/
+	aAgi = false;
+}
 
 void Unite::soin() {
 	setPvRestant(getPvRestant() + 2);
@@ -77,17 +79,49 @@ void Unite::reaprovisionnement()
 
 void Unite::prendDegat(int degat)
 {
-	setPvRestant(getPvRestant() - (degat - resistance));
+	setPvRestant(getPvRestant() - (degat - getResistance()));
 }
 
-void Unite::seDeplace(int nbCaseDeplace)
+void Unite::seDeplace(int x, int y, sf::RenderWindow *renderWindow, sf::Color color, SpriteManager *manager)
 {
-	deplacementRestant -= nbCaseDeplace;
+	
+	int temp = std::abs(getCoordX() - x);
+	temp += std::abs(getCoordY() - y);
+	
+	if (peutSeDeplacer(temp)) {
+		stockRessourceActuel = stockRessourceActuel - temp;
+		//animation(x,y, renderWindow, color, manager);
+		aAgi = true;
+		setCoord(x, y);
+	}
+	
 }
+/*
+void Unite::animation(int x, int y, sf::RenderWindow *renderWindow, sf::Color color, SpriteManager *manager) {
+	int i = getCoordX()*SPRITE;
+	int j = getCoordY()*SPRITE;
 
-bool Unite::isUnite() {
-	return true;
-}
+	while (i != x*SPRITE || j != y*SPRITE) {
+		sf::Sprite fond = getFond(manager);
+		fond.setPosition(sf::Vector2f(i, j));
+		fond.setColor(color);
+		renderWindow->draw(fond);
+		//Draw unite icon
+		sf::Sprite icon = getIcon(manager);
+		icon.setPosition(sf::Vector2f(i, j));
+		icon.setColor(color);
+		renderWindow->draw(icon);
+		
+		if (i > x*SPRITE) { i --; }
+		else if (i < x*SPRITE) { i ++; }
+		if (j > y*SPRITE){ j --; }
+		else if (j < y*SPRITE){ j ++; }
+		int t = 0;
+		while (t != 10000) {
+			t++;
+		}
+	}
+}*/
 
 bool Unite::isAerienne() {
 	return type == TypeUnite::AERIENNE;
@@ -115,6 +149,12 @@ void Unite::render(sf::RenderWindow *renderWindow, sf::Color color, SpriteManage
 	icon.setPosition(sf::Vector2f(getCoordX()*SPRITE, getCoordY()*SPRITE));
 	icon.setColor(color);
 	renderWindow->draw(icon);
+	if (aAgi) {
+		sf::Sprite filtreAgi = manager->getRef("filtre agi");
+		filtreAgi.setPosition(sf::Vector2f(getCoordX()*SPRITE, getCoordY()*SPRITE));
+		filtreAgi.setColor(color);
+		renderWindow->draw(filtreAgi);
+	}
 }
 
 sf::Sprite Unite::getFond(SpriteManager *manager) {
