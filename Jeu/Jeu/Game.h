@@ -13,12 +13,19 @@
 class Game
 {
 private:
+
+	bool brouillardDeGuerre;
     void loadTextures();
 	void loadSprites();	
 
 	void definitionCase();
+	void definitionCaseUnite(int xOrig, int yOrig, int nbCase);
+	void definitionCaseUniteArmee(int xOrig, int yOrig, int nbCase, int nbCaseAttaque);
+	void definitionCaseUniteDistance(int xOrig, int yOrig, int nbCase, int rangeMin, int rangeMax);
+
 	sf::Vector2i definitionCaseClique(int x, int y);
 	void surbrillanceCaseDeplacement();
+	void deplacementAutoPourAttaque(int ecartX, int ecartY, int distance, UniteArmee* unite, int posXEnnemi, int posYEnnemi);
 
 	bool testClicZoneJeu(int x, int y);
 	bool testUniteAlliee(int x, int y);

@@ -8,16 +8,16 @@ int main()
 	UniteManager unites;
     Game game;
 
+	std::cout << 3 / 2 << std::endl;
+
 	bool leftPressed(false), rightPressed(false), upPressed(false), downPressed(false);
 	//float zoom = SPRITE >> 6;
 	float zoom = 1;
 	sf::Clock m_clock;
-
-	game.m_playerActif->creerUnite(unites.getRef("Soldat"),10,10, game.m_map.getTile(10,10).getBonusRes());
+	game.m_playerActif->creerUnite(unites.creerUnite("SoldatArmee",10,10),10,10, game.m_map.getTile(10,10).getBonusRes());
 	game.joueurSuivant();
-	game.getPlayerActif()->creerUnite(unites.getRef("SoldatArmee"),11,11, game.m_map.getTile(11, 11).getBonusRes());
+	game.getPlayerActif()->creerUnite(unites.creerUnite("SoldatArmee",11,11),11,11, game.m_map.getTile(11, 11).getBonusRes());
 	game.joueurSuivant();
-	game.getPlayerActif()->creerUnite(unites.getRef("Demolisseur"),1,0, game.m_map.getTile(1, 0).getBonusRes());
 
     while(game.m_window.isOpen())
     {
@@ -108,13 +108,11 @@ int main()
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					game.clic(event.mouseButton.x, event.mouseButton.y);
-					//std::cout << event.mouseButton.x << std::endl;
-					//std::cout << event.mouseButton.y << std::endl;
 				}
 				if (event.mouseButton.button == sf::Mouse::Right) {
 					game.deselection();
-					std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-					std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+					//std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+					//std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 				}
 			}
 
