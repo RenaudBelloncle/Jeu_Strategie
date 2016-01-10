@@ -58,7 +58,7 @@ void Game::loadSprites()
 
 Game::Game()
 {
-	// A effectuer à chaque fois
+	// A effectuer ï¿½ chaque fois
 	std::cout << "Chargement des textures ..." << std::endl;
     loadTextures();
 	std::cout << "Chargement des textures termine" << std::endl;
@@ -116,13 +116,6 @@ Game::Game()
 	{
 		std::cout << "Erreur chargement font" << std::endl;
 	}
-	textTour.setFont(font);
-	const int tour = m_tour;
-	textTour.setString(std::to_string(tour));
-	textTour.setCharacterSize(12);
-	textTour.setColor(sf::Color::White);
-	textTour.setStyle(sf::Text::Bold);
-	textTour.setPosition(c_view[0] + 230, c_view[1] - 291);
 
 	textEau.setFont(font);
 	textEau.setString(std::to_string(0));
@@ -190,6 +183,16 @@ void Game::render()
 	if (m_uniteSelectionne != NULL) {
 		m_interface.renderInfoUnite(&m_window, font, m_uniteSelectionne);
 	}
+	const int tour = m_tour;
+	m_interface.ecrireMessage(&m_window, (float) 630 * 1.25, (float) 9 * 1.25, std::to_string(tour), font, 18, sf::Color::White);
+	const int nbEau = 0;
+	m_interface.ecrireMessage(&m_window, (float) 30 * 1.25, (float) 5 * 1.25, std::to_string(nbEau), font, 18, sf::Color::Black);
+	const int nbEnergie = 0;
+	m_interface.ecrireMessage(&m_window, (float) 146 * 1.25, (float) 5 * 1.25, std::to_string(nbEnergie), font, 18, sf::Color::Black);
+	const int nbVivres = 0;
+	m_interface.ecrireMessage(&m_window, (float) 30 * 1.25, (float) 36 * 1.25, std::to_string(nbVivres), font, 18, sf::Color::Black);
+	const int nbMetaux = 0;
+	m_interface.ecrireMessage(&m_window, (float) 146 * 1.25, (float) 36 * 1.25, std::to_string(nbMetaux), font, 18, sf::Color::Black);
 
 
 	// Render de la minimap
@@ -227,9 +230,9 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	sf::Vector2i caseClique(-1, -1);
 	// Variable ï¿½ modifier pour gï¿½rer le zoom
 	int tailleCaseSurEcran = SPRITE;
-	int nbCaseAfficheParLigne = round(WIN_WIDTH / tailleCaseSurEcran);
-	int nbCaseAfficheParColonne = round((float)(WIN_HEIGTH - INTERFACE_HEIGTH ) / (float)tailleCaseSurEcran);
-	int decalageX = round((WIN_WIDTH - (nbCaseAfficheParLigne * tailleCaseSurEcran)) / 2);
+	int nbCaseAfficheParLigne = (int) round(WIN_WIDTH / tailleCaseSurEcran);
+	int nbCaseAfficheParColonne = (int) round((float)(WIN_HEIGTH - INTERFACE_HEIGTH ) / (float)tailleCaseSurEcran);
+	int decalageX = (int) round((WIN_WIDTH - (nbCaseAfficheParLigne * tailleCaseSurEcran)) / 2);
 	int decalageY = INTERFACE_HAUT_HEIGHT;
 
 	// Dï¿½fini les zones de clics des cases
