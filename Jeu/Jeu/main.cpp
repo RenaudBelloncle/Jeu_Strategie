@@ -126,7 +126,7 @@ int main()
 				if (game.c_view[0] - ((WIN_WIDTH / 2) - SPRITE) > 0)
 				{
 					//game.c_view[0] -= m_clock.getElapsedTime().asMicroseconds() / 20;
-					game.c_view[0] -= SPRITE / 2;
+					game.c_view[0] -= SPRITE;
 					game.centreImage.x --;
 				}
 			}
@@ -136,7 +136,7 @@ int main()
 				if (game.c_view[0] + ((WIN_WIDTH / 2) - SPRITE) < (MAP_WIDTH * SPRITE))
 				{
 					//game.c_view[0] += m_clock.getElapsedTime().asMicroseconds() / 20;
-					game.c_view[0] += SPRITE / 2;
+					game.c_view[0] += SPRITE;
 					game.centreImage.x ++;
 				}
 			}
@@ -146,7 +146,7 @@ int main()
 				if (game.c_view[1] - ((WIN_HEIGTH / 2) - SPRITE) > 0)
 				{
 					//game.c_view[1] -= m_clock.getElapsedTime().asMicroseconds() / 20;
-					game.c_view[1] -= SPRITE / 2;
+					game.c_view[1] -= SPRITE;
 					game.centreImage.y --;
 				}
 			}
@@ -156,7 +156,7 @@ int main()
 				if (game.c_view[1] + ((WIN_HEIGTH / 2) - SPRITE) < (MAP_HEIGTH * SPRITE))
 				{
 					//game.c_view[1] += m_clock.getElapsedTime().asMicroseconds() / 20;
-					game.c_view[1] += SPRITE / 2;
+					game.c_view[1] += SPRITE;
 					game.centreImage.y ++;
 				}
 			}
@@ -166,7 +166,7 @@ int main()
 			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[0] - ((WIN_WIDTH / 2) - SPRITE) > 0)
 			{
 				//game.c_view[0] -= m_clock.getElapsedTime().asMicroseconds() / 20;
-				game.c_view[0] -= SPRITE / 2;
+				game.c_view[0] -= SPRITE;
 				game.centreImage.x--;
 				c.restart();
 			}
@@ -176,7 +176,7 @@ int main()
 			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[0] + ((WIN_WIDTH / 2) - SPRITE) < (MAP_WIDTH * SPRITE))
 			{
 				//game.c_view[0] += m_clock.getElapsedTime().asMicroseconds() / 20;
-				game.c_view[0] += SPRITE / 2;
+				game.c_view[0] += SPRITE;
 				game.centreImage.x ++;
 				c.restart();
 			}
@@ -186,7 +186,7 @@ int main()
 			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[1] - ((WIN_HEIGTH / 2) - SPRITE) > 0)
 			{
 				//game.c_view[1] -= m_clock.getElapsedTime().asMicroseconds() / 20;
-				game.c_view[1] -= SPRITE / 2;
+				game.c_view[1] -= SPRITE;
 				game.centreImage.y --;
 				c.restart();
 			}
@@ -196,7 +196,7 @@ int main()
 			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[1] + ((WIN_HEIGTH / 2) - SPRITE) < (MAP_HEIGTH * SPRITE))
 			{
 				//game.c_view[1] += m_clock.getElapsedTime().asMicroseconds() / 20;
-				game.c_view[1] += SPRITE / 2;
+				game.c_view[1] += SPRITE;
 				game.centreImage.y ++;
 				c.restart();
 			}
