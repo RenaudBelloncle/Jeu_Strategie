@@ -10,15 +10,14 @@ int main()
 	MenuPrincipal mp;
     Game game;
 
-	std::cout << 3 / 2 << std::endl;
-
 	bool leftPressed(false), rightPressed(false), upPressed(false), downPressed(false);
 	//float zoom = SPRITE >> 6;
 	float zoom = 1;
 	sf::Clock m_clock;
-	sf::Clock c; //Timer pour les deplacements de la carte a la sourie
-	int fps_move_mouse = 200; //fps des deplacmeents de la camera a la sourie
-	int detecte_zone = 25; //zone de detection pour la camera a la sourie
+
+	sf::Clock c; //Timer pour les déplacements de la carte à la sourie 
+	int fps_move_mouse = 200; //fps des déplacmeents de la caméra à la sourie
+	int detecte_zone = 25; //zone de détection pour la caméra à la sourie
 	game.m_playerActif->creerUnite(unites.creerUnite("SoldatArmee",10,10),10,10, game.m_map.getTile(10,10).getBonusRes());
 	game.joueurSuivant();
 	game.getPlayerActif()->creerUnite(unites.creerUnite("SoldatArmee",11,11),11,11, game.m_map.getTile(11, 11).getBonusRes());
@@ -31,7 +30,7 @@ int main()
         {
             if (event.type == sf::Event::Closed)
             {
-                game.m_window.close();
+				game.m_window.close();
             }
 
             if (event.type == sf::Event::KeyPressed)
@@ -116,8 +115,8 @@ int main()
 				}
 				if (event.mouseButton.button == sf::Mouse::Right) {
 					game.deselection();
-					//std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-					//std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+					std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+					std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 				}
 			}
 
@@ -201,7 +200,6 @@ int main()
 				c.restart();
 			}
 		}
-
 
 		game.m_window.clear(sf::Color::Black);
 		game.render();
