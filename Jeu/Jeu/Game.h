@@ -18,9 +18,10 @@ private:
 	void loadSprites();	
 
 	void definitionCase();
-	void definitionCaseUnite(int xOrig, int yOrig, int nbCase);
-	void definitionCaseUniteArmee(int xOrig, int yOrig, int nbCase, int nbCaseAttaque);
-	void definitionCaseUniteDistance(int xOrig, int yOrig, int nbCase, int rangeMin, int rangeMax);
+	void definitionCaseDeplacement();
+	void definitionCaseAttaque();
+	void definitionCaseAttaque(int x, int y);
+	void definitionCaseAttaqueAvecDeplacement();
 
 	sf::Vector2i definitionCaseClique(int x, int y);
 	void surbrillanceCaseDeplacement();

@@ -18,11 +18,9 @@ int main()
 	sf::Clock c; //Timer pour les déplacements de la carte à la sourie 
 	int fps_move_mouse = 200; //fps des déplacmeents de la caméra à la sourie
 	int detecte_zone = 25; //zone de détection pour la caméra à la sourie
-	game.m_playerActif->creerUnite(unites.creerUnite("SoldatArmee",10,10),10,10, game.m_map.getTile(10,10).getBonusRes());
-	game.joueurSuivant();
-	game.getPlayerActif()->creerUnite(unites.creerUnite("SoldatArmee",11,11),11,11, game.m_map.getTile(11, 11).getBonusRes());
-	game.joueurSuivant();
-
+	game.m_playerActif->creerUnite(unites.creerUnite("Artillerie",9,9), game.m_map.getTile(10,10).getBonusRes());
+	game.m_players[1]->creerUnite(unites.creerUnite("SoldatArmee",11,11), game.m_map.getTile(11, 11).getBonusRes());
+	game.getPlayerActif()->decouvre();
     while(game.m_window.isOpen())
     {
         sf::Event event;

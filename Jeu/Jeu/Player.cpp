@@ -5,9 +5,8 @@ Player::Player(sf::Color color) {
 	couleur = color;
 }
 
-void Player::creerUnite(Unite *unite, int x, int y,int resistance) {
+void Player::creerUnite(Unite *unite,int resistance) {
 	unite->setResistance(resistance);
-	unite->setCoord(x, y);
 	listUnite.push_back(unite);
 	for (int i = 0; i < MAP_WIDTH; i++) {
 		for (int j = 0; j < MAP_HEIGTH; j++) {

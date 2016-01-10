@@ -21,7 +21,7 @@ private :
 public : 
 	Player(sf::Color color);
 
-	void creerUnite(Unite *unite,int x, int y, int resistance);
+	void creerUnite(Unite *unite, int resistance);
 	void detruireUnite(int index);
 
 	void initTechnologies();
