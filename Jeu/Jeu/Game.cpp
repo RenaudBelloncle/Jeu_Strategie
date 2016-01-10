@@ -134,10 +134,10 @@ void Game::render()
 	}
 	for (int i = 0; i < m_nbJoueur; i++) {
 		if (brouillardDeGuerre) {
-			m_players[i]->render(&m_window, &m_spriteManager, m_playerActif);
+			m_players[i]->render(&m_window, &m_spriteManager, m_playerActif, getNombreCaseAffiche(SPRITE), centreImage);
 		}
 		else
-			m_players[i]->render(&m_window, &m_spriteManager);
+			m_players[i]->render(&m_window, &m_spriteManager, getNombreCaseAffiche(SPRITE), centreImage);
 	}
 
 	if (m_uniteSelectionne != NULL) {

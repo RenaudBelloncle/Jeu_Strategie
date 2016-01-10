@@ -69,7 +69,7 @@ void Unite::soin() {
 }
 
 bool Unite::estDetruit() {
-	return getPvRestant() < 0;
+	return getPvRestant() <= 0;
 }
 
 void Unite::reaprovisionnement()
