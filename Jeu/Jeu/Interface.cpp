@@ -64,7 +64,7 @@ void Interface::renderInfoUnite(sf::RenderWindow *renderWindow, Unite *unite) {
 		UniteArmee* armee = (UniteArmee*)unite;
 		std::string mun = "Munition : ", port = "Portée : ";
 		mun = mun + std::to_string(armee->getStockMunActuel()) + '/' + std::to_string(armee->getStockMaxMun());
-		port = port + std::to_string(armee->getRangeMin()) + '-' + std::to_string(armee->getRangeMax());
+		port = port + std::to_string(armee->getRangeMin()) + '/' + std::to_string(armee->getRangeMax());
 
 		ecrireMessage(renderWindow, posX, posY + 18*7, mun, "media/Constantine.ttf", 18, sf::Color::Black);
 		ecrireMessage(renderWindow, posX, posY + 18*8, port, "media/Constantine.ttf", 18, sf::Color::Black);

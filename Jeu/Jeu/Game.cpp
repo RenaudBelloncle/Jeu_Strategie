@@ -70,9 +70,9 @@ Game::Game()
 	m_window.setFramerateLimit(60);
 
 	// Configuration de la partie
-	//m_map = Map(MAP_WIDTH,MAP_HEIGTH);
+	m_map = Map(MAP_WIDTH,MAP_HEIGTH);
 
-	m_map.loadMap("island");
+	//m_map.loadMap("island");
 	m_interface = Interface();
 	centreImage.x = m_map.getWidth() / 2; centreImage.y = m_map.getHeigth() / 2;
 
