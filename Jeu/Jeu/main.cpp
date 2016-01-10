@@ -173,7 +173,7 @@ int main()
 			}
 		}
 
-		if (sf::Mouse::getPosition(game.m_window).y <= detecte_zone) {
+		if (sf::Mouse::getPosition(game.m_window).y <= detecte_zone + 30 && sf::Mouse::getPosition(game.m_window).y >= 30) {
 			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[1] - ((WIN_HEIGTH / 2) - SPRITE) > 0)
 			{
 				game.c_view[1] -= SPRITE;
@@ -182,7 +182,7 @@ int main()
 			}
 		}
 
-		if (sf::Mouse::getPosition(game.m_window).y >= WIN_HEIGTH - detecte_zone) {
+		if (sf::Mouse::getPosition(game.m_window).y >= WIN_HEIGTH - detecte_zone - 150 && sf::Mouse::getPosition(game.m_window).y <= WIN_HEIGTH - 150) {
 			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[1] + ((WIN_HEIGTH / 2) - SPRITE) < (game.m_map.getHeigth() * SPRITE))
 			{
 				game.c_view[1] += SPRITE;
@@ -198,5 +198,5 @@ int main()
 		m_clock.restart();
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
