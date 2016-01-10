@@ -69,4 +69,5 @@ public:
 	void finTour();
 	void selection(sf::Vector2i caseClique, int x, int y);
 	void deselection();
+	sf::Vector2i getNombreCaseAffiche(int tailleCaseSurEcran);
 };

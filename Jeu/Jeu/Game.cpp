@@ -127,10 +127,10 @@ void Game::render()
 	m_view.setCenter((float)c_view[0],(float) c_view[1]);
 	m_window.setView(m_view);
 	if (brouillardDeGuerre) {
-		m_map.render(&m_window, &m_spriteManager, m_playerActif);
+		m_map.render(&m_window, &m_spriteManager, m_playerActif,getNombreCaseAffiche(SPRITE), centreImage);
 	}
 	else {
-		m_map.render(&m_window, &m_spriteManager);
+		m_map.render(&m_window, &m_spriteManager, getNombreCaseAffiche(SPRITE), centreImage);
 	}
 	for (int i = 0; i < m_nbJoueur; i++) {
 		if (brouillardDeGuerre) {
@@ -180,24 +180,24 @@ bool Game::testClicZoneJeu(int x, int y) {
 
 sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	sf::Vector2i caseClique(-1, -1);
-	// Variable à modifier pour gérer le zoom
 	int tailleCaseSurEcran = SPRITE;
-	int nbCaseAfficheParLigne = round(WIN_WIDTH / tailleCaseSurEcran);
-	int nbCaseAfficheParColonne = round((float)(WIN_HEIGTH - INTERFACE_HEIGTH ) / (float)tailleCaseSurEcran);
-	int decalageX = round((WIN_WIDTH - (nbCaseAfficheParLigne * tailleCaseSurEcran)) / 2);
+	sf::Vector2i nbCaseAffiche = getNombreCaseAffiche(tailleCaseSurEcran);
+	int decalageX = round((WIN_WIDTH - (nbCaseAffiche.x * tailleCaseSurEcran)) / 2);
 	int decalageY = INTERFACE_HAUT_HEIGHT;
 
 	// Défini les zones de clics des cases
-	for (int i = 0; i < nbCaseAfficheParLigne; i++) {
-		for (int j = 0; j < nbCaseAfficheParColonne; j++) {
+	for (int i = 0; i < nbCaseAffiche.x; i++) {
+		for (int j = 0; j < nbCaseAffiche.y; j++) {
 			if (x >= decalageX + i*tailleCaseSurEcran && x < decalageX + (i + 1)*tailleCaseSurEcran 
 				&& y < decalageY + (j + 1)*tailleCaseSurEcran  && y >= (j*tailleCaseSurEcran) + decalageY) {
-				caseClique.y = centreImage.y + (-nbCaseAfficheParLigne / 2 + 1 + j);
-				caseClique.x = centreImage.x + (-nbCaseAfficheParColonne + 1 / 2 + i);
+				caseClique.y = centreImage.y + (-nbCaseAffiche.x / 2 + 1 + j);
+				caseClique.x = centreImage.x + (-nbCaseAffiche.y + 1 / 2 + i);
 				break;
 			}
 		}
 	}
+	std::cout << caseClique.x << std::endl;
+	std::cout << caseClique.y << std::endl;
 	return caseClique;
 }
 
@@ -678,4 +678,11 @@ void Game::selection(sf::Vector2i caseClique, int x, int y) {
 void Game::deselection() {
 	m_uniteSelectionne = NULL;
 	m_batimentSelectionne = NULL;
+}
+
+sf::Vector2i Game::getNombreCaseAffiche(int tailleCaseSurEcran) {
+	sf::Vector2i nbCase;
+	nbCase.x = round(WIN_WIDTH / tailleCaseSurEcran);
+	nbCase.y = round((float)(WIN_HEIGTH - INTERFACE_HEIGTH) / (float)tailleCaseSurEcran);
+	return nbCase;
 }

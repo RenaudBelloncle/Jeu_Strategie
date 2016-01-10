@@ -54,14 +54,14 @@ int main()
 							downPressed = true;
                         break;
                     case sf::Keyboard::Space:
-						if (MAP_WIDTH % 2 == 0)
-							game.c_view[0] = (MAP_WIDTH * SPRITE) / 2;
+						if (game.m_map.getWidth() % 2 == 0)
+							game.c_view[0] = (game.m_map.getWidth() * SPRITE) / 2;
 						else
-							game.c_view[0] = ((MAP_WIDTH - 1) * SPRITE) / 2;
-						if (MAP_HEIGTH % 2 == 0)
-							game.c_view[1] = (MAP_HEIGTH * SPRITE) / 2;
+							game.c_view[0] = ((game.m_map.getWidth() - 1) * SPRITE) / 2;
+						if (game.m_map.getHeigth() % 2 == 0)
+							game.c_view[1] = (game.m_map.getHeigth() * SPRITE) / 2;
 						else
-							game.c_view[1] = ((MAP_HEIGTH - 1) * SPRITE) / 2;
+							game.c_view[1] = ((game.m_map.getHeigth() - 1) * SPRITE) / 2;
                         break;
                     default:
                         break;
@@ -124,7 +124,6 @@ int main()
 			{
 				if (game.c_view[0] - ((WIN_WIDTH / 2) - SPRITE) > 0)
 				{
-					//game.c_view[0] -= m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[0] -= SPRITE;
 					game.centreImage.x --;
 				}
@@ -132,9 +131,8 @@ int main()
 
 			if (rightPressed)
 			{
-				if (game.c_view[0] + ((WIN_WIDTH / 2) - SPRITE) < (MAP_WIDTH * SPRITE))
+				if (game.c_view[0] + ((WIN_WIDTH / 2) - SPRITE) < (game.m_map.getWidth() * SPRITE))
 				{
-					//game.c_view[0] += m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[0] += SPRITE;
 					game.centreImage.x ++;
 				}
@@ -144,7 +142,6 @@ int main()
 			{
 				if (game.c_view[1] - ((WIN_HEIGTH / 2) - SPRITE) > 0)
 				{
-					//game.c_view[1] -= m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[1] -= SPRITE;
 					game.centreImage.y --;
 				}
@@ -152,9 +149,8 @@ int main()
 
 			if (downPressed)
 			{
-				if (game.c_view[1] + ((WIN_HEIGTH / 2) - SPRITE) < (MAP_HEIGTH * SPRITE))
+				if (game.c_view[1] + ((WIN_HEIGTH / 2) - SPRITE) < (game.m_map.getHeigth() * SPRITE))
 				{
-					//game.c_view[1] += m_clock.getElapsedTime().asMicroseconds() / 20;
 					game.c_view[1] += SPRITE;
 					game.centreImage.y ++;
 				}
@@ -164,7 +160,6 @@ int main()
 		if (sf::Mouse::getPosition(game.m_window).x <= detecte_zone) {
 			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[0] - ((WIN_WIDTH / 2) - SPRITE) > 0)
 			{
-				//game.c_view[0] -= m_clock.getElapsedTime().asMicroseconds() / 20;
 				game.c_view[0] -= SPRITE;
 				game.centreImage.x--;
 				c.restart();
@@ -172,9 +167,8 @@ int main()
 		}
 
 		if (sf::Mouse::getPosition(game.m_window).x >= WIN_WIDTH - detecte_zone) {
-			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[0] + ((WIN_WIDTH / 2) - SPRITE) < (MAP_WIDTH * SPRITE))
+			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[0] + ((WIN_WIDTH / 2) - SPRITE) < (game.m_map.getWidth() * SPRITE))
 			{
-				//game.c_view[0] += m_clock.getElapsedTime().asMicroseconds() / 20;
 				game.c_view[0] += SPRITE;
 				game.centreImage.x ++;
 				c.restart();
@@ -184,7 +178,6 @@ int main()
 		if (sf::Mouse::getPosition(game.m_window).y <= detecte_zone) {
 			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[1] - ((WIN_HEIGTH / 2) - SPRITE) > 0)
 			{
-				//game.c_view[1] -= m_clock.getElapsedTime().asMicroseconds() / 20;
 				game.c_view[1] -= SPRITE;
 				game.centreImage.y --;
 				c.restart();
@@ -192,9 +185,8 @@ int main()
 		}
 
 		if (sf::Mouse::getPosition(game.m_window).y >= WIN_HEIGTH - detecte_zone) {
-			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[1] + ((WIN_HEIGTH / 2) - SPRITE) < (MAP_HEIGTH * SPRITE))
+			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[1] + ((WIN_HEIGTH / 2) - SPRITE) < (game.m_map.getHeigth() * SPRITE))
 			{
-				//game.c_view[1] += m_clock.getElapsedTime().asMicroseconds() / 20;
 				game.c_view[1] += SPRITE;
 				game.centreImage.y ++;
 				c.restart();
