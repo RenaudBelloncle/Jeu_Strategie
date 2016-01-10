@@ -126,7 +126,7 @@ int main()
 				if (game.c_view[0] - ((WIN_WIDTH / 2) - SPRITE) > 0)
 				{
 					//game.c_view[0] -= m_clock.getElapsedTime().asMicroseconds() / 20;
-					game.c_view[0] -= SPRITE / 2;
+					game.c_view[0] -= SPRITE;
 					game.centreImage.x --;
 				}
 			}
@@ -136,7 +136,7 @@ int main()
 				if (game.c_view[0] + ((WIN_WIDTH / 2) - SPRITE) < (MAP_WIDTH * SPRITE))
 				{
 					//game.c_view[0] += m_clock.getElapsedTime().asMicroseconds() / 20;
-					game.c_view[0] += SPRITE / 2;
+					game.c_view[0] += SPRITE;
 					game.centreImage.x ++;
 				}
 			}
@@ -146,7 +146,7 @@ int main()
 				if (game.c_view[1] - ((WIN_HEIGTH / 2) - SPRITE) > 0)
 				{
 					//game.c_view[1] -= m_clock.getElapsedTime().asMicroseconds() / 20;
-					game.c_view[1] -= SPRITE / 2;
+					game.c_view[1] -= SPRITE;
 					game.centreImage.y --;
 				}
 			}
@@ -156,51 +156,53 @@ int main()
 				if (game.c_view[1] + ((WIN_HEIGTH / 2) - SPRITE) < (MAP_HEIGTH * SPRITE))
 				{
 					//game.c_view[1] += m_clock.getElapsedTime().asMicroseconds() / 20;
-					game.c_view[1] += SPRITE / 2;
+					game.c_view[1] += SPRITE;
 					game.centreImage.y ++;
 				}
 			}
         }
 
-		if (sf::Mouse::getPosition(game.m_window).x <= detecte_zone) {
-			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[0] - ((WIN_WIDTH / 2) - SPRITE) > 0)
-			{
-				//game.c_view[0] -= m_clock.getElapsedTime().asMicroseconds() / 20;
-				game.c_view[0] -= SPRITE / 2;
-				game.centreImage.x--;
-				c.restart();
-			}
-		}
+        if (sf::Mouse::getPosition(game.m_window).y >= 30 && sf::Mouse::getPosition(game.m_window).y <= WIN_HEIGTH - 150) {
+            if (sf::Mouse::getPosition(game.m_window).x <= detecte_zone) {
+                if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse &&
+                    game.c_view[0] - ((WIN_WIDTH / 2) - SPRITE) > 0) {
+                    //game.c_view[0] -= m_clock.getElapsedTime().asMicroseconds() / 20;
+                    game.c_view[0] -= SPRITE;
+                    game.centreImage.x--;
+                    c.restart();
+                }
+            }
 
-		if (sf::Mouse::getPosition(game.m_window).x >= WIN_WIDTH - detecte_zone) {
-			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[0] + ((WIN_WIDTH / 2) - SPRITE) < (MAP_WIDTH * SPRITE))
-			{
-				//game.c_view[0] += m_clock.getElapsedTime().asMicroseconds() / 20;
-				game.c_view[0] += SPRITE / 2;
-				game.centreImage.x ++;
-				c.restart();
-			}
-		}
+            if (sf::Mouse::getPosition(game.m_window).x >= WIN_WIDTH - detecte_zone) {
+                if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse &&
+                    game.c_view[0] + ((WIN_WIDTH / 2) - SPRITE) < (MAP_WIDTH * SPRITE)) {
+                    //game.c_view[0] += m_clock.getElapsedTime().asMicroseconds() / 20;
+                    game.c_view[0] += SPRITE;
+                    game.centreImage.x++;
+                    c.restart();
+                }
+            }
 
-		if (sf::Mouse::getPosition(game.m_window).y <= detecte_zone + 30 && sf::Mouse::getPosition(game.m_window).y >= 30) {
-			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[1] - ((WIN_HEIGTH / 2) - SPRITE) > 0)
-			{
-				//game.c_view[1] -= m_clock.getElapsedTime().asMicroseconds() / 20;
-				game.c_view[1] -= SPRITE / 2;
-				game.centreImage.y --;
-				c.restart();
-			}
-		}
+            if (sf::Mouse::getPosition(game.m_window).y <= detecte_zone + 30) {
+                if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse &&
+                    game.c_view[1] - ((WIN_HEIGTH / 2) - SPRITE) > 0) {
+                    //game.c_view[1] -= m_clock.getElapsedTime().asMicroseconds() / 20;
+                    game.c_view[1] -= SPRITE;
+                    game.centreImage.y--;
+                    c.restart();
+                }
+            }
 
-		if (sf::Mouse::getPosition(game.m_window).y >= WIN_HEIGTH - detecte_zone - 150 && sf::Mouse::getPosition(game.m_window).y <= WIN_HEIGTH - 150) {
-			if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse && game.c_view[1] + ((WIN_HEIGTH / 2) - SPRITE) < (MAP_HEIGTH * SPRITE))
-			{
-				//game.c_view[1] += m_clock.getElapsedTime().asMicroseconds() / 20;
-				game.c_view[1] += SPRITE / 2;
-				game.centreImage.y ++;
-				c.restart();
-			}
-		}
+            if (sf::Mouse::getPosition(game.m_window).y >= WIN_HEIGTH - detecte_zone - 150) {
+                if (c.getElapsedTime().asMilliseconds() >= fps_move_mouse &&
+                    game.c_view[1] + ((WIN_HEIGTH / 2) - SPRITE) < (MAP_HEIGTH * SPRITE)) {
+                    //game.c_view[1] += m_clock.getElapsedTime().asMicroseconds() / 20;
+                    game.c_view[1] += SPRITE;
+                    game.centreImage.y++;
+                    c.restart();
+                }
+            }
+        }
 
 
 		game.m_window.clear(sf::Color::Black);
