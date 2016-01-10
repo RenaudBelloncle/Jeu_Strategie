@@ -28,4 +28,6 @@ public:
 
     void render(sf::RenderWindow* renderWindow, SpriteManager *manager, Player *player);
 	void render(sf::RenderWindow* renderWindow, SpriteManager *manager);
+
+	void loadMap(std::string nomMap);
 };

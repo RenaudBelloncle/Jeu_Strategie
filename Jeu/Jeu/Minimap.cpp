@@ -13,31 +13,32 @@ Minimap::Minimap(Map *map) {
 	m_topo = true;
 	m_ressource = false;
 	m_unite = false;
-	for (int i = 0; i < m_width; i++) {
-		for (int j = 0; j < m_heigth;j++) {
+
+	for (unsigned int i = 0; i < m_width; i++) {
+		for (unsigned int j = 0; j < m_heigth;j++) {
 			switch (map->getTile(i, j).getTypeCase()) {
 			case TypeCase::PLAINE:
-				m_imageMinimap.setPixel(i, j, sf::Color(0, 255, 0));
+				m_imageMinimap.setPixel(i, j, sf::Color(193, 198, 111));
 				break;
 
 			case TypeCase::PLAGE:
-				m_imageMinimap.setPixel(i, j, sf::Color(255, 255, 0));
+				m_imageMinimap.setPixel(i, j, sf::Color(233, 231, 186));
 				break;
 
 			case TypeCase::MONTAGNE:
-				m_imageMinimap.setPixel(i, j, sf::Color(90, 60, 30));
+				m_imageMinimap.setPixel(i, j, sf::Color(58, 51, 44));
 				break;
 
 			case TypeCase::MER:
-				m_imageMinimap.setPixel(i, j, sf::Color(0, 0, 255));
+				m_imageMinimap.setPixel(i, j, sf::Color(122, 182, 145));
 				break;
 
 			case TypeCase::FORET:
-				m_imageMinimap.setPixel(i, j, sf::Color(0, 100, 0));
+				m_imageMinimap.setPixel(i, j, sf::Color(36, 66, 45));
 				break;
 
 			case TypeCase::MARAIS:
-				m_imageMinimap.setPixel(i, j, sf::Color(150, 255, 150));
+				m_imageMinimap.setPixel(i, j, sf::Color(32, 36, 24));
 				break;
 
 			case TypeCase::COLINE:
@@ -45,30 +46,27 @@ Minimap::Minimap(Map *map) {
 				break;
 
 			case TypeCase::VILLE:
-				m_imageMinimap.setPixel(i, j, sf::Color(0, 0, 0));
+				m_imageMinimap.setPixel(i, j, sf::Color(83, 72, 57));
 				break;
 
-			case TypeCase::RUINE:
-				m_imageMinimap.setPixel(i, j, sf::Color(150, 150, 150));
-				break;
 			default:
-				m_imageMinimap.setPixel(i, j, sf::Color(0, 0, 0));
 				break;
 			}
 			switch (map->getTile(i, j).getRessource()) {
-			case Ressource::VIVRES:
-				m_imageRessource.setPixel(i, j, sf::Color(250, 90, 0));
-				break;
+				case Ressource::VIVRES:
+					m_imageRessource.setPixel(i, j, sf::Color(250, 90, 0));
+					break;
 
-			case Ressource::METAL:
-				m_imageRessource.setPixel(i, j, sf::Color(250, 250, 250));
-				break;
+				case Ressource::METAL:
+					m_imageRessource.setPixel(i, j, sf::Color(50, 50, 50));
+					break;
 
-			case Ressource::PETROLE:
-				m_imageRessource.setPixel(i, j, sf::Color(50, 50, 50));
-				break;
-			default:
-				m_imageRessource.setPixel(i, j, m_imageMinimap.getPixel(i, j));
+				case Ressource::PETROLE:
+					m_imageRessource.setPixel(i, j, sf::Color(250, 250, 250));
+					break;
+
+				default:
+					m_imageRessource.setPixel(i, j, m_imageMinimap.getPixel(i, j));
 			}
 		}
 	}
@@ -208,11 +206,11 @@ void Minimap::renderPlayer(sf::RenderWindow *renderWindow, Player *player[], int
 		}
 	}
 
-	for (int i = 0; i < m_width; i++) {
-		for (int j = 0; j < m_heigth; j++) {
-				if (img.getPixel(i, j) == sf::Color(0, 0, 0)) {
-					img.setPixel(i, j, m_imageMinimap.getPixel(i, j));
-				}
+	for (unsigned int i = 0; i < m_width; i++) {
+		for (unsigned int j = 0; j < m_heigth; j++) {
+			if (img.getPixel(i, j) == sf::Color(0, 0, 0)) {
+				img.setPixel(i, j, m_imageMinimap.getPixel(i, j));
+			}
 		}
 	}
 
