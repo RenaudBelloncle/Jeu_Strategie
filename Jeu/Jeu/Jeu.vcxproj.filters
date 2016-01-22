@@ -64,6 +64,21 @@
     <ClCompile Include="MenuPrincipal.cpp">
       <Filter>Fichier source</Filter>
     </ClCompile>
+    <ClCompile Include="Batiment.cpp">
+      <Filter>Fichier source\Entite\Batiment</Filter>
+    </ClCompile>
+    <ClCompile Include="BatimentManager.cpp">
+      <Filter>Fichier source\Entite\Batiment</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductionsRessource.cpp">
+      <Filter>Fichier source\Entite\Batiment</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductionsUnite.cpp">
+      <Filter>Fichier source\Entite\Batiment</Filter>
+    </ClCompile>
+    <ClCompile Include="UniteUtilitaire.cpp">
+      <Filter>Fichier source\Entite\Unite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constantes.h">
@@ -138,6 +153,18 @@
     <ClInclude Include="MenuPrincipal.h">
       <Filter>Fichier entête</Filter>
     </ClInclude>
+    <ClInclude Include="BatimentManager.h">
+      <Filter>Fichier entête\Entite\Batiment</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductionsUnite.h">
+      <Filter>Fichier entête\Entite\Batiment</Filter>
+    </ClInclude>
+    <ClInclude Include="UniteUtilitaire.h">
+      <Filter>Fichier entête\Entite\Unite</Filter>
+    </ClInclude>
+    <ClInclude Include="Outil.h">
+      <Filter>Fichier entête\Entite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />
@@ -163,6 +190,9 @@
     </Filter>
     <Filter Include="Fichier source\Entite\Unite">
       <UniqueIdentifier>{dce1b913-c020-43d7-b224-8ca2b15610ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichier source\Entite\Batiment">
+      <UniqueIdentifier>{d25d6cc5-505d-44e5-88d7-7eb1af96ada2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

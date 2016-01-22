@@ -161,6 +161,8 @@
   <ItemGroup>
     <ClCompile Include="Arme.cpp" />
     <ClCompile Include="ArmeManager.cpp" />
+    <ClCompile Include="Batiment.cpp" />
+    <ClCompile Include="BatimentManager.cpp" />
     <ClCompile Include="CouleurJoueur.h" />
     <ClCompile Include="Entite.cpp" />
     <ClCompile Include="EtatJeu.cpp" />
@@ -172,6 +174,8 @@
     <ClCompile Include="MenuPrincipal.cpp" />
     <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ProductionsRessource.cpp" />
+    <ClCompile Include="ProductionsUnite.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="Technologie.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -180,11 +184,13 @@
     <ClCompile Include="Unite.cpp" />
     <ClCompile Include="UniteArmee.cpp" />
     <ClCompile Include="UniteManager.cpp" />
+    <ClCompile Include="UniteUtilitaire.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arme.h" />
     <ClInclude Include="ArmeManager.h" />
     <ClInclude Include="Batiment.h" />
+    <ClInclude Include="BatimentManager.h" />
     <ClInclude Include="Constantes.h" />
     <ClInclude Include="Entite.h" />
     <ClInclude Include="Game.h" />
@@ -192,11 +198,13 @@
     <ClInclude Include="map.h" />
     <ClInclude Include="MenuPrincipal.h" />
     <ClInclude Include="Minimap.h" />
+    <ClInclude Include="Outil.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ProductionsRessource.h" />
     <ClInclude Include="Etat.h" />
     <ClInclude Include="EtatJeu.h" />
     <ClInclude Include="EtatMenu.h" />
+    <ClInclude Include="ProductionsUnite.h" />
     <ClInclude Include="Ressource.h" />
     <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="Technologie.h" />
@@ -206,6 +214,7 @@
     <ClInclude Include="Unite.h" />
     <ClInclude Include="UniteArmee.h" />
     <ClInclude Include="UniteManager.h" />
+    <ClInclude Include="UniteUtilitaire.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
