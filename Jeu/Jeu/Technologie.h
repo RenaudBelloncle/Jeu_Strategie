@@ -6,6 +6,7 @@ class Technologie {
 
 private:
 	std::string nom;
+	std::string description;
 	int coutEnergie;
 	int coutVivre;
 	int coutMetal;
@@ -15,7 +16,7 @@ private:
 	bool estRecherche;
 
 public:
-	Technologie(std::string nom, int coutEnergie, int coutVivre, int coutMetal, int coutPetrole);
+	Technologie(std::string description,std::string nom, int coutEnergie, int coutVivre, int coutMetal, int coutPetrole);
 	bool verifierCoutTechnologie(int energie, int essence, int metaux, int vivre);
 	bool verifierSiRecherchable();
 
@@ -23,4 +24,10 @@ public:
 	void setEstRecherche(bool status);
 	void setTechSuivante(Technologie suivante);
 	void setTechPrecedente(Technologie precedente);
+	std::string getDescription();
+	std::string getNom();
+	int getCoutEnergie();
+	int getCoutVivre();
+	int getCoutMetal();
+	int getCoutPetrole();
 };

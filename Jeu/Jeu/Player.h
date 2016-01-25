@@ -16,6 +16,7 @@ private :
 	int vivre;
 	std::vector<Unite*> listUnite;
 	std::vector<Batiment*> listBatiment;
+	std::vector<Technologie*> listTechnologie;
 	bool caseDecouverte[MAP_WIDTH][MAP_HEIGTH];
 
 public : 
@@ -26,6 +27,7 @@ public :
 
 	void initTechnologies();
 	void rechercheTechnologie(Technologie *tech);
+	vector<Technologie*> getTechnoARechercher();
 	
 	void creerBatiment(Batiment *batiment);
 	void detruireBatiment(int index);

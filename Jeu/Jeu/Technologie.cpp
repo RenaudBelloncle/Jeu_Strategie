@@ -2,8 +2,9 @@
 #include <cstdlib>
 #include "Technologie.h"
 
-Technologie::Technologie(std::string _nom, int _coutEnergie, int _coutVivre, int _coutMetal, int _coutPetrole)
+Technologie::Technologie(std::string _description,std::string _nom, int _coutEnergie, int _coutVivre, int _coutMetal, int _coutPetrole)
 {
+	description = _description;
 	nom = _nom;
 	coutEnergie = _coutEnergie;
 	coutMetal = _coutMetal;
@@ -43,4 +44,28 @@ void Technologie::setTechSuivante(Technologie suivante)
 void Technologie::setTechPrecedente(Technologie precedente)
 {
 	techPrecedente.push_back(precedente);
+}
+
+std::string Technologie::getDescription(){
+	return description;
+}
+
+std::string Technologie::getNom(){
+	return nom;
+}
+
+int Technologie::getCoutEnergie() {
+	return coutEnergie;
+}
+
+int Technologie::getCoutVivre() {
+	return coutVivre;
+}
+
+int Technologie::getCoutPetrole() {
+	return coutPetrole;
+}
+
+int Technologie::getCoutMetal() {
+	return coutMetal;
 }
