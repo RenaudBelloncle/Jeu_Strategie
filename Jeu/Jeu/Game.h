@@ -16,6 +16,7 @@ private:
 	bool brouillardDeGuerre;
     void loadTextures();
 	void loadSprites();	
+	void initText();
 
 	void definitionCase();
 	void definitionCaseDeplacement();
