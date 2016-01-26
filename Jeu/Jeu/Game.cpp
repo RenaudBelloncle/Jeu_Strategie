@@ -1,8 +1,7 @@
 #include "Game.h"
 #include "Constantes.h"
 
-void Game::loadTextures()
-{
+void Game::loadTextures() {
 	m_textureManager.loadTexture("unite","media/res/SpriteSheetUnite.png");
 	m_textureManager.getRef("unite").setSmooth(true);
 	m_textureManager.loadTexture("interface", "media/res/Interface.png");
@@ -12,8 +11,7 @@ void Game::loadTextures()
 	m_textureManager.loadTexture("filtre", "media/res/Filtre.png");
 }
 
-void Game::loadSprites()
-{
+void Game::loadSprites() {
 	m_spriteManager.loadSprite("interface", m_textureManager.getRef("interface"), 800, 200, 0, 0);
 	m_spriteManager.getRef("interface").setPosition(0, WIN_HEIGTH + 156);
 	m_spriteManager.getRef("interface").scale(1.25, 1.25);
@@ -56,9 +54,8 @@ void Game::loadSprites()
 	
 }
 
-Game::Game()
-{
-	// A effectuer à chaque fois
+Game::Game() {
+	// A effectuer ï¿½ chaque fois
 	std::cout << "Chargement des textures ..." << std::endl;
     loadTextures();
 	std::cout << "Chargement des textures termine" << std::endl;
@@ -111,19 +108,7 @@ Game::Game()
 	m_numJoueurActif = 0;
 	m_playerActif = m_players[m_numJoueurActif];
 	m_players[0]->decouvre();
-	initText();
 
-	if (brouillardDeGuerre)
-	{
-		m_minimap = Minimap(&m_map, m_playerActif);
-	}
-	else
-	{
-		m_minimap = Minimap(&m_map);
-	}
-}
-
-void Game::initText() {
 	if (!font.loadFromFile("media/Constantine.ttf"))
 	{
 		std::cout << "Erreur chargement font" << std::endl;
@@ -156,10 +141,20 @@ void Game::initText() {
 	textMetaux.setColor(sf::Color::White);
 	textMetaux.setStyle(sf::Text::Bold);
 	textMetaux.setPosition(c_view[0] - 254, c_view[1] - 264);
+	if (brouillardDeGuerre)
+	{
+		m_minimap = Minimap(&m_map, m_playerActif);
+	}
+	else
+	{
+		m_minimap = Minimap(&m_map);
+	}
+
+	tech = false;
+    indice = 0;
 }
 
-void Game::render()
-{
+void Game::render() {
 	//Render de la map et des entites (batiments et unite) 
 	m_view.setCenter((float)c_view[0],(float) c_view[1]);
 	m_window.setView(m_view);
@@ -186,6 +181,9 @@ void Game::render()
 	m_interface.render(&m_window, &m_spriteManager);
 	if (m_uniteSelectionne != NULL) {
 		m_interface.renderInfoUnite(&m_window, font, m_uniteSelectionne);
+	}
+	if (tech) {
+        m_interface.renderTechnologies(&m_window, font, m_technologie);
 	}
 	const int tour = m_tour;
 	m_interface.ecrireMessage(&m_window, (float) 630 * 1.25, (float) 9 * 1.25, std::to_string(tour), font, 18, sf::Color::White);
@@ -236,7 +234,7 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	int decalageX = round((WIN_WIDTH - (nbCaseAffiche.x * tailleCaseSurEcran)) / 2);
 	int decalageY = INTERFACE_HAUT_HEIGHT;
 
-	// Défini les zones de clics des cases
+	// Dï¿½fini les zones de clics des cases
 	for (int i = 0; i < nbCaseAffiche.x; i++) {
 		for (int j = 0; j < nbCaseAffiche.y; j++) {
 			if (x >= decalageX + i*tailleCaseSurEcran && x < decalageX + (i + 1)*tailleCaseSurEcran 
@@ -286,6 +284,7 @@ void Game::actionUnite(sf::Vector2i caseClique) {
 				}
 			}
 		}
+
 	}
 }
 
@@ -317,6 +316,7 @@ void Game::deplacementAutoPourAttaque(int ecartX, int ecartY, int distance, Unit
 
 void Game::clicZoneJeu(int x, int y) {
 	sf::Vector2i caseClique = definitionCaseClique(x, y);
+	tech = false;
 
 	if (m_uniteSelectionne != NULL && m_uniteSelectionne->peutAgir()) {
 		actionUnite(caseClique);
@@ -330,6 +330,7 @@ void Game::clicZoneJeu(int x, int y) {
 void Game::clicUnite(int x, int y, Unite *unite) {
 	m_uniteSelectionne = unite;
 	definitionCase();
+	tech = false;
 }
 
 void Game::clicInterface(int x, int y) {
@@ -349,27 +350,53 @@ void Game::clicInterface(int x, int y) {
 	}
 	else if (x < 312 && 266 < x && y < 575 && 490 < y) {
 		std::cout << "Fleche gauche " << std::endl;
+        if (tech) afficherPrevTechAChercher();
 	}
 	else if (x < 786 && 740 < x && y < 575 && 490 < y) {
 		std::cout << "Fleche droite " << std::endl;
+        if (tech) afficherNextTechAChercher();
 	}
 	else if (x < 395 && 261 < x && y < 30 && 4 < y) {
 		std::cout << "Technologies " << std::endl;
+		deselection();
+		afficherTechAChercher();
 	}
 	else if (x < 544 && 410 < x && y < 30 && 4 < y) {
 		std::cout << "Construction " << std::endl;
+		deselection();
+		tech = false;
 	}
 	else if (x < 744 && 710 < x && y < 31 && 2 < y) {
 		std::cout << "Options " << std::endl;
+		deselection();
+		tech = false;
 	}
 	else if (x < 787 && 753 < x && y < 31 && 2 < y) {
-		std::cout << "Exit " << std::endl;
 		m_window.close();
 	}
 }
 
-Player* Game::getPlayerActif() 
-{
+void Game::afficherTechAChercher() {
+    tech = true;
+    indice = 0;
+    m_technologie = m_playerActif->getTechnoARechercher()[indice];
+}
+
+void Game::afficherPrevTechAChercher() {
+    if (indice > 0) {
+        indice--;
+        m_technologie = m_playerActif->getTechnoARechercher()[indice];
+    }
+}
+
+void Game::afficherNextTechAChercher() {
+    if (indice < (m_playerActif->getTechnoARechercher().size() - 1)) {
+        indice++;
+        m_technologie = m_playerActif->getTechnoARechercher()[indice];
+    }
+}
+
+Player* Game::getPlayerActif() {
 	return m_playerActif;
 }
 
@@ -402,10 +429,12 @@ void Game::definitionCase() {
 		if (unite->peutAttaquer()) {
 			// Unite armee classique
 			if (unite->getPeutBougerEtAttaquer()) {
+				std::cout << "(Attaque avec deplacement)" << std::endl;
 				definitionCaseAttaqueAvecDeplacement();
 			}
 			// Unite armee de type artillerie et cuirassï¿½
 			else {
+				std::cout << "(Attaque sans deplacement)" << std::endl;
 				definitionCaseAttaque();
 				definitionCaseDeplacement();
 			}
@@ -423,7 +452,7 @@ void Game::definitionCaseDeplacement() {
 		if (j >= 0 && j < MAP_HEIGTH) {
 			for (int k = 1 + unite->getCoordX() - (unite->getDeplacementMax() - abs(j - unite->getCoordY())); k < unite->getCoordX() + (unite->getDeplacementMax() - abs(j - unite->getCoordY()));k++) {
 				if (k >= 0 && k < MAP_WIDTH) {
-					if (!testEntiteEnnemie(k,j) && !testUniteAlliee(k,j) && testUniteSelectionneTypeCase(k,j)) 
+					if (!testEntiteEnnemie(k,j) && !testUniteAlliee(k,j)) 
 						m_deplacement.push_back(sf::Vector2f(k*SPRITE, j*SPRITE));
 				}
 			}
@@ -529,8 +558,6 @@ bool Game::testUniteSelectionneTypeCase(int x, int y) {
 	}
 	else if (m_uniteSelectionne->isInfanterie() || m_uniteSelectionne->isMotorise()) {
 		if (caseActuelle == TypeCase::MER)
-			return false;
-		if (m_uniteSelectionne->isMotorise() && caseActuelle == TypeCase::COLINE)
 			return false;
 	}
 	return true;

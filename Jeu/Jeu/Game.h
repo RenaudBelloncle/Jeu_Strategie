@@ -16,7 +16,6 @@ private:
 	bool brouillardDeGuerre;
     void loadTextures();
 	void loadSprites();	
-	void initText();
 
 	void definitionCase();
 	void definitionCaseDeplacement();
@@ -32,6 +31,12 @@ private:
 	bool testUniteAlliee(int x, int y);
 	bool testEntiteEnnemie(int x, int y);
 	bool testUniteSelectionneTypeCase(int x, int y);
+
+	bool tech;
+    int indice;
+	void afficherTechAChercher();
+    void afficherPrevTechAChercher();
+    void afficherNextTechAChercher();
 
 public:
     Game();
@@ -62,6 +67,7 @@ public:
 
 	Unite* m_uniteSelectionne;
 	Batiment* m_batimentSelectionne;
+    Technologie m_technologie;
 
 	Interface m_interface;
 

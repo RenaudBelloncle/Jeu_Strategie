@@ -300,5 +300,5 @@ void Map::loadMap(std::string name)
 			}
 		}
 	}
-	std::cout << L"Chargement terminé" << std::endl;
+	std::cout << "Chargement terminé" << std::endl;
 }
