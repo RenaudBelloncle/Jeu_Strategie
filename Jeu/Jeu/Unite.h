@@ -18,16 +18,11 @@ private :
 	sf::Sprite getIconInfanterie(SpriteManager *manager);
 	sf::Sprite getIconMotorise(SpriteManager *manager);
 	sf::Sprite getIconAerienne(SpriteManager *manager);
-
-	bool peutBougerEtAttaquer;
-
 protected:
 	bool aAgi;
 public : 
 	bool estArmee;
-
-	Unite() {};
-	Unite(int _x, int _y, std::string _nom, std::string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type,bool _moveEtAttack);
+	Unite(int _x, int _y, std::string _nom, std::string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type);
 
 	int getStockMaxRess() const;
 	int getDeplacementMax()const;
@@ -38,7 +33,6 @@ public :
 
 	int getStockRessActuel();
 	
-	bool getPeutBougerEtAttaquer();
 	bool peutSeDeplacer(int distance);
 	bool peutAgir();
 

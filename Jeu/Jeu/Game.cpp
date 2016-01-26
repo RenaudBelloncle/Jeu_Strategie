@@ -187,13 +187,13 @@ void Game::render() {
 	}
 	const int tour = m_tour;
 	m_interface.ecrireMessage(&m_window, (float) 630 * 1.25, (float) 9 * 1.25, std::to_string(tour), font, 18, sf::Color::White);
-	const int nbEau = 0;
+	const int nbEau = m_playerActif->getEssence();
 	m_interface.ecrireMessage(&m_window, (float) 30 * 1.25, (float) 5 * 1.25, std::to_string(nbEau), font, 18, sf::Color::Black);
-	const int nbEnergie = 0;
+	const int nbEnergie = m_playerActif->getEnergie();
 	m_interface.ecrireMessage(&m_window, (float) 146 * 1.25, (float) 5 * 1.25, std::to_string(nbEnergie), font, 18, sf::Color::Black);
-	const int nbVivres = 0;
+	const int nbVivres = m_playerActif->getVivre();
 	m_interface.ecrireMessage(&m_window, (float) 30 * 1.25, (float) 36 * 1.25, std::to_string(nbVivres), font, 18, sf::Color::Black);
-	const int nbMetaux = 0;
+	const int nbMetaux = m_playerActif->getMetaux();
 	m_interface.ecrireMessage(&m_window, (float) 146 * 1.25, (float) 36 * 1.25, std::to_string(nbMetaux), font, 18, sf::Color::Black);
 
 	// Render de la minimap
@@ -353,11 +353,14 @@ void Game::clicInterface(int x, int y) {
         if (tech) afficherPrevTechAChercher();
 	}
 	else if (x < 786 && 740 < x && y < 575 && 490 < y) {
-		std::cout << "Fleche droite " << std::endl;
+        std::cout << "Fleche droite " << std::endl;
         if (tech) afficherNextTechAChercher();
-	}
+    }
+	else if (tech && x > 600 && x < 675 && y > 560  && y < 570 ) {
+        std::cout << "Achat" << std::endl;
+        buyTech();
+    }
 	else if (x < 395 && 261 < x && y < 30 && 4 < y) {
-		std::cout << "Technologies " << std::endl;
 		deselection();
 		afficherTechAChercher();
 	}
@@ -396,6 +399,11 @@ void Game::afficherNextTechAChercher() {
     }
 }
 
+void Game::buyTech() {
+    m_playerActif->rechercheTechnologie(m_technologie);
+    tech = false;
+}
+
 Player* Game::getPlayerActif() {
 	return m_playerActif;
 }
@@ -418,7 +426,7 @@ void Game::finTour() {
 	m_uniteSelectionne = NULL;
 	m_playerActif->update();
 	joueurSuivant();
-	// �a pourrait �tre sympa d'afficher en plus "C'est au tour de joueur : "
+	// Ca pourrait etre sympa d'afficher en plus "C'est au tour de joueur : "
 	
 }
 
@@ -432,7 +440,7 @@ void Game::definitionCase() {
 				std::cout << "(Attaque avec deplacement)" << std::endl;
 				definitionCaseAttaqueAvecDeplacement();
 			}
-			// Unite armee de type artillerie et cuirass�
+			// Unite armee de type artillerie et cuirasse
 			else {
 				std::cout << "(Attaque sans deplacement)" << std::endl;
 				definitionCaseAttaque();

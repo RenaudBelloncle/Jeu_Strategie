@@ -22,6 +22,7 @@ bool Technologie::verifierCoutTechnologie(int energie, int essence, int metaux, 
 }
 
 bool Technologie::verifierSiRecherchable() {
+    if (estRecherche) return false;
 	for (int compteur(0); compteur < techPrecedente.size(); compteur++) {
 		if (!techPrecedente[compteur].getEstRecherche()) {
 			return false;

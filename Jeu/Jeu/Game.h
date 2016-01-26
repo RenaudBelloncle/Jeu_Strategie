@@ -37,6 +37,7 @@ private:
 	void afficherTechAChercher();
     void afficherPrevTechAChercher();
     void afficherNextTechAChercher();
+    void buyTech();
 
 public:
     Game();
@@ -67,7 +68,7 @@ public:
 
 	Unite* m_uniteSelectionne;
 	Batiment* m_batimentSelectionne;
-    Technologie m_technologie;
+    Technologie* m_technologie;
 
 	Interface m_interface;
 
