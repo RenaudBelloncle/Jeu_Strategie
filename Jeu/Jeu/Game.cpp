@@ -108,19 +108,7 @@ Game::Game() {
 	m_numJoueurActif = 0;
 	m_playerActif = m_players[m_numJoueurActif];
 	m_players[0]->decouvre();
-	initText();
 
-	if (brouillardDeGuerre)
-	{
-		m_minimap = Minimap(&m_map, m_playerActif);
-	}
-	else
-	{
-		m_minimap = Minimap(&m_map);
-	}
-}
-
-void Game::initText() {
 	if (!font.loadFromFile("media/Constantine.ttf"))
 	{
 		std::cout << "Erreur chargement font" << std::endl;
@@ -153,6 +141,17 @@ void Game::initText() {
 	textMetaux.setColor(sf::Color::White);
 	textMetaux.setStyle(sf::Text::Bold);
 	textMetaux.setPosition(c_view[0] - 254, c_view[1] - 264);
+	if (brouillardDeGuerre)
+	{
+		m_minimap = Minimap(&m_map, m_playerActif);
+	}
+	else
+	{
+		m_minimap = Minimap(&m_map);
+	}
+
+	tech = false;
+    indice = 0;
 }
 
 void Game::render() {
@@ -351,9 +350,11 @@ void Game::clicInterface(int x, int y) {
 	}
 	else if (x < 312 && 266 < x && y < 575 && 490 < y) {
 		std::cout << "Fleche gauche " << std::endl;
+        if (tech) afficherPrevTechAChercher();
 	}
 	else if (x < 786 && 740 < x && y < 575 && 490 < y) {
 		std::cout << "Fleche droite " << std::endl;
+        if (tech) afficherNextTechAChercher();
 	}
 	else if (x < 395 && 261 < x && y < 30 && 4 < y) {
 		std::cout << "Technologies " << std::endl;
@@ -375,9 +376,24 @@ void Game::clicInterface(int x, int y) {
 	}
 }
 
-void Game::afficherTechAChercher(){
+void Game::afficherTechAChercher() {
     tech = true;
-    m_technologie = m_playerActif->getTechnoARechercher()[0];
+    indice = 0;
+    m_technologie = m_playerActif->getTechnoARechercher()[indice];
+}
+
+void Game::afficherPrevTechAChercher() {
+    if (indice > 0) {
+        indice--;
+        m_technologie = m_playerActif->getTechnoARechercher()[indice];
+    }
+}
+
+void Game::afficherNextTechAChercher() {
+    if (indice < (m_playerActif->getTechnoARechercher().size() - 1)) {
+        indice++;
+        m_technologie = m_playerActif->getTechnoARechercher()[indice];
+    }
 }
 
 Player* Game::getPlayerActif() {
@@ -413,10 +429,12 @@ void Game::definitionCase() {
 		if (unite->peutAttaquer()) {
 			// Unite armee classique
 			if (unite->getPeutBougerEtAttaquer()) {
+				std::cout << "(Attaque avec deplacement)" << std::endl;
 				definitionCaseAttaqueAvecDeplacement();
 			}
 			// Unite armee de type artillerie et cuirass�
 			else {
+				std::cout << "(Attaque sans deplacement)" << std::endl;
 				definitionCaseAttaque();
 				definitionCaseDeplacement();
 			}
@@ -434,7 +452,7 @@ void Game::definitionCaseDeplacement() {
 		if (j >= 0 && j < MAP_HEIGTH) {
 			for (int k = 1 + unite->getCoordX() - (unite->getDeplacementMax() - abs(j - unite->getCoordY())); k < unite->getCoordX() + (unite->getDeplacementMax() - abs(j - unite->getCoordY()));k++) {
 				if (k >= 0 && k < MAP_WIDTH) {
-					if (!testEntiteEnnemie(k,j) && !testUniteAlliee(k,j) && testUniteSelectionneTypeCase(k,j)) 
+					if (!testEntiteEnnemie(k,j) && !testUniteAlliee(k,j)) 
 						m_deplacement.push_back(sf::Vector2f(k*SPRITE, j*SPRITE));
 				}
 			}
@@ -540,8 +558,6 @@ bool Game::testUniteSelectionneTypeCase(int x, int y) {
 	}
 	else if (m_uniteSelectionne->isInfanterie() || m_uniteSelectionne->isMotorise()) {
 		if (caseActuelle == TypeCase::MER)
-			return false;
-		if (m_uniteSelectionne->isMotorise() && caseActuelle == TypeCase::COLINE)
 			return false;
 	}
 	return true;

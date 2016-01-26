@@ -16,7 +16,6 @@ private:
 	bool brouillardDeGuerre;
     void loadTextures();
 	void loadSprites();	
-	void initText();
 
 	void definitionCase();
 	void definitionCaseDeplacement();
@@ -34,7 +33,10 @@ private:
 	bool testUniteSelectionneTypeCase(int x, int y);
 
 	bool tech;
+    int indice;
 	void afficherTechAChercher();
+    void afficherPrevTechAChercher();
+    void afficherNextTechAChercher();
 
 public:
     Game();
