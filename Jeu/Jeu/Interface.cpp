@@ -29,16 +29,16 @@ void Interface::render(sf::RenderWindow *renderWindow, SpriteManager *manager) {
 	return;
 }
 
-void Interface::renderTechnologies(sf::RenderWindow *renderWindow, sf::Font font, Technologie *technologie){
+void Interface::renderTechnologies(sf::RenderWindow *renderWindow, sf::Font font, Technologie technologie){
 	std::string msgTech, nom, description, vivres, petrole, metaux, energies ;
 
-	msgTech = "recherche technologie";
-	nom = technologie->getNom();
-	description = "Description : "+technologie->getDescription();
-	energies = "Coût en énergie : "+technologie->getCoutEnergie();
-	metaux = "Coût en métaux : "+technologie->getCoutMetal();
-	petrole = "Coût en pétrole : "+technologie->getCoutPetrole();
-	vivres = "Coût en vivre : "+technologie->getCoutVivre();
+	msgTech = "TECHNOLOGIE";
+	nom = technologie.getNom();
+	description = "Description : " + technologie.getDescription();
+	energies = "Cout en energie : " + std::to_string(technologie.getCoutEnergie());
+	metaux = "Cout en metaux : " + std::to_string(technologie.getCoutMetal());
+	petrole = "Cout en petrole : " + std::to_string(technologie.getCoutPetrole());
+	vivres = "Cout en vivre : " + std::to_string(technologie.getCoutVivre());
 
 	float posX = 403;
 	float posY = 805;

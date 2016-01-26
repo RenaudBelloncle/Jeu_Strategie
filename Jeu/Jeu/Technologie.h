@@ -16,6 +16,7 @@ private:
 	bool estRecherche;
 
 public:
+	Technologie();
 	Technologie(std::string description,std::string nom, int coutEnergie, int coutVivre, int coutMetal, int coutPetrole);
 	bool verifierCoutTechnologie(int energie, int essence, int metaux, int vivre);
 	bool verifierSiRecherchable();

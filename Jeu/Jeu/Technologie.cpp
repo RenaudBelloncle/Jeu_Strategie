@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include "Technologie.h"
 
+Technologie::Technologie() { }
+
 Technologie::Technologie(std::string _description,std::string _nom, int _coutEnergie, int _coutVivre, int _coutMetal, int _coutPetrole)
 {
 	description = _description;
