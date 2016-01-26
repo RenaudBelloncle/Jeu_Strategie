@@ -1,7 +1,7 @@
 #include "UniteArmee.h"
 
 UniteArmee::UniteArmee(int _x, int _y, std::string _nom, std::string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type,
-	int _munMax, int _rangeMax, int _rangeMin,Arme* principale, Arme* secondaire, bool bougeEtAttaque) : Unite(_x,_y,_nom, _desc, _ressMax, _deplacementMax, _champVision, _type, bougeEtAttaque) 
+	int _munMax, int _rangeMax, int _rangeMin,Arme* principale, Arme* secondaire, bool bougeEtAttaque) : Unite(_x,_y,_nom, _desc, _ressMax, _deplacementMax, _champVision, _type) 
 {
 	estArmee = true;
 	rangeMin = _rangeMin;
@@ -10,6 +10,7 @@ UniteArmee::UniteArmee(int _x, int _y, std::string _nom, std::string _desc, int 
 	munRestante = munMax;
 	armePrincipale = principale;
 	armeSecondaire = secondaire;
+	peutBougerEtAttaquer = bougeEtAttaque;
 }
 
 int UniteArmee::getRangeMin()const
@@ -84,6 +85,10 @@ void UniteArmee::attaqueUnite(Unite *ennemi)
 			ennemi->prendDegat(armeSecondaire->getDegatMotorise());
 		}
 	}
+}
+
+bool UniteArmee::getPeutBougerEtAttaquer() {
+	return peutBougerEtAttaquer;
 }
 
 bool UniteArmee::peutAttaquer() {

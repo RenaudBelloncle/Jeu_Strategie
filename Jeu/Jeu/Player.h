@@ -22,12 +22,17 @@ private :
 public : 
 	Player(sf::Color color);
 
+	int getEnergie();
+	int getEssence();
+	int getMetaux();
+	int getVivre();
+
 	void creerUnite(Unite *unite, int resistance);
 	void detruireUnite(int index);
 
 	void initTechnologies();
-	void rechercheTechnologie(Technologie *tech);
-	vector<Technologie> getTechnoARechercher();
+	void rechercheTechnologie(Technologie* tech);
+	vector<Technologie*> getTechnoARechercher();
 	
 	void creerBatiment(Batiment *batiment);
 	void detruireBatiment(int index);

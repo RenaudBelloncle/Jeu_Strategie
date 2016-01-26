@@ -29,27 +29,29 @@ void Interface::render(sf::RenderWindow *renderWindow, SpriteManager *manager) {
 	return;
 }
 
-void Interface::renderTechnologies(sf::RenderWindow *renderWindow, sf::Font font, Technologie technologie){
+void Interface::renderTechnologies(sf::RenderWindow *renderWindow, sf::Font font, Technologie* technologie){
 	std::string msgTech, nom, description, vivres, petrole, metaux, energies ;
 
 	msgTech = "TECHNOLOGIE";
-	nom = technologie.getNom();
-	description = "Description : " + technologie.getDescription();
-	energies = "Cout en energie : " + std::to_string(technologie.getCoutEnergie());
-	metaux = "Cout en metaux : " + std::to_string(technologie.getCoutMetal());
-	petrole = "Cout en petrole : " + std::to_string(technologie.getCoutPetrole());
-	vivres = "Cout en vivre : " + std::to_string(technologie.getCoutVivre());
+	nom = technologie->getNom();
+	description = "Description : " + technologie->getDescription();
+	energies = "Cout en energie : " + std::to_string(technologie->getCoutEnergie());
+	metaux = "Cout en metaux : " + std::to_string(technologie->getCoutMetal());
+	petrole = "Cout en petrole : " + std::to_string(technologie->getCoutPetrole());
+	vivres = "Cout en vivre : " + std::to_string(technologie->getCoutVivre());
 
 	float posX = 403;
 	float posY = 805;
 
 	ecrireMessage(renderWindow, posX, posY, msgTech, font, 18, sf::Color::Black);
-	ecrireMessage(renderWindow, posX, posY+18 , nom, font, 18, sf::Color::Black);
-	ecrireMessage(renderWindow, posX, posY + 18*2, description, font, 18, sf::Color::Black);
-	ecrireMessage(renderWindow, posX, posY + 18*3, energies, font, 18, sf::Color::Black);
-	ecrireMessage(renderWindow, posX, posY + 18*4, metaux, font, 18, sf::Color::Black);
-	ecrireMessage(renderWindow, posX, posY + 18*5, petrole, font, 18, sf::Color::Black);
-	ecrireMessage(renderWindow, posX, posY + 18*6, vivres, font, 18, sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY + 25, nom, font, 18, sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY + 25*2, description, font, 18, sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY + 25*3, energies, font, 18, sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY + 25*4, metaux, font, 18, sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY + 25*5, petrole, font, 18, sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY + 25*6, vivres, font, 18, sf::Color::Black);
+
+	ecrireMessage(renderWindow, posX + 350, posY + 125, "Acheter", font, 20, sf::Color::Black);
 }
 
 void Interface::renderInfoUnite(sf::RenderWindow *renderWindow, sf::Font font, Unite *unite) {
@@ -58,26 +60,26 @@ void Interface::renderInfoUnite(sf::RenderWindow *renderWindow, sf::Font font, U
 	nom = "Nom : " + unite->getNom();
 	description = "Description : " + unite->getDescription();
 	
-	reserve = "R�serve : "; 
+	reserve = "Reserve : ";
 	reserve = reserve + std::to_string(unite->getStockRessActuel()) + "/"+ std::to_string(unite->getStockMaxRess());
 	
 	vie = "Vie : ";
 	vie = vie + std::to_string(unite->getPvRestant()) + "/10";
 	
-	deplacement = "D�placement : ";
+	deplacement = "Deplacement : ";
 	deplacement = deplacement + std::to_string(unite->getDeplacementMax()-1);
 	
 	vision = "Vision : ";
 	vision = vision + std::to_string(unite->getChampVision()-1);
 	
-	res = "R�sistance env. : ";
+	res = "Resistance env. : ";
 	res = res + std::to_string(unite->getResistance());
 
 	float posX = 403;
 	float posY = 805;
 
-	ecrireMessage(renderWindow,posX,posY,nom, font, 18,sf::Color::Black);
-	ecrireMessage(renderWindow, posX, posY+18 , description, font, 18, sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY, nom, font, 18,sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY + 18, description, font, 18, sf::Color::Black);
 	ecrireMessage(renderWindow, posX, posY + 18*2, vie, font, 18, sf::Color::Black);
 	ecrireMessage(renderWindow, posX, posY + 18*3, reserve, font, 18, sf::Color::Black);
 	ecrireMessage(renderWindow, posX, posY + 18*4, deplacement, font, 18, sf::Color::Black);
@@ -86,7 +88,7 @@ void Interface::renderInfoUnite(sf::RenderWindow *renderWindow, sf::Font font, U
 	
 	if (unite->isArmee()) {
 		UniteArmee* armee = (UniteArmee*)unite;
-		std::string mun = "Munition : ", port = "Port�e : ";
+		std::string mun = "Munition : ", port = "Portee : ";
 		mun = mun + std::to_string(armee->getStockMunActuel()) + '/' + std::to_string(armee->getStockMaxMun());
 		port = port + std::to_string(armee->getRangeMin()-1) + '/' + std::to_string(armee->getRangeMax()-1);
 

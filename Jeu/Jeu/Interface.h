@@ -20,7 +20,7 @@ public:
 	void setModeBatiment();
 
 	void render(sf::RenderWindow *renderWindow,SpriteManager *manager);
-	void renderTechnologies(sf::RenderWindow *renderWindow, sf::Font font, Technologie technologie);
+	void renderTechnologies(sf::RenderWindow *renderWindow, sf::Font font, Technologie* technologie);
 	void renderInfoUnite(sf::RenderWindow *renderWindow, sf::Font font, Unite *unite);
 	void ecrireMessage(sf::RenderWindow *renderWindow, float posX, float posY, std::string msg, sf::Font pathToFont, int fontSize, sf::Color color);
 };
