@@ -64,6 +64,9 @@
     <ClCompile Include="MenuPrincipal.cpp">
       <Filter>Fichier source</Filter>
     </ClCompile>
+    <ClCompile Include="Meteo.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constantes.h">
@@ -136,6 +139,9 @@
       <Filter>Fichier entête\Entite</Filter>
     </ClInclude>
     <ClInclude Include="MenuPrincipal.h">
+      <Filter>Fichier entête</Filter>
+    </ClInclude>
+    <ClInclude Include="Meteo.h">
       <Filter>Fichier entête</Filter>
     </ClInclude>
   </ItemGroup>

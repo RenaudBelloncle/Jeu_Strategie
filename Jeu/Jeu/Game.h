@@ -9,11 +9,13 @@
 #include "Player.h"
 #include "UniteArmee.h"
 #include "Interface.h"
+#include "Meteo.h"
+#include "MenuPrincipal.h"
 
 class Game
 {
 private:
-
+	int gameState; // To know if we are in menu or in game
 	bool brouillardDeGuerre;
     void loadTextures();
 	void loadSprites();	
@@ -32,12 +34,16 @@ private:
 	bool testEntiteEnnemie(int x, int y);
 	bool testUniteSelectionneTypeCase(int x, int y);
 
+	MenuPrincipal menu_p;
+	Meteo meteo;
+	sf::Clock weather_clock;
+
 public:
     Game();
 
     sf::RenderWindow m_window;
     sf::View m_view, m_viewMinimap, m_viewInterface;
-    double c_view[2], m_tour, m_nbJoueur, m_numJoueurActif;
+    int c_view[2], m_tour, m_nbJoueur, m_numJoueurActif;
 	sf::Vector2i centreImage;
     TextureManager m_textureManager;
 	SpriteManager m_spriteManager;
@@ -69,4 +75,6 @@ public:
 	void finTour();
 	void selection(sf::Vector2i caseClique, int x, int y);
 	void deselection();
+
+	int getState();
 };

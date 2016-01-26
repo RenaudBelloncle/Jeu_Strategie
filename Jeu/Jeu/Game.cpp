@@ -57,6 +57,7 @@ void Game::loadSprites()
 }
 
 Game::Game()
+	: meteo(&m_window), menu_p(&m_window)
 {
 	brouillardDeGuerre = true;
 	m_uniteSelectionne = NULL;
@@ -94,63 +95,89 @@ Game::Game()
 	m_numJoueurActif = 0;
 	m_playerActif = m_players[m_numJoueurActif];
 	m_players[0]->decouvre();
+
+	gameState = 0;
 }
 
 void Game::render()
 {
-	//Render de la map et des entites (batiments et unite) 
-	m_view.setCenter((float)c_view[0],(float) c_view[1]);
-	m_window.setView(m_view);
-	if (brouillardDeGuerre) {
-		m_map.render(&m_window, &m_spriteManager, m_playerActif);
+	if (gameState == 0) {
+		menu_p.render();
 	}
-	else {
-		m_map.render(&m_window, &m_spriteManager);
-	}
-	for (int i = 0; i < m_nbJoueur; i++) {
+	if (gameState == 1) {
+		//Render de la map et des entites (batiments et unite) 
+		m_view.setCenter((float)c_view[0], (float)c_view[1]);
+		m_window.setView(m_view);
 		if (brouillardDeGuerre) {
-			m_players[i]->render(&m_window, &m_spriteManager, m_playerActif);
+			m_map.render(&m_window, &m_spriteManager, m_playerActif);
 		}
-		else
-			m_players[i]->render(&m_window, &m_spriteManager);
+		else {
+			m_map.render(&m_window, &m_spriteManager);
+		}
+		for (int i = 0; i < m_nbJoueur; i++) {
+			if (brouillardDeGuerre) {
+				m_players[i]->render(&m_window, &m_spriteManager, m_playerActif);
+			}
+			else
+				m_players[i]->render(&m_window, &m_spriteManager);
+		}
+
+		if (m_uniteSelectionne != NULL) {
+			surbrillanceCaseDeplacement();
+		}
+
+		/*
+		//Croix rouge au milieu de l'écran
+		sf::RectangleShape shape(sf::Vector2f(2, 10));
+		shape.setPosition(c_view[0]-1,c_view[1]-5);
+		shape.setFillColor(sf::Color(255, 0, 0));
+		m_window.draw(shape);
+		sf::RectangleShape shape2(sf::Vector2f(10, 2));
+		shape2.setPosition(c_view[0]-5, c_view[1]-1);
+		shape2.setFillColor(sf::Color(255, 0, 0));
+		m_window.draw(shape2);
+		*/
+
+		// Render de l'interface
+		m_window.setView(m_viewInterface);
+		m_interface.render(&m_window, &m_spriteManager);
+
+
+		// Render de la minimap
+		m_window.setView(m_viewMinimap);
+		m_minimap.render(&m_window);
+		if (m_minimap.getUniteMode()) {
+			m_minimap.renderPlayer(&m_window, m_players, m_nbJoueur);
+		}
+
+		if (weather_clock.getElapsedTime().asMilliseconds() < 16) { // 60 fps
+			meteo.render();
+			weather_clock.restart();
+		}
 	}
-
-	if (m_uniteSelectionne != NULL) {
-		surbrillanceCaseDeplacement();
-	}
-
-	/*
-	//Croix rouge au milieu de l'écran
-	sf::RectangleShape shape(sf::Vector2f(2, 10));
-	shape.setPosition(c_view[0]-1,c_view[1]-5);
-	shape.setFillColor(sf::Color(255, 0, 0));
-	m_window.draw(shape);
-	sf::RectangleShape shape2(sf::Vector2f(10, 2));
-	shape2.setPosition(c_view[0]-5, c_view[1]-1);
-	shape2.setFillColor(sf::Color(255, 0, 0));
-	m_window.draw(shape2);
-	*/
-
-	// Render de l'interface
-	m_window.setView(m_viewInterface);
-	m_interface.render(&m_window, &m_spriteManager);
-
-
-	// Render de la minimap
-	m_window.setView(m_viewMinimap);
-	m_minimap.render(&m_window);
-	if (m_minimap.getUniteMode()) {
-		m_minimap.renderPlayer(&m_window,m_players, m_nbJoueur);
-	}
+	
 }
 
 void Game::clic(int x, int y) {
-	// Zone clique jeu
-	if (testClicZoneJeu(x, y)) {
-		clicZoneJeu(x, y);
-	}// Zone clique interface
-	else {
-		clicInterface(x, y);
+
+	if (gameState == 0) {		
+		if (menu_p.hitQuitter(x, y)) {
+			m_window.close();
+		}
+
+		if (menu_p.hitNouvellePartie(x, y)) {
+			gameState = 1;
+		}
+	}
+
+	if (gameState == 1) {
+		// Zone clique jeu
+		if (testClicZoneJeu(x, y)) {
+			clicZoneJeu(x, y);
+		}// Zone clique interface
+		else {
+			clicInterface(x, y);
+		}
 	}
 }
 
@@ -670,4 +697,8 @@ void Game::selection(sf::Vector2i caseClique, int x, int y) {
 void Game::deselection() {
 	m_uniteSelectionne = NULL;
 	m_batimentSelectionne = NULL;
+}
+
+int Game::getState() {
+	return gameState;
 }

@@ -7,7 +7,6 @@
 int main()
 {
 	UniteManager unites;
-	MenuPrincipal mp;
     Game game;
 
 	std::cout << 3 / 2 << std::endl;
@@ -18,7 +17,7 @@ int main()
 	sf::Clock m_clock;
 	sf::Clock c; //Timer pour les déplacements de la carte à la sourie 
 	int fps_move_mouse = 200; //fps des déplacmeents de la caméra à la sourie
-	int detecte_zone = 25; //zone de détection pour la caméra à la sourie
+	int detecte_zone = -1; //zone de détection pour la caméra à la sourie
 	game.m_playerActif->creerUnite(unites.creerUnite("SoldatArmee",10,10),10,10, game.m_map.getTile(10,10).getBonusRes());
 	game.joueurSuivant();
 	game.getPlayerActif()->creerUnite(unites.creerUnite("SoldatArmee",11,11),11,11, game.m_map.getTile(11, 11).getBonusRes());
@@ -111,6 +110,7 @@ int main()
             }*/
 
 			if (event.type == sf::Event::MouseButtonPressed) {
+
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					game.clic(event.mouseButton.x, event.mouseButton.y);
 				}
