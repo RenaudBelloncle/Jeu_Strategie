@@ -57,194 +57,155 @@ void Game::loadSprites()
 }
 
 Game::Game()
+	: meteo(&m_window), menu_p(&m_window)
 {
-	// A effectuer à chaque fois
+	brouillardDeGuerre = true;
+	m_uniteSelectionne = NULL;
+	m_batimentSelectionne = NULL;
+	m_tour = 0;
 	std::cout << "Chargement des textures ..." << std::endl;
     loadTextures();
 	std::cout << "Chargement des textures termine" << std::endl;
 	std::cout << "Chargement des sprites ..." << std::endl;
 	loadSprites();
 	std::cout << "Chargement des sprites termine" << std::endl;
-
-    m_window.create(sf::VideoMode(WIN_WIDTH,WIN_HEIGTH), "Jeu de Strategie", sf::Style::Close);
-	m_window.setFramerateLimit(60);
-
-	// Configuration de la partie
-	m_map = Map(MAP_WIDTH,MAP_HEIGTH);
-
-	//m_map.loadMap("island");
+	m_map = Map();
+	m_minimap = Minimap(&m_map);
 	m_interface = Interface();
-	centreImage.x = m_map.getWidth() / 2; centreImage.y = m_map.getHeigth() / 2;
+    m_window.create(sf::VideoMode(WIN_WIDTH,WIN_HEIGTH), "Jeu de Strategie", sf::Style::Close);
+	centreImage.x = MAP_WIDTH / 2; centreImage.y = MAP_HEIGTH / 2;
 
-	if (m_map.getWidth() % 2 == 0)
-		c_view[0] = (m_map.getWidth() * SPRITE) / 2;
+	if (MAP_WIDTH % 2 == 0)
+		c_view[0] = (MAP_WIDTH * SPRITE) / 2;
 	else
-		c_view[0] = ((m_map.getWidth() - 1) * SPRITE) / 2;
-	if (m_map.getHeigth() % 2 == 0)
-		c_view[1] = (m_map.getHeigth() * SPRITE) / 2;
+		c_view[0] = ((MAP_WIDTH-1) * SPRITE) / 2;
+	if (MAP_HEIGTH % 2 == 0)
+		c_view[1] = (MAP_HEIGTH * SPRITE) / 2;
 	else
-		c_view[1] = ((m_map.getHeigth() - 1) * SPRITE) / 2;
-	m_view = sf::View(sf::Vector2f((float)c_view[0], (float)c_view[1]), sf::Vector2f((float)WIN_WIDTH, (float)WIN_HEIGTH));
-	//m_view.zoom(SPRITE >> 6);
-	sf::Color couleur[NB_JOUEUR_MAX];
-	couleur[0] = sf::Color(181,30,30);
-	couleur[1] = sf::Color(24,196,207);
-	couleur[2] = sf::Color(102,181,32);
-	couleur[3] = sf::Color(235,223,95);
-	couleur[4] = sf::Color(225,152,38);
-	couleur[5] = sf::Color(215,111,234);
-	couleur[6] = sf::Color(159,28,220);
-	couleur[7] = sf::Color(255,255,255);
+		c_view[1] = ((MAP_HEIGTH - 1) * SPRITE) / 2;
 
-	// Initialisation des joueurs
-	m_nbJoueur = NB_JOUEUR;
-	m_players = new Player* [m_nbJoueur];
-	for (int i = 0; i < m_nbJoueur; i++) {
-		m_players[i] = new Player(couleur[i]);
-	}
+    m_view = sf::View(sf::Vector2f((float)c_view[0],(float)c_view[1]),sf::Vector2f((float)WIN_WIDTH,(float)WIN_HEIGTH));
+    //m_view.zoom(SPRITE >> 6);
+    m_window.setFramerateLimit(60);
 
-	// Mise en place du 1er joueur
-	m_uniteSelectionne = NULL;
-	m_batimentSelectionne = NULL;
-	brouillardDeGuerre = true;
-	m_tour = 1;
+	m_players[0] = new Player(sf::Color(127,127,127));
+	m_players[1] = new Player(sf::Color(0, 127, 127));
+	m_nbJoueur = 2;
+
 	m_numJoueurActif = 0;
 	m_playerActif = m_players[m_numJoueurActif];
 	m_players[0]->decouvre();
 
-	if (!font.loadFromFile("media/Constantine.ttf"))
-	{
-		std::cout << "Erreur chargement font" << std::endl;
-	}
-
-	textEau.setFont(font);
-	textEau.setString(std::to_string(0));
-	textEau.setCharacterSize(12);
-	textEau.setColor(sf::Color::White);
-	textEau.setStyle(sf::Text::Bold);
-	textEau.setPosition(c_view[0] - 370, c_view[1] - 295);
-
-	textEnergie.setFont(font);
-	textEnergie.setString(std::to_string(0));
-	textEnergie.setCharacterSize(12);
-	textEnergie.setColor(sf::Color::White);
-	textEnergie.setStyle(sf::Text::Bold);
-	textEnergie.setPosition(c_view[0] - 254, c_view[1] - 295);
-
-	textPetrole.setFont(font);
-	textPetrole.setString(std::to_string(0));
-	textPetrole.setCharacterSize(12);
-	textPetrole.setColor(sf::Color::White);
-	textPetrole.setStyle(sf::Text::Bold);
-	textPetrole.setPosition(c_view[0] - 370, c_view[1] - 264);
-
-	textMetaux.setFont(font);
-	textMetaux.setString(std::to_string(0));
-	textMetaux.setCharacterSize(12);
-	textMetaux.setColor(sf::Color::White);
-	textMetaux.setStyle(sf::Text::Bold);
-	textMetaux.setPosition(c_view[0] - 254, c_view[1] - 264);
-	if (brouillardDeGuerre)
-	{
-		m_minimap = Minimap(&m_map, m_playerActif);
-	}
-	else
-	{
-		m_minimap = Minimap(&m_map);
-	}
+	gameState = 0;
 }
 
 void Game::render()
 {
-	//Render de la map et des entites (batiments et unite) 
-	m_view.setCenter((float)c_view[0],(float) c_view[1]);
-	m_window.setView(m_view);
-	if (brouillardDeGuerre) {
-		m_map.render(&m_window, &m_spriteManager, m_playerActif,getNombreCaseAffiche(SPRITE), centreImage);
+	if (gameState == 0) {
+		menu_p.render();
 	}
-	else {
-		m_map.render(&m_window, &m_spriteManager, getNombreCaseAffiche(SPRITE), centreImage);
-	}
-	for (int i = 0; i < m_nbJoueur; i++) {
+	if (gameState == 1) {
+		//Render de la map et des entites (batiments et unite) 
+		m_view.setCenter((float)c_view[0], (float)c_view[1]);
+		m_window.setView(m_view);
 		if (brouillardDeGuerre) {
-			m_players[i]->render(&m_window, &m_spriteManager, m_playerActif, getNombreCaseAffiche(SPRITE), centreImage);
+			m_map.render(&m_window, &m_spriteManager, m_playerActif);
 		}
-		else
-			m_players[i]->render(&m_window, &m_spriteManager, getNombreCaseAffiche(SPRITE), centreImage);
-	}
+		else {
+			m_map.render(&m_window, &m_spriteManager);
+		}
+		for (int i = 0; i < m_nbJoueur; i++) {
+			if (brouillardDeGuerre) {
+				m_players[i]->render(&m_window, &m_spriteManager, m_playerActif);
+			}
+			else
+				m_players[i]->render(&m_window, &m_spriteManager);
+		}
 
-	if (m_uniteSelectionne != NULL) {
-		surbrillanceCaseDeplacement();
-	}
+		if (m_uniteSelectionne != NULL) {
+			surbrillanceCaseDeplacement();
+		}
 
-	// Render de l'interface
-	m_window.setView(m_viewInterface);
-	m_interface.render(&m_window, &m_spriteManager);
-	if (m_uniteSelectionne != NULL) {
-		m_interface.renderInfoUnite(&m_window, font, m_uniteSelectionne);
-	}
-	const int tour = m_tour;
-	m_interface.ecrireMessage(&m_window, (float) 630 * 1.25, (float) 9 * 1.25, std::to_string(tour), font, 18, sf::Color::White);
-	const int nbEau = 0;
-	m_interface.ecrireMessage(&m_window, (float) 30 * 1.25, (float) 5 * 1.25, std::to_string(nbEau), font, 18, sf::Color::Black);
-	const int nbEnergie = 0;
-	m_interface.ecrireMessage(&m_window, (float) 146 * 1.25, (float) 5 * 1.25, std::to_string(nbEnergie), font, 18, sf::Color::Black);
-	const int nbVivres = 0;
-	m_interface.ecrireMessage(&m_window, (float) 30 * 1.25, (float) 36 * 1.25, std::to_string(nbVivres), font, 18, sf::Color::Black);
-	const int nbMetaux = 0;
-	m_interface.ecrireMessage(&m_window, (float) 146 * 1.25, (float) 36 * 1.25, std::to_string(nbMetaux), font, 18, sf::Color::Black);
+		/*
+		//Croix rouge au milieu de l'écran
+		sf::RectangleShape shape(sf::Vector2f(2, 10));
+		shape.setPosition(c_view[0]-1,c_view[1]-5);
+		shape.setFillColor(sf::Color(255, 0, 0));
+		m_window.draw(shape);
+		sf::RectangleShape shape2(sf::Vector2f(10, 2));
+		shape2.setPosition(c_view[0]-5, c_view[1]-1);
+		shape2.setFillColor(sf::Color(255, 0, 0));
+		m_window.draw(shape2);
+		*/
 
-	// Render de la minimap
-	m_window.setView(m_viewMinimap);
-	if (brouillardDeGuerre) {
-		m_minimap.updateBrouillard(&m_map,m_playerActif);
+		// Render de l'interface
+		m_window.setView(m_viewInterface);
+		m_interface.render(&m_window, &m_spriteManager);
+
+
+		// Render de la minimap
+		m_window.setView(m_viewMinimap);
+		m_minimap.render(&m_window);
+		if (m_minimap.getUniteMode()) {
+			m_minimap.renderPlayer(&m_window, m_players, m_nbJoueur);
+		}
+
+		if (weather_clock.getElapsedTime().asMilliseconds() < 16) { // 60 fps
+			meteo.render();
+			weather_clock.restart();
+		}
 	}
-	m_minimap.render(&m_window);
-	if (m_minimap.getUniteMode()) {
-		m_minimap.renderPlayer(&m_window,m_players, m_nbJoueur);
-	}
+	
 }
 
 void Game::clic(int x, int y) {
-	if (y < 32) {
-		//Interface Haut
-		clicInterface(x ,y);
+
+	if (gameState == 0) {		
+		if (menu_p.hitQuitter(x, y)) {
+			m_window.close();
+		}
+
+		if (menu_p.hitNouvellePartie(x, y)) {
+			gameState = 1;
+		}
 	}
-	else if (testClicZoneJeu(x, y)) {
-		//Zone de jeu
-		clicZoneJeu(x, y);
-	}
-	else {
-		//Interface Bas
-		clicInterface(x, y);
+
+	if (gameState == 1) {
+		// Zone clique jeu
+		if (testClicZoneJeu(x, y)) {
+			clicZoneJeu(x, y);
+		}// Zone clique interface
+		else {
+			clicInterface(x, y);
+		}
 	}
 }
 
 bool Game::testClicZoneJeu(int x, int y) {
 	// Zone principale
-	return y < 443 && y > INTERFACE_HAUT_HEIGHT;
+	return y < 443;
 }
 
 sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	sf::Vector2i caseClique(-1, -1);
+	// Variable à modifier pour gérer le zoom
 	int tailleCaseSurEcran = SPRITE;
-	sf::Vector2i nbCaseAffiche = getNombreCaseAffiche(tailleCaseSurEcran);
-	int decalageX = round((WIN_WIDTH - (nbCaseAffiche.x * tailleCaseSurEcran)) / 2);
+	int nbCaseAfficheParLigne = round(WIN_WIDTH / tailleCaseSurEcran);
+	int nbCaseAfficheParColonne = round((float)(WIN_HEIGTH - INTERFACE_HEIGTH ) / (float)tailleCaseSurEcran);
+	int decalageX = round((WIN_WIDTH - (nbCaseAfficheParLigne * tailleCaseSurEcran)) / 2);
 	int decalageY = INTERFACE_HAUT_HEIGHT;
 
 	// Défini les zones de clics des cases
-	for (int i = 0; i < nbCaseAffiche.x; i++) {
-		for (int j = 0; j < nbCaseAffiche.y; j++) {
+	for (int i = 0; i < nbCaseAfficheParLigne; i++) {
+		for (int j = 0; j < nbCaseAfficheParColonne; j++) {
 			if (x >= decalageX + i*tailleCaseSurEcran && x < decalageX + (i + 1)*tailleCaseSurEcran 
 				&& y < decalageY + (j + 1)*tailleCaseSurEcran  && y >= (j*tailleCaseSurEcran) + decalageY) {
-				caseClique.y = centreImage.y + (-nbCaseAffiche.x / 2 + 1 + j);
-				caseClique.x = centreImage.x + (-nbCaseAffiche.y + 1 / 2 + i);
+				caseClique.y = centreImage.y + (-nbCaseAfficheParLigne / 2 + 1 + j);
+				caseClique.x = centreImage.x + (-nbCaseAfficheParColonne + 1 / 2 + i);
 				break;
 			}
 		}
 	}
-	std::cout << caseClique.x << std::endl;
-	std::cout << caseClique.y << std::endl;
 	return caseClique;
 }
 
@@ -252,7 +213,6 @@ void Game::actionUnite(sf::Vector2i caseClique) {
 	for (int i = 0; i < m_deplacement.size(); i++) {
 		if (caseClique.x == m_deplacement[i].x / SPRITE && caseClique.y == m_deplacement[i].y / SPRITE) {
 			m_uniteSelectionne->seDeplace(caseClique.x, caseClique.y, &m_window, m_playerActif->getColor(), &m_spriteManager);
-			m_uniteSelectionne->setResistance(m_map.getTile(m_uniteSelectionne->getCoordX(),m_uniteSelectionne->getCoordY()).getBonusRes());
 			m_playerActif->decouvre();
 		}
 	}
@@ -266,10 +226,10 @@ void Game::actionUnite(sf::Vector2i caseClique) {
 							int ecartUniteX = unite->getCoordX() - m_players[j]->getUnite(k)->getCoordX();
 							int ecartUniteY = unite->getCoordY() - m_players[j]->getUnite(k)->getCoordY();
 							int distance = abs(ecartUniteX) + abs(ecartUniteY);
-							if (distance > unite->getRangeMax()-1) {
-								cout << distance << endl;
+							std::cout << distance << std::endl;
+
+							if (distance > unite->getRangeMax()) {
 								deplacementAutoPourAttaque(ecartUniteX, ecartUniteY, distance, unite, m_players[j]->getUnite(k)->getCoordX(), m_players[j]->getUnite(k)->getCoordY());
-								m_uniteSelectionne->setResistance(m_map.getTile(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY()).getBonusRes());
 								m_playerActif->decouvre();
 							}
 							unite->attaque(m_players[j]->getUnite(k));
@@ -287,7 +247,7 @@ void Game::actionUnite(sf::Vector2i caseClique) {
 
 void Game::deplacementAutoPourAttaque(int ecartX, int ecartY, int distance, UniteArmee* unite, int posXEnnemi, int posYEnnemi) {
 	int deplacementX = 0, deplacementY = 0;
-	while (distance > unite->getRangeMax()-1) {
+	while (distance > unite->getRangeMax()) {
 		if (abs(ecartX) < abs(ecartY)) {
 			if (posYEnnemi < unite->getCoordY() + deplacementY) {
 				deplacementY--;
@@ -324,6 +284,7 @@ void Game::clicZoneJeu(int x, int y) {
 }
 
 void Game::clicUnite(int x, int y, Unite *unite) {
+	m_interface.setModeUnite();
 	m_uniteSelectionne = unite;
 	definitionCase();
 }
@@ -344,10 +305,10 @@ void Game::clicInterface(int x, int y) {
 		finTour();
 	}
 	else if (x < 312 && 266 < x && y < 575 && 490 < y) {
-		std::cout << "Fleche gauche " << std::endl;
+		std::cout << "Flèche gauche " << std::endl;
 	}
 	else if (x < 786 && 740 < x && y < 575 && 490 < y) {
-		std::cout << "Fleche droite " << std::endl;
+		std::cout << "Flèche droite " << std::endl;
 	}
 	else if (x < 395 && 261 < x && y < 30 && 4 < y) {
 		std::cout << "Technologies " << std::endl;
@@ -387,75 +348,92 @@ void Game::finTour() {
 	m_uniteSelectionne = NULL;
 	m_playerActif->update();
 	joueurSuivant();
-	// ï¿½a pourrait ï¿½tre sympa d'afficher en plus "C'est au tour de joueur : "
+	// ça pourrait être sympa d'afficher en plus "C'est au tour de joueur : "
 	
 }
 
 void Game::definitionCase() {
+	m_attaque.clear();
+	m_deplacement.clear();
+	int xOrig = m_uniteSelectionne->getCoordX();
+	int yOrig = m_uniteSelectionne->getCoordY();
+	int nbCase = m_uniteSelectionne->getDeplacementMax();
+	if (m_uniteSelectionne->getStockRessActuel() < m_uniteSelectionne->getDeplacementMax()) {
+		nbCase = m_uniteSelectionne->getStockRessActuel();
+	}
 	// Unite armee
 	if (m_uniteSelectionne->isArmee()) {
 		UniteArmee* unite = (UniteArmee*)m_uniteSelectionne;
 		if (unite->peutAttaquer()) {
 			// Unite armee classique
 			if (unite->getPeutBougerEtAttaquer()) {
-				std::cout << "(Attaque avec deplacement)" << std::endl;
-				definitionCaseAttaqueAvecDeplacement();
+				definitionCaseUniteArmee(xOrig, yOrig, nbCase, nbCase + unite->getRangeMax());
 			}
-			// Unite armee de type artillerie et cuirassï¿½
+			// Unite armee de type artillerie et cuirassé
 			else {
-				std::cout << "(Attaque sans deplacement)" << std::endl;
-				definitionCaseAttaque();
-				definitionCaseDeplacement();
+				definitionCaseUniteDistance(xOrig, yOrig, nbCase, unite->getRangeMin(), unite->getRangeMax());
 			}
 		}
+		else
+			definitionCaseUnite(xOrig, yOrig, nbCase);
 	}
+	//Unite non armee
 	else {
-		definitionCaseDeplacement();
+		definitionCaseUnite(xOrig, yOrig, nbCase);
 	}
+	
 }
 
-void Game::definitionCaseDeplacement() {
-	Unite* unite = m_uniteSelectionne;
-	m_deplacement.clear();
-	for (int j = unite->getCoordY() - unite->getDeplacementMax(); j < unite->getCoordY() + unite->getDeplacementMax(); j++) {
-		if (j >= 0 && j < MAP_HEIGTH) {
-			for (int k = 1 + unite->getCoordX() - (unite->getDeplacementMax() - abs(j - unite->getCoordY())); k < unite->getCoordX() + (unite->getDeplacementMax() - abs(j - unite->getCoordY()));k++) {
-				if (k >= 0 && k < MAP_WIDTH) {
-					if (!testEntiteEnnemie(k,j) && !testUniteAlliee(k,j)) 
-						m_deplacement.push_back(sf::Vector2f(k*SPRITE, j*SPRITE));
+void Game::definitionCaseUnite(int xOrig, int yOrig, int nbCase) {
+	for (int i = xOrig; i < xOrig + nbCase; i++) {
+		if (i >= MAP_WIDTH) break;
+		for (int j = yOrig; (i - xOrig) + (j - yOrig) < nbCase; j++) {
+			if (j >= MAP_HEIGTH) break;
+			if (!(i == xOrig && j == yOrig)) {
+				if (!testUniteAlliee(i, j)) {
+					if (!testEntiteEnnemie(i, j)) {
+						if (testUniteSelectionneTypeCase(i, j)) {
+							m_deplacement.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+						}
+					}
+				}
+			}
+		}
+		for (int j = yOrig; (i - xOrig) + (yOrig - j) < nbCase; j--) {
+			if (j < 0) break;
+			if (!(i == xOrig && j == yOrig) && j != yOrig) {
+				if (!testUniteAlliee(i, j)) {
+					if (!testEntiteEnnemie(i, j)) {
+						if (testUniteSelectionneTypeCase(i, j)) {
+							m_deplacement.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+						}
+					}
 				}
 			}
 		}
 	}
-}
-
-void Game::definitionCaseAttaque() {
-	UniteArmee* unite = (UniteArmee*)m_uniteSelectionne;
-	m_attaque.clear();
-	for (int j = unite->getCoordY() - unite->getRangeMax(); j < unite->getCoordY() + unite->getRangeMax(); j++) {
-		if (j >= 0 && j < MAP_HEIGTH) {
-			for (int k = 1 + unite->getCoordX() - (unite->getRangeMax() - abs(j - unite->getCoordY())); k < unite->getCoordX() + (unite->getRangeMax() - abs(j - unite->getCoordY()));k++) {
-				if (k >= 0 && k < MAP_WIDTH && abs(j - unite->getCoordY()) + abs(k - unite->getCoordX()) >= unite->getRangeMin()) {
-					if(testEntiteEnnemie(k,j))
-						m_attaque.push_back(sf::Vector2f(k*SPRITE, j*SPRITE));
+	for (int i = xOrig - 1; i > xOrig - nbCase || i > 0; i--) {
+		if (i < 0) break;
+		for (int j = yOrig; (xOrig - i) + (j - yOrig) < nbCase; j++) {
+			if (j >= MAP_HEIGTH) break;
+			if (!(i == xOrig && j == yOrig)) {
+				if (!testUniteAlliee(i, j)) {
+					if (!testEntiteEnnemie(i, j)) {
+						if (testUniteSelectionneTypeCase(i, j)) {
+							m_deplacement.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+						}
+					}
 				}
 			}
 		}
-	}
-}
-
-void Game::definitionCaseAttaque(int x, int y) {
-	UniteArmee* unite = (UniteArmee*)m_uniteSelectionne;
-	for (int j = y - unite->getRangeMax(); j < y + unite->getRangeMax(); j++) {
-		if (j >= 0 && j < MAP_HEIGTH) {
-			for (int k = 1 + x - (unite->getRangeMax() - abs(j - y)); k < unite->getCoordX() + (unite->getRangeMax() - abs(j - y));k++) {
-				if (k >= 0 && k < MAP_WIDTH && abs(j - y) + abs(k - x) >= unite->getRangeMin()) {
-					if (testEntiteEnnemie(k, j)) {
-						bool dejaPresent = false;
-						for (int i = 0; i < m_attaque.size(); i++)
-							dejaPresent = (m_attaque[i].x / SPRITE == k && m_attaque[i].y / SPRITE == j);
-						if(!dejaPresent)
-							m_attaque.push_back(sf::Vector2f(k*SPRITE, j*SPRITE));
+		for (int j = yOrig; (xOrig - i) + (yOrig - j) < nbCase; j--) {
+			if (j < 0) break;
+			if (!(i == xOrig && j == yOrig) && j != yOrig) {
+				if (!testUniteAlliee(i, j)) {
+					if (!testEntiteEnnemie(i, j)) {
+						if (testUniteSelectionneTypeCase(i, j)) {
+							m_deplacement.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+						}
 					}
 				}
 			}
@@ -463,13 +441,171 @@ void Game::definitionCaseAttaque(int x, int y) {
 	}
 }
 
-void Game::definitionCaseAttaqueAvecDeplacement() {
+void Game::definitionCaseUniteArmee(int xOrig, int yOrig, int nbCase, int nbCaseAttaque) {
+
+	for (int i = xOrig; i < xOrig + nbCaseAttaque; i++) {
+		if (i >= MAP_WIDTH) break;
+		for (int j = yOrig; (i - xOrig) + (j - yOrig) < nbCaseAttaque; j++) {
+			if (j >= MAP_HEIGTH) break;
+			if (!(i == xOrig && j == yOrig)) {
+				if (!testUniteAlliee(i, j)) {
+					if (!testEntiteEnnemie(i, j)) {
+						if (testUniteSelectionneTypeCase(i, j) && (i - xOrig) + (j - yOrig) < nbCase) {
+							m_deplacement.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+						}
+					}
+					else {
+						m_attaque.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+					}
+				}
+			}
+		}
+		for (int j = yOrig; (i - xOrig) + (yOrig - j) < nbCaseAttaque; j--) {
+			if (j < 0) break;
+			if (!(i == xOrig && j == yOrig) && j != yOrig) {
+				if (!testUniteAlliee(i, j)) {
+					if (!testEntiteEnnemie(i, j)) {
+						if (testUniteSelectionneTypeCase(i, j) && (i - xOrig) + (yOrig - j) < nbCase) {
+							m_deplacement.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+						}
+					}
+					else {
+						m_attaque.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+					}
+				}
+			}
+		}
+	}
+	for (int i = xOrig - 1; i > xOrig - nbCaseAttaque || i > 0; i--) {
+		if (i < 0) break;
+		for (int j = yOrig; (xOrig - i) + (j - yOrig) < nbCaseAttaque; j++) {
+			if (j >= MAP_HEIGTH) break;
+			if (!(i == xOrig && j == yOrig)) {
+				if (!testUniteAlliee(i, j)) {
+					if (!testEntiteEnnemie(i, j)) {
+						if (testUniteSelectionneTypeCase(i, j) && (xOrig - i) + (j - yOrig) < nbCase) {
+							m_deplacement.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+						}
+					}
+					else {
+						m_attaque.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+					}
+				}
+			}
+		}
+		for (int j = yOrig; (xOrig - i) + (yOrig - j) < nbCaseAttaque; j--) {
+			if (j < 0) break;
+			if (!(i == xOrig && j == yOrig) && j != yOrig) {
+				if (!testUniteAlliee(i, j)) {
+					if (!testEntiteEnnemie(i, j)) {
+						if (testUniteSelectionneTypeCase(i, j) && (xOrig - i) + (yOrig - j) < nbCase) {
+							m_deplacement.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+						}
+					}
+					else {
+						m_attaque.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+					}
+				}
+			}
+		}
+	}
+}
+
+void Game::definitionCaseUniteDistance(int xOrig, int yOrig, int nbCase, int rangeMin, int rangeMax) {
 	// Definition case deplacable
-	definitionCaseDeplacement();
-	// Definition des cases attaquables
-	definitionCaseAttaque();
-	for (int i = 0; i < m_deplacement.size();i++) {
-		definitionCaseAttaque(m_deplacement[i].x/SPRITE,m_deplacement[i].y/SPRITE);
+	for (int i = xOrig; i < xOrig + nbCase; i++) {
+		if (i >= MAP_WIDTH) break;
+		for (int j = yOrig; (i - xOrig) + (j - yOrig) < nbCase; j++) {
+			if (j >= MAP_HEIGTH) break;
+			if (!(i == xOrig && j == yOrig)) {
+				if (!testUniteAlliee(i, j)) {
+					if (!testEntiteEnnemie(i, j)) {
+						if (testUniteSelectionneTypeCase(i, j)) {
+							m_deplacement.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+						}
+					}
+				}
+			}
+		}
+		for (int j = yOrig; (i - xOrig) + (yOrig - j) < nbCase; j--) {
+			if (j < 0) break;
+			if (!(i == xOrig && j == yOrig) && j != yOrig) {
+				if (!testUniteAlliee(i, j)) {
+					if (!testEntiteEnnemie(i, j)) {
+						if (testUniteSelectionneTypeCase(i, j)) {
+							m_deplacement.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+						}
+					}
+				}
+			}
+		}
+	}
+	for (int i = xOrig - 1; i > xOrig - nbCase || i > 0; i--) {
+		if (i < 0) break;
+		for (int j = yOrig; (xOrig - i) + (j - yOrig) < nbCase; j++) {
+			if (j >= MAP_HEIGTH) break;
+			if (!(i == xOrig && j == yOrig)) {
+				if (!testUniteAlliee(i, j)) {
+					if (!testEntiteEnnemie(i, j)) {
+						if (testUniteSelectionneTypeCase(i, j)) {
+							m_deplacement.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+						}
+					}
+				}
+			}
+		}
+		for (int j = yOrig; (xOrig - i) + (yOrig - j) < nbCase; j--) {
+			if (j < 0) break;
+			if (!(i == xOrig && j == yOrig) && j != yOrig) {
+				if (!testUniteAlliee(i, j)) {
+					if (!testEntiteEnnemie(i, j)) {
+						if (testUniteSelectionneTypeCase(i, j)) {
+							m_deplacement.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Definition case attaquable
+	for (int i = xOrig + rangeMin; i < xOrig + rangeMax; i++) {
+		if (i >= MAP_WIDTH) break;
+		for (int j = yOrig + rangeMin; (i - xOrig) + (j - yOrig) < rangeMax; j++) {
+			if (j >= MAP_HEIGTH) break;
+			if (!(i == xOrig && j == yOrig)) {
+				if (testEntiteEnnemie(i, j)) {
+					m_attaque.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+				}
+			}
+		}
+		for (int j = yOrig - rangeMin; (i - xOrig) + (yOrig - j) < rangeMax; j--) {
+			if (j < 0) break;
+			if (!(i == xOrig && j == yOrig) && j != yOrig) {
+				if (testEntiteEnnemie(i, j)) {
+					m_attaque.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+				}
+			}
+		}
+	}
+	for (int i = xOrig - rangeMin - 1; i > xOrig - rangeMax || i > 0; i--) {
+		if (i < 0) break;
+		for (int j = yOrig + rangeMin; (xOrig - i) + (j - yOrig) < rangeMax; j++) {
+			if (j >= MAP_HEIGTH) break;
+			if (!(i == xOrig && j == yOrig)) {
+				if (testEntiteEnnemie(i, j)) {
+					m_attaque.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+				}
+			}
+		}
+		for (int j = yOrig - rangeMin; (xOrig - i) + (yOrig - j) < rangeMax; j--) {
+			if (j < 0) break;
+			if (!(i == xOrig && j == yOrig) && j != yOrig) {
+				if (testEntiteEnnemie(i, j)) {
+					m_attaque.push_back(sf::Vector2f(i*SPRITE, j*SPRITE));
+				}
+			}
+		}
 	}
 }
 
@@ -537,6 +673,15 @@ void Game::selection(sf::Vector2i caseClique, int x, int y) {
 		for (int i = 0; i < m_playerActif->getNombreUnite(); i++) {
 			if (m_playerActif->getUnite(i)->getCoordX() == caseClique.x && m_playerActif->getUnite(i)->getCoordY() == caseClique.y && m_playerActif->getUnite(i)->peutAgir()) {
 				clicUnite(x, y, m_playerActif->getUnite(i));
+				std::cout << "Nom : " << m_uniteSelectionne->getNom() << std::endl;
+				std::cout << "Description : " << m_uniteSelectionne->getDescription() << std::endl;
+				std::cout << "PV : " << m_uniteSelectionne->getPvRestant()<< "/" << 10 << std::endl;
+				std::cout << "Ressource : " << m_uniteSelectionne->getStockRessActuel()<<"/"<< m_uniteSelectionne->getStockMaxRess() <<std::endl;
+				if (m_uniteSelectionne->isArmee()) {
+					UniteArmee* unite = (UniteArmee*)m_uniteSelectionne;
+					std::cout << "Munition : " << unite->getStockMunActuel() << "/" << unite->getStockMaxMun() << std::endl;
+					std::cout << "Portée entre " << unite->getRangeMin() << " et " << unite->getRangeMax() << std::endl;
+				}
 			}
 		}
 		if (m_uniteSelectionne == NULL) {
@@ -554,9 +699,6 @@ void Game::deselection() {
 	m_batimentSelectionne = NULL;
 }
 
-sf::Vector2i Game::getNombreCaseAffiche(int tailleCaseSurEcran) {
-	sf::Vector2i nbCase;
-	nbCase.x = round(WIN_WIDTH / tailleCaseSurEcran);
-	nbCase.y = round((float)(WIN_HEIGTH - INTERFACE_HEIGTH) / (float)tailleCaseSurEcran);
-	return nbCase;
+int Game::getState() {
+	return gameState;
 }
