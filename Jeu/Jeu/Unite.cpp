@@ -4,7 +4,8 @@
 #include "Unite.h"
 using namespace std;
 
-Unite::Unite(int _x, int _y, string _nom, string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type, bool moveEtAttack) : Entite(_x, _y, _nom, _desc)
+
+Unite::Unite(int _x, int _y, string _nom, string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type) : Entite(_x, _y, _nom, _desc)
 {
 	estUnite = true;
 	estArmee = false;
@@ -15,7 +16,6 @@ Unite::Unite(int _x, int _y, string _nom, string _desc, int _ressMax, int _depla
 	resistance = 0;
 	type = _type;
 	aAgi = false;
-	peutBougerEtAttaquer = moveEtAttack;
 }
 
 int Unite::getStockMaxRess() const
@@ -266,8 +266,4 @@ sf::Sprite Unite::getIconMaritime(SpriteManager *manager) {
 		sprite = manager->getRef("barge");
 	}
 	return sprite;
-}
-
-bool Unite::getPeutBougerEtAttaquer() {
-	return peutBougerEtAttaquer;
 }
