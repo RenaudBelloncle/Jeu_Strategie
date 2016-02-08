@@ -79,6 +79,9 @@
     <ClCompile Include="UniteUtilitaire.cpp">
       <Filter>Fichier source\Entite\Unite</Filter>
     </ClCompile>
+    <ClCompile Include="Meteo.cpp">
+      <Filter>Fichier source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constantes.h">
@@ -170,6 +173,9 @@
     </ClInclude>
     <ClInclude Include="ButtonList.h">
       <Filter>Fichier entête\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Meteo.h">
+      <Filter>Fichier entête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

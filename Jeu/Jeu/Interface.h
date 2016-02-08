@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "SpriteManager.h"
 #include "Unite.h"
+#include "Technologie.h"
 #include "UniteArmee.h"
 
 class Interface
@@ -19,6 +20,7 @@ public:
 	void setModeBatiment();
 
 	void render(sf::RenderWindow *renderWindow,SpriteManager *manager);
+	void renderTechnologies(sf::RenderWindow *renderWindow, sf::Font font, Technologie* technologie);
 	void renderInfoUnite(sf::RenderWindow *renderWindow, sf::Font font, Unite *unite);
 	void ecrireMessage(sf::RenderWindow *renderWindow, float posX, float posY, std::string msg, sf::Font pathToFont, int fontSize, sf::Color color);
 };

@@ -20,6 +20,8 @@ public:
 	int getWidth();
 	int getHeigth();
 
+	bool isInBound(int x, int y);
+
     void mapGenerator();
     float bruitPerlin(float x, float y, float res);
     TypeCase whichType(float hauteur);

@@ -301,5 +301,9 @@ void Map::loadMap(std::string name)
 			}
 		}
 	}
-	std::cout << L"Chargement terminé" << std::endl;
+	std::cout << "Chargement terminï¿½" << std::endl;
+}
+
+bool Map::isInBound(int x, int y) {
+	return x >= 0 && x < m_width && y >= 0 && y < m_heigth;
 }

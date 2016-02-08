@@ -172,6 +172,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="MenuPrincipal.cpp" />
+    <ClCompile Include="Meteo.cpp" />
     <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProductionsRessource.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="Interface.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="MenuPrincipal.h" />
+    <ClInclude Include="Meteo.h" />
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="Outil.h" />
     <ClInclude Include="Player.h" />

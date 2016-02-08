@@ -4,11 +4,13 @@
 #include "Unite.h"
 using namespace std;
 
-Unite::Unite(int _x, int _y, string _nom, string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type, bool moveEtAttack) : Entite(_x, _y, _nom, _desc)
+
+Unite::Unite(int _x, int _y, string _nom, string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type, bool _moveEtAttack) : Entite(_x, _y, _nom, _desc)
 {
 	estUnite = true;
 	estArmee = false;
 	estUtilitaire = false;
+	bougeEtAttaque = _moveEtAttack;
 	stockResssourceMax = _ressMax;
 	deplacementMax = _deplacementMax;
 	stockRessourceActuel = stockResssourceMax;
@@ -16,7 +18,6 @@ Unite::Unite(int _x, int _y, string _nom, string _desc, int _ressMax, int _depla
 	resistance = 0;
 	type = _type;
 	aAgi = false;
-	peutBougerEtAttaquer = moveEtAttack;
 }
 
 int Unite::getStockMaxRess() const
@@ -61,6 +62,11 @@ bool Unite::peutSeDeplacer(int distance)
 bool Unite::peutAgir()
 {
 	return !aAgi;
+}
+
+bool Unite::getPeutBougerEtAttaquer()
+{
+	return bougeEtAttaque;
 }
 
 void Unite::update()
@@ -280,8 +286,4 @@ sf::Sprite Unite::getIconMaritime(SpriteManager *manager) {
 		sprite = manager->getRef("barge");
 	}
 	return sprite;
-}
-
-bool Unite::getPeutBougerEtAttaquer() {
-	return peutBougerEtAttaquer;
 }

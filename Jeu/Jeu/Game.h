@@ -10,20 +10,21 @@
 #include "UniteArmee.h"
 #include "UniteUtilitaire.h"
 #include "Interface.h"
+#include "Meteo.h"
+#include "MenuPrincipal.h"
 
 class Game
 {
 private:
+	int gameState; // To know if we are in menu or in game
 	bool brouillardDeGuerre;
     void loadTextures();
-	void loadSprites();	
-	void initText();
+	void loadSprites();
 
 	void definitionCase();
 	void definitionCaseDeplacement();
 	void definitionCaseAttaque();
 	void definitionCaseAttaque(int x, int y);
-	void definitionCaseAttaqueAvecDeplacement();
 
 	sf::Vector2i definitionCaseClique(int x, int y);
 	void surbrillanceCaseDeplacement();
@@ -33,15 +34,26 @@ private:
 	bool testUniteAlliee(int x, int y);
 	bool testEntiteEnnemie(int x, int y);
 	bool testUniteSelectionneTypeCase(int x, int y);
-	bool testCaseDeplacement(int x, int y, int dist);
-public:
-    Game();
+	void calculNombreTileAffichable();
 
+	bool tech;
+    int indice;
+	void afficherTechAChercher();
+    void afficherPrevTechAChercher();
+    void afficherNextTechAChercher();
+	std::vector<sf::Vector2f> nettoyerDoublon(std::vector<sf::Vector2f> vector);
+
+    void buyTech();
+	MenuPrincipal menu_p;
+	Meteo meteo;
+	sf::Clock weather_clock;
+
+public:
+	Game();
     sf::RenderWindow m_window;
     sf::View m_view, m_viewMinimap, m_viewInterface;
-	double c_view[2];
-	int m_tour, m_nbJoueur, m_numJoueurActif;
-	sf::Vector2i centreImage;
+    int c_view[2], m_tour, m_nbJoueur, m_numJoueurActif, m_tileSize;
+	sf::Vector2i centreImage, nombreTileAffiche, m_winSize;
     TextureManager m_textureManager;
 	SpriteManager m_spriteManager;
 	sf::Font font;
@@ -63,6 +75,7 @@ public:
 
 	Unite* m_uniteSelectionne;
 	Batiment* m_batimentSelectionne;
+    Technologie* m_technologie;
 
 	Interface m_interface;
 
@@ -78,5 +91,6 @@ public:
 	void finTour();
 	void selection(sf::Vector2i caseClique, int x, int y);
 	void deselection();
-	sf::Vector2i getNombreCaseAffiche(int tailleCaseSurEcran);
+
+	int getState();
 };

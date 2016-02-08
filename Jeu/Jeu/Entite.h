@@ -14,7 +14,6 @@ private :
 
 public : 
 	bool estUnite, estBatiment;
-	Entite() {}
 	Entite(int _x, int _y, std::string _nom,std::string _desc);
 
 	std::string getNom() const;

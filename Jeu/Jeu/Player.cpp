@@ -3,17 +3,39 @@
 
 Player::Player(sf::Color color) {
 	couleur = color;
+	initTechnologies();
+
+    energie = 10;
+    essence = 10;
+    metaux = 10;
+    vivre = 10;
+}
+
+int Player::getEnergie() {
+    return energie;
+}
+
+int Player::getEssence() {
+    return essence;
+}
+
+int Player::getMetaux() {
+    return metaux;
+}
+
+int Player::getVivre() {
+    return vivre;
+}
+
+void Player::creerUnite(Unite *unite,int resistance) {
+	unite->setResistance(resistance);
+	listUnite.push_back(unite);
 	for (int i = 0; i < MAP_WIDTH; i++) {
 		for (int j = 0; j < MAP_HEIGTH; j++) {
 			caseDecouverte[i][j] = false;
 			ressourceDecouverte[i][j] = false; 
 		}
 	}
-}
-
-void Player::creerUnite(Unite *unite,int resistance) {
-	unite->setResistance(resistance);
-	listUnite.push_back(unite);
 }
 
 void Player::detruireUnite(int index) {
@@ -27,7 +49,6 @@ void Player::creerBatiment(Batiment* batiment) {
 void Player::detruireBatiment(int index) {
 	listBatiment.erase(listBatiment.begin() + index );
 }
-
 
 int Player::getNombreUnite() {
 	return listUnite.size();
@@ -51,35 +72,65 @@ sf::Color Player::getColor() {
 
 void Player::initTechnologies() {
 
-	Technologie recherche("Recherche", 0, 0, 0, 0);
-	Technologie exploration("Exploration", 0, 0, 0, 0);
-	Technologie vivres("Vivres", 0, 0, 0, 0);
-	Technologie petrole("Pétrole", 0, 0, 0, 0);
-	Technologie caserne("Caserne", 0, 0, 0, 0);
-	Technologie avantPoste("Avant poste", 0, 0, 0, 0);
-	Technologie recrutement("Recrutement", 0, 0, 0, 0);
-	Technologie metal("Métal", 0, 0, 0, 0);
-	Technologie soldat("Soldat", 0, 0, 0, 0);
-	Technologie demolisseur("Démolisseur", 0, 0, 0, 0);
-	Technologie usine("Usine", 0, 0, 0, 0);
-	Technologie aeroport("Aéroport", 0, 0, 0, 0);
-	Technologie port("Port", 0, 0, 0, 0);
-	Technologie jeep("Jeep", 0, 0, 0, 0);
-	Technologie charAssault("Char", 0, 0, 0, 0);
-	Technologie artillerie("Artillerie", 0, 0, 0, 0);
-	Technologie dca("DCA", 0, 0, 0, 0);
-	Technologie chasseur("Chasseur", 0, 0, 0, 0);
-	Technologie bombardier("Bombardier", 0, 0, 0, 0);
-	Technologie helicoptere("Hélicoptère", 0, 0, 0, 0);
-	Technologie cuirasse("Cuirasse", 0, 0, 0, 0);
-	Technologie torpilleur("Torpilleur", 0, 0, 0, 0);
-	Technologie corvette("Corvette", 0, 0, 0, 0);
-	Technologie vivresStock("Stockage de vivres", 0, 0, 0, 0);
-	Technologie petroleStock("Stockage de pétrole", 0, 0, 0, 0);
-	Technologie metalStock("Stockage de métaux", 0, 0, 0, 0);
-	Technologie transportTerrestre("Transport Terrestre", 0, 0, 0, 0);
-	Technologie transportMarin("Transport Marin", 0, 0, 0, 0);
-	Technologie transportAerien("Transport Aérien", 0, 0, 0, 0);
+	Technologie recherche("Description","Recherche", 0, 0, 0, 0);
+	Technologie exploration("Description","Exploration", 0, 0, 0, 0);
+	Technologie vivres("Description","Vivres", 0, 0, 0, 0);
+	Technologie petrole("Description","Petrole", 0, 0, 0, 0);
+	Technologie caserne("Description","Caserne", 0, 0, 0, 0);
+	Technologie avantPoste("Description","Avant poste", 0, 0, 0, 0);
+	Technologie recrutement("Description","Recrutement", 0, 0, 0, 0);
+	Technologie metal("Description","Metal", 0, 0, 0, 0);
+	Technologie soldat("Description","Soldat", 0, 0, 0, 0);
+	Technologie demolisseur("Description","Demolisseur", 0, 0, 0, 0);
+	Technologie usine("Description","Usine", 0, 0, 0, 0);
+	Technologie aeroport("Description","Aeroport", 0, 0, 0, 0);
+	Technologie port("Description","Port", 0, 0, 0, 0);
+	Technologie jeep("Description","Jeep", 0, 0, 0, 0);
+	Technologie charAssault("Description","Char", 0, 0, 0, 0);
+	Technologie artillerie("Description","Artillerie", 0, 0, 0, 0);
+	Technologie dca("Description","DCA", 0, 0, 0, 0);
+	Technologie chasseur("Description","Chasseur", 0, 0, 0, 0);
+	Technologie bombardier("Description","Bombardier", 0, 0, 0, 0);
+	Technologie helicoptere("Description","Helicoptere", 0, 0, 0, 0);
+	Technologie cuirasse("Description","Cuirasse", 0, 0, 0, 0);
+	Technologie torpilleur("Description","Torpilleur", 0, 0, 0, 0);
+	Technologie corvette("Description","Corvette", 0, 0, 0, 0);
+	Technologie vivresStock("Description","Stockage de vivres", 0, 0, 0, 0);
+	Technologie petroleStock("Description","Stockage de petrole", 0, 0, 0, 0);
+	Technologie metalStock("Description","Stockage de metaux", 0, 0, 0, 0);
+	Technologie transportTerrestre("Description","Transport Terrestre", 0, 0, 0, 0);
+	Technologie transportMarin("Description","Transport Marin", 0, 0, 0, 0);
+	Technologie transportAerien("Description","Transport Aerien", 0, 0, 0, 0);
+
+	listTechnologie.push_back(recherche);
+	listTechnologie.push_back(exploration);
+	listTechnologie.push_back(vivres);
+	listTechnologie.push_back(petrole);
+	listTechnologie.push_back(caserne);
+	listTechnologie.push_back(avantPoste);
+	listTechnologie.push_back(recrutement);
+	listTechnologie.push_back(metal);
+	listTechnologie.push_back(soldat);
+	listTechnologie.push_back(demolisseur);
+	listTechnologie.push_back(usine);
+	listTechnologie.push_back(aeroport);
+	listTechnologie.push_back(port);
+	listTechnologie.push_back(jeep);
+	listTechnologie.push_back(charAssault);
+	listTechnologie.push_back(artillerie);
+	listTechnologie.push_back(dca);
+	listTechnologie.push_back(chasseur);
+	listTechnologie.push_back(bombardier);
+	listTechnologie.push_back(helicoptere);
+	listTechnologie.push_back(cuirasse);
+	listTechnologie.push_back(torpilleur);
+	listTechnologie.push_back(corvette);
+	listTechnologie.push_back(vivresStock);
+	listTechnologie.push_back(petroleStock);
+	listTechnologie.push_back(metalStock);
+	listTechnologie.push_back(transportTerrestre);
+	listTechnologie.push_back(transportMarin);
+	listTechnologie.push_back(transportAerien);
 
 	recherche.setTechSuivante(exploration);
 	recherche.setTechSuivante(vivres);
@@ -143,10 +194,23 @@ void Player::initTechnologies() {
 	recrutement.setTechPrecedente(exploration);
 }
 
-void Player::rechercheTechnologie(Technologie *tech) {
+void Player::rechercheTechnologie(Technologie* tech) {
 	if (tech->verifierCoutTechnologie(energie, essence, metaux, vivre) && tech->verifierSiRecherchable()) {
 		tech->setEstRecherche(true);
 	}
+}
+
+vector<Technologie*> Player::getTechnoARechercher() {
+	std::vector<Technologie*> listTechRech;
+	for (Technologie & technologie : listTechnologie)
+	{
+		if (technologie.verifierSiRecherchable())
+		{
+			listTechRech.push_back(&technologie);
+		}
+	}
+
+	return  listTechRech;
 }
 
 void Player::render(sf::RenderWindow *renderWindow, SpriteManager *manager, sf::Vector2i nbCase, sf::Vector2i caseCentrale) {
