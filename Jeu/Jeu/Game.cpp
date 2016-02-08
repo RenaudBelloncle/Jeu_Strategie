@@ -10,10 +10,14 @@ void Game::loadTextures()
 	m_textureManager.loadTexture("tile", "media/res/Tile.png");
 	m_textureManager.loadTexture("ressource", "media/res/Ressource.png");
 	m_textureManager.loadTexture("filtre", "media/res/Filtre.png");
+	m_textureManager.loadTexture("ui", "media/res/Ui.png");
 }
 
 void Game::loadSprites()
 {
+	m_spriteManager.loadSprite("vie", m_textureManager.getRef("ui"), 128,10,0,1);
+	m_spriteManager.loadSprite("vieEnleve", m_textureManager.getRef("ui"), 128, 10, 0, 0);
+
 	m_spriteManager.loadSprite("interface", m_textureManager.getRef("interface"), 800, 200, 0, 0);
 	m_spriteManager.getRef("interface").setPosition(0, WIN_HEIGTH + 156);
 	m_spriteManager.getRef("interface").scale(1.25, 1.25);
@@ -46,11 +50,15 @@ void Game::loadSprites()
 	m_spriteManager.loadSprite("soldat", m_textureManager.getRef("unite"), 128, 128, 1, 0);
 	m_spriteManager.loadSprite("soldat_arme", m_textureManager.getRef("unite"), 128, 128, 2, 0);
 	m_spriteManager.loadSprite("demolisseur", m_textureManager.getRef("unite"), 128, 128, 3, 0);
+	m_spriteManager.loadSprite("colon", m_textureManager.getRef("unite"), 128, 128, 3, 0);
+	m_spriteManager.loadSprite("recruteur", m_textureManager.getRef("unite"), 128, 128, 3, 0);
+	m_spriteManager.loadSprite("explorateur", m_textureManager.getRef("unite"), 128, 128, 3, 0);
 
 	m_spriteManager.loadSprite("maritime", m_textureManager.getRef("unite"), 128, 128, 0, 1);
 
 	m_spriteManager.loadSprite("motorise", m_textureManager.getRef("unite"), 128, 128, 0, 2);
 	m_spriteManager.loadSprite("artillerie", m_textureManager.getRef("unite"), 128, 128, 1, 2);
+	m_spriteManager.loadSprite("transporteur", m_textureManager.getRef("unite"), 128, 128, 1, 2);
 
 	m_spriteManager.loadSprite("aerien", m_textureManager.getRef("unite"), 128, 128, 0, 3);
 	
@@ -411,8 +419,15 @@ void Game::definitionCase() {
 			}
 		}
 	}
-	else {
-		definitionCaseDeplacement();
+	else if(m_uniteSelectionne->isUtilitaire()){
+		UniteUtilitaire* unite = (UniteUtilitaire*)m_uniteSelectionne;
+		if (unite->getPeutBougerEtAttaquer()) {
+			definitionCaseAttaqueAvecDeplacement();
+		}
+		// Unite type colon
+		else {
+			definitionCaseDeplacement();
+		}
 	}
 }
 
@@ -456,7 +471,7 @@ void Game::definitionCaseAttaque(int x, int y) {
 						bool dejaPresent = false;
 						for (int i = 0; i < m_attaque.size(); i++)
 							dejaPresent = (m_attaque[i].x / SPRITE == k && m_attaque[i].y / SPRITE == j);
-						if(!dejaPresent)
+						if (!dejaPresent)
 							m_attaque.push_back(sf::Vector2f(k*SPRITE, j*SPRITE));
 					}
 				}
@@ -469,9 +484,14 @@ void Game::definitionCaseAttaqueAvecDeplacement() {
 	// Definition case deplacable
 	definitionCaseDeplacement();
 	// Definition des cases attaquables
-	definitionCaseAttaque();
-	for (int i = 0; i < m_deplacement.size();i++) {
-		definitionCaseAttaque(m_deplacement[i].x/SPRITE,m_deplacement[i].y/SPRITE);
+	if (m_uniteSelectionne->isArmee()) {
+		definitionCaseAttaque();
+		for (int i = 0; i < m_deplacement.size();i++) {
+			definitionCaseAttaque(m_deplacement[i].x / SPRITE, m_deplacement[i].y / SPRITE);
+		}
+	}
+	else if (m_uniteSelectionne->isUtilitaire()) {
+		
 	}
 }
 

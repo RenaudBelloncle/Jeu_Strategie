@@ -210,20 +210,21 @@ void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager, Player 
 						terrain = manager->getRef("ruine");
 						break;
 					}
-					switch (m_tiles[i][j].getRessource()) {
-					case Ressource::VIVRES:
-						ressource = manager->getRef("vivre");
-						break;
-					case Ressource::METAL:
-						ressource = manager->getRef("metal");
-						break;
-					case Ressource::PETROLE:
-						ressource = manager->getRef("petrole");
-						break;
-					default:
-						break;
+					if (player->aDecouvertLaRessource(i, j)) {
+						switch (m_tiles[i][j].getRessource()) {
+						case Ressource::VIVRES:
+							ressource = manager->getRef("vivre");
+							break;
+						case Ressource::METAL:
+							ressource = manager->getRef("metal");
+							break;
+						case Ressource::PETROLE:
+							ressource = manager->getRef("petrole");
+							break;
+						default:
+							break;
+						}
 					}
-
 					terrain.setPosition(sf::Vector2f(i*SPRITE, j*SPRITE));
 					ressource.setPosition(sf::Vector2f(i*SPRITE, j*SPRITE));
 					renderWindow->draw(terrain);

@@ -8,6 +8,7 @@
 #include "Minimap.h"
 #include "Player.h"
 #include "UniteArmee.h"
+#include "UniteUtilitaire.h"
 #include "Interface.h"
 
 class Game
@@ -32,7 +33,7 @@ private:
 	bool testUniteAlliee(int x, int y);
 	bool testEntiteEnnemie(int x, int y);
 	bool testUniteSelectionneTypeCase(int x, int y);
-
+	bool testCaseDeplacement(int x, int y, int dist);
 public:
     Game();
 

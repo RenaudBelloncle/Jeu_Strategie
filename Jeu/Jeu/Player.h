@@ -17,6 +17,7 @@ private :
 	std::vector<Unite*> listUnite;
 	std::vector<Batiment*> listBatiment;
 	bool caseDecouverte[MAP_WIDTH][MAP_HEIGTH];
+	bool ressourceDecouverte[MAP_WIDTH][MAP_HEIGTH];
 
 public : 
 	Player(sf::Color color);
@@ -38,5 +39,7 @@ public :
 	Batiment* getBatiment(int index);
 	sf::Color getColor();
 	bool aDecouvertLaCase(int x, int y);
+	bool aDecouvertLaRessource(int x, int y);
 	void decouvre();
+	void decouvreRessource(int x, int y);
 };

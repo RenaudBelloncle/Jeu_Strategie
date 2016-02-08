@@ -5,7 +5,9 @@
 #include <SFML/Graphics.hpp>
 #include "Unite.h"
 #include "UniteArmee.h"
+#include "UniteUtilitaire.h"
 #include "ArmeManager.h"
+#include "Outil.h"
 
 class UniteManager {
 private:

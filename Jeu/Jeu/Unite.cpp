@@ -8,6 +8,7 @@ Unite::Unite(int _x, int _y, string _nom, string _desc, int _ressMax, int _depla
 {
 	estUnite = true;
 	estArmee = false;
+	estUtilitaire = false;
 	stockResssourceMax = _ressMax;
 	deplacementMax = _deplacementMax;
 	stockRessourceActuel = stockResssourceMax;
@@ -143,6 +144,9 @@ bool Unite::isMaritime() {
 }
 
 void Unite::render(sf::RenderWindow *renderWindow, sf::Color color, SpriteManager *manager) {
+	if (getCoordX() == -1 && getCoordY() == -1) {
+		return;
+	}
 	sf::Sprite fond = getFond(manager);
 	fond.setPosition(sf::Vector2f(getCoordX()*SPRITE, getCoordY()*SPRITE));
 	fond.setColor(color);
@@ -150,8 +154,15 @@ void Unite::render(sf::RenderWindow *renderWindow, sf::Color color, SpriteManage
 	//Draw unite icon
 	sf::Sprite icon = getIcon(manager);
 	icon.setPosition(sf::Vector2f(getCoordX()*SPRITE, getCoordY()*SPRITE));
-	icon.setColor(color);
 	renderWindow->draw(icon);
+
+	sf::Sprite vie = manager->getRef("vieEnleve");
+	vie.setPosition(sf::Vector2f(getCoordX()*SPRITE, getCoordY()*SPRITE));
+	renderWindow->draw(vie);
+	vie = manager->getRef("vie");
+	vie.setPosition(sf::Vector2f(getCoordX()*SPRITE, getCoordY()*SPRITE));
+	vie.setTextureRect(sf::IntRect(0, 10, (int)((128.0 / 10.0)*getPvRestant()), 10));
+	renderWindow->draw(vie);
 	if (aAgi) {
 		sf::Sprite filtreAgi = manager->getRef("filtre agi");
 		filtreAgi.setPosition(sf::Vector2f(getCoordX()*SPRITE, getCoordY()*SPRITE));
@@ -210,6 +221,9 @@ sf::Sprite Unite::getIconInfanterie(SpriteManager *manager) {
 	}
 	else if (getNom() == "Recruteur") {
 		sprite = manager->getRef("recruteur");
+	}
+	else if (getNom() == "Colon") {
+		sprite = manager->getRef("colon");
 	}
 	return sprite;
 }

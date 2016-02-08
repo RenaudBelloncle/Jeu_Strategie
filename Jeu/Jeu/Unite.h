@@ -24,7 +24,7 @@ private :
 protected:
 	bool aAgi;
 public : 
-	bool estArmee;
+	bool estArmee, estUtilitaire;
 
 	Unite() {};
 	Unite(int _x, int _y, std::string _nom, std::string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type,bool _moveEtAttack);
@@ -49,6 +49,7 @@ public :
 	bool estDetruit();
 
 	bool isArmee() { return estArmee; }
+	bool isUtilitaire(){ return estUtilitaire; }
 	bool isAerienne();
 	bool isMotorise();
 	bool isInfanterie();

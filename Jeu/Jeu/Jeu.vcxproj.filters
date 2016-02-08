@@ -165,6 +165,12 @@
     <ClInclude Include="Outil.h">
       <Filter>Fichier entête\Entite</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Fichier entête\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonList.h">
+      <Filter>Fichier entête\Graphic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />
@@ -193,6 +199,9 @@
     </Filter>
     <Filter Include="Fichier source\Entite\Batiment">
       <UniqueIdentifier>{d25d6cc5-505d-44e5-88d7-7eb1af96ada2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichier entête\Graphic">
+      <UniqueIdentifier>{05275715-6534-425a-a215-abfaa39d0d1e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
