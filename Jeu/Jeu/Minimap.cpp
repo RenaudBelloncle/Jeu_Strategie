@@ -128,19 +128,24 @@ void Minimap::updateBrouillard(Map *map, Player *player) {
 					m_imageMinimap.setPixel(i, j, sf::Color(0, 0, 0));
 					break;
 				}
-				switch (map->getTile(i, j).getRessource()) {
-				case Ressource::VIVRES:
-					m_imageRessource.setPixel(i, j, sf::Color(250, 90, 0));
-					break;
+				if (player->aDecouvertLaRessource(i, j)) {
+					switch (map->getTile(i, j).getRessource()) {
+					case Ressource::VIVRES:
+						m_imageRessource.setPixel(i, j, sf::Color(250, 90, 0));
+						break;
 
-				case Ressource::METAL:
-					m_imageRessource.setPixel(i, j, sf::Color(250, 250, 250));
-					break;
+					case Ressource::METAL:
+						m_imageRessource.setPixel(i, j, sf::Color(250, 250, 250));
+						break;
 
-				case Ressource::PETROLE:
-					m_imageRessource.setPixel(i, j, sf::Color(50, 50, 50));
-					break;
-				default:
+					case Ressource::PETROLE:
+						m_imageRessource.setPixel(i, j, sf::Color(50, 50, 50));
+						break;
+					default:
+						m_imageRessource.setPixel(i, j, m_imageMinimap.getPixel(i, j));
+					}
+				}
+				else {
 					m_imageRessource.setPixel(i, j, m_imageMinimap.getPixel(i, j));
 				}
 			}

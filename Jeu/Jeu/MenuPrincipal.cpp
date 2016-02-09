@@ -11,7 +11,11 @@ MenuPrincipal::MenuPrincipal(sf::RenderWindow *window) {
 	std::cout << "Chargement du menu principal" << std::endl;
 	std::cout << "Chargement des textures" << std::endl;
 	
-	if (!font.loadFromFile("media/28_day_later.ttf")) {
+	//if (!font.loadFromFile("media/28_day_later.ttf")) {
+	//	std::cout << "[ ERREUR ] Impossible de charger la police du menu" << std::endl;
+	//}
+
+	if (!font.loadFromFile("media/constantine.ttf")) {
 		std::cout << "[ ERREUR ] Impossible de charger la police du menu" << std::endl;
 	}
 

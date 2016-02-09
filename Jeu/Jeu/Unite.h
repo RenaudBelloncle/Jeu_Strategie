@@ -10,6 +10,7 @@ class Unite : public Entite {
 private : 
 	int stockRessourceActuel, stockResssourceMax, deplacementMax, champVision, resistance;
 	TypeUnite type;
+	bool bougeEtAttaque;
 
 	//void animation(int x, int y, sf::RenderWindow *renderWindow, sf::Color color, SpriteManager *manager);
 	sf::Sprite getFond(SpriteManager *manager);
@@ -21,8 +22,9 @@ private :
 protected:
 	bool aAgi;
 public : 
-	bool estArmee;
-	Unite(int _x, int _y, std::string _nom, std::string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type);
+	bool estArmee, estUtilitaire;
+
+	Unite(int _x, int _y, std::string _nom, std::string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type,bool _moveEtAttack);
 
 	int getStockMaxRess() const;
 	int getDeplacementMax()const;
@@ -35,6 +37,7 @@ public :
 	
 	bool peutSeDeplacer(int distance);
 	bool peutAgir();
+	bool getPeutBougerEtAttaquer();
 
 	void reaprovisionnement();
 	void prendDegat(int degat);
@@ -43,6 +46,7 @@ public :
 	bool estDetruit();
 
 	bool isArmee() { return estArmee; }
+	bool isUtilitaire(){ return estUtilitaire; }
 	bool isAerienne();
 	bool isMotorise();
 	bool isInfanterie();

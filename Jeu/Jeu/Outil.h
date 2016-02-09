@@ -2,6 +2,7 @@
 enum class Outil : int {
 	kitDeGeologue,
 	transport,
-	convertisseur, 
+	convertisseur,
+	fondation,
 	aucun
 };

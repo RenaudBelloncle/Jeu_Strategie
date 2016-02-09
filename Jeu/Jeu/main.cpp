@@ -14,14 +14,17 @@ int main()
 	float zoom = 1;
 	sf::Clock m_clock;
 
-	sf::Clock c; //Timer pour les déplacements de la carte à la sourie 
-	int fps_move_mouse = 200; //fps des déplacmeents de la caméra à la sourie
+	sf::Clock c; //Timer pour les déplacements de la carte à la souris
+	int fps_move_mouse = 200; //fps des déplacmeents de la caméra à la souris
+	int detecte_zone = -1; //zone de détection pour la caméra à la souris
+	game.m_playerActif->creerUnite(unites.creerUnite("Soldat",9,9), game.m_map.getTile(9,9).getBonusRes());
+	game.m_playerActif->creerUnite(unites.creerUnite("Transporteur", 10, 10), game.m_map.getTile(10, 10).getBonusRes());
+	game.m_playerActif->creerUnite(unites.creerUnite("Colon", 9, 10), game.m_map.getTile(9, 10).getBonusRes());
+	game.m_playerActif->creerUnite(unites.creerUnite("Explorateur", 10, 9), game.m_map.getTile(10, 9).getBonusRes());
+	game.m_playerActif->creerUnite(unites.creerUnite("Recruteur", 10, 11), game.m_map.getTile(10, 11).getBonusRes());
 
-	int detecte_zone = -1; //zone de détection pour la caméra à la sourie
-	game.m_playerActif->creerUnite(unites.creerUnite("SoldatArmee",10,10),10,10, game.m_map.getTile(10,10).getBonusRes());
-	game.joueurSuivant();
-	game.getPlayerActif()->creerUnite(unites.creerUnite("SoldatArmee",11,11),11,11, game.m_map.getTile(11, 11).getBonusRes());
-	game.joueurSuivant();
+	game.m_players[1]->creerUnite(unites.creerUnite("SoldatArmee",11,11), game.m_map.getTile(11, 11).getBonusRes());
+	game.getPlayerActif()->decouvre();
 
     while(game.m_window.isOpen())
     {

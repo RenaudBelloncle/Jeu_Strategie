@@ -1,6 +1,7 @@
 #pragma once
 #include "Unite.h"
 #include "Outil.h"
+#include "Player.h"
 #include <string>
 
 class UniteUtilitaire : public Unite {
@@ -17,7 +18,8 @@ public:
 	
 	void reapprovisionne(Unite* unite);
 	void chargeUnite(Unite* unite);
-	void dechargeUnite();
-	void convertir(Unite* ennemi);
-	void explorationDeSol();
+	void dechargeUnite(int x, int y);
+	void convertir(Unite* ennemi, Player* joueur, Player* joueurEnnemi);
+	void explorationDeSol(Player *joueur);
+	void creationVille(Player *player);
 };

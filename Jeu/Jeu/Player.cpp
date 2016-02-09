@@ -33,6 +33,7 @@ void Player::creerUnite(Unite *unite,int resistance) {
 	for (int i = 0; i < MAP_WIDTH; i++) {
 		for (int j = 0; j < MAP_HEIGTH; j++) {
 			caseDecouverte[i][j] = false;
+			ressourceDecouverte[i][j] = false; 
 		}
 	}
 }
@@ -261,6 +262,10 @@ bool Player::aDecouvertLaCase(int x, int y) {
 	return caseDecouverte[x][y];
 }
 
+bool Player::aDecouvertLaRessource(int x, int y) {
+	return ressourceDecouverte[x][y];
+}
+
 void Player::decouvre() {
 	for (unsigned int i = 0; i < listUnite.size(); i++) {
 		Unite* unite = listUnite[i];
@@ -270,6 +275,18 @@ void Player::decouvre() {
 					if (k >= 0 && k < MAP_WIDTH) {
 						caseDecouverte[k][j] = true;
 					}
+				}
+			}
+		}
+	}
+}
+
+void Player::decouvreRessource(int x, int y) {
+	for (int i = x-1; i < x + 1; i++) {
+		if (0 < i && i < MAP_WIDTH) {
+			for (int j = y - 1; j < y + 1; j++) {
+				if (0 < j && j < MAP_HEIGTH) {
+					ressourceDecouverte[i][j] = true;
 				}
 			}
 		}
