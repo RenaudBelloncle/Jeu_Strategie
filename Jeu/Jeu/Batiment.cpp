@@ -17,11 +17,6 @@ void Batiment::prendDegat(int degat)
 	setPvRestant(getPvRestant() - degat);
 }
 
-void Batiment::seDeplace(int nbCaseDeplace)
-{
-	return;
-}
-
 void Batiment::soin()
 {
 	setPvRestant(getPvRestant() + 1);

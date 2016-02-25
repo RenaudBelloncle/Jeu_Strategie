@@ -15,7 +15,6 @@ public:
     ~Batiment();
 
 	void prendDegat(int degat);
-	void seDeplace(int nbCaseDeplace);
 	void soin();
 	void render(sf::RenderWindow *renderWindow, sf::Color color, SpriteManager *manager);
 	void update();
