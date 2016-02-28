@@ -22,7 +22,7 @@ private:
 	void loadSprites();
 
 	void definitionCase();
-	void definitionCaseDeplacement();
+	void definitionCaseDeplacement(int x, int y, int profondeur);
 	void definitionCaseAttaque();
 	void definitionCaseAttaque(int x, int y);
 
@@ -34,6 +34,8 @@ private:
 	bool testUniteAlliee(int x, int y);
 	bool testEntiteEnnemie(int x, int y);
 	bool testUniteSelectionneTypeCase(int x, int y);
+	bool inDeplacement(sf::Vector2f item);
+	bool inAttaque(sf::Vector2f item);
 	void calculNombreTileAffichable();
 
 	bool tech;
