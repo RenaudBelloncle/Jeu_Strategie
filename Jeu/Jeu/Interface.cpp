@@ -54,6 +54,31 @@ void Interface::renderTechnologies(sf::RenderWindow *renderWindow, sf::Font font
 	ecrireMessage(renderWindow, posX + 350, posY + 125, "Acheter", font, 20, sf::Color::Black);
 }
 
+void Interface::renderInfoBatiment(sf::RenderWindow *renderWindow, sf::Font font, Batiment* batiment) {
+	std::string msgBatiement, nom, description, vivres, petrole, metaux, energies;
+
+	msgBatiement = "BATIMENT";
+	nom = batiment->getNom();
+	description = "Description : " + batiment->getDescription();
+	energies = "Cout en energie : " + std::to_string(batiment->getCoutEnergie());
+	metaux = "Cout en metaux : " + std::to_string(batiment->getCoutMetal());
+	petrole = "Cout en petrole : " + std::to_string(batiment->getCoutPetrole());
+	vivres = "Cout en vivre : " + std::to_string(batiment->getCoutVivre());
+
+	float posX = 403;
+	float posY = 805;
+
+	ecrireMessage(renderWindow, posX, posY, msgBatiement, font, 18, sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY + 25, nom, font, 18, sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY + 25 * 2, description, font, 18, sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY + 25 * 3, energies, font, 18, sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY + 25 * 4, metaux, font, 18, sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY + 25 * 5, petrole, font, 18, sf::Color::Black);
+	ecrireMessage(renderWindow, posX, posY + 25 * 6, vivres, font, 18, sf::Color::Black);
+
+	ecrireMessage(renderWindow, posX + 350, posY + 125, "Construire", font, 20, sf::Color::Black);
+}
+
 void Interface::renderInfoUnite(sf::RenderWindow *renderWindow, sf::Font font, Unite *unite) {
 	std::string nom, vie, reserve,description, deplacement, vision, res;
 

@@ -11,7 +11,7 @@ private:
 	std::map<std::string, Batiment*> m_batiments;
 
 public:
-	BatimentManager();
+	BatimentManager(UniteManager *manager);
 
 	void addBatiment(const std::string& name, Batiment unite);
 

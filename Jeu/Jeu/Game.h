@@ -22,6 +22,9 @@ private:
 	void loadSprites();
 
 	void definitionCase();
+	void definitionCaseUnite(int xOrig, int yOrig, int nbCase);
+	void definitionCaseUniteArmee(int xOrig, int yOrig, int nbCase, int nbCaseAttaque);
+	void definitionCaseUniteDistance(int xOrig, int yOrig, int nbCase, int rangeMin, int rangeMax);
 	void definitionCaseDeplacement();
 	void definitionCaseAttaque();
 	void definitionCaseAttaque(int x, int y);
@@ -36,9 +39,10 @@ private:
 	bool testUniteSelectionneTypeCase(int x, int y);
 	void calculNombreTileAffichable();
 
-	bool tech;
+	bool tech, batiment;
     int indice;
 	void afficherTechAChercher();
+	void afficherBatimentAConstruire();
     void afficherPrevTechAChercher();
     void afficherNextTechAChercher();
 	std::vector<sf::Vector2f> nettoyerDoublon(std::vector<sf::Vector2f> vector);
@@ -47,6 +51,7 @@ private:
 	MenuPrincipal menu_p;
 	Meteo meteo;
 	sf::Clock weather_clock;
+	void initText();
 
 public:
 	Game();
@@ -76,6 +81,7 @@ public:
 	Unite* m_uniteSelectionne;
 	Batiment* m_batimentSelectionne;
     Technologie* m_technologie;
+	Batiment* m_batiment;
 
 	Interface m_interface;
 
@@ -91,6 +97,8 @@ public:
 	void finTour();
 	void selection(sf::Vector2i caseClique, int x, int y);
 	void deselection();
+
+
 
 	int getState();
 };

@@ -1,10 +1,14 @@
 #include "Batiment.h"
 
-Batiment::Batiment(int _x, int _y, string _nom, string _desc, Ressource _ressourceStock, int _maxStock) : Entite(_x, _y, _nom, _desc)
+Batiment::Batiment(int _x, int _y, string _nom, string _desc, Ressource _ressourceStock, int _maxStock, int _coutEnergie, int _coutVivre, int _coutMetal, int _coutPetrole) : Entite(_x, _y, _nom, _desc)
 {
 	ressourceStock = _ressourceStock;
 	maxStock = _maxStock;
 	stock = 0;
+	coutEnergie = _coutEnergie;
+	coutVivre = _coutVivre;
+	coutMetal = _coutMetal;
+	coutPetrole = _coutPetrole;
 }
 
 Batiment::~Batiment()
@@ -97,4 +101,20 @@ void Batiment::setStock(int _stock)
 void Batiment::setStockMax(int _maxStock)
 {
 	maxStock = _maxStock;
+}
+
+int Batiment::getCoutEnergie() {
+	return coutEnergie;
+}
+
+int Batiment::getCoutVivre() {
+	return coutVivre;
+}
+
+int Batiment::getCoutPetrole() {
+	return coutPetrole;
+}
+
+int Batiment::getCoutMetal() {
+	return coutMetal;
 }

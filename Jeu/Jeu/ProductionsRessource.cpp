@@ -2,7 +2,7 @@
 
 #include "ProductionsRessource.h"
 
-ProductionRessource::ProductionRessource(int _x, int _y, string _nom, string _desc, Ressource _ressourceStock, int _stockMax, Ressource _ressourceProduite, int _produitParTour) : Batiment(_x, _y, _nom, _desc, _ressourceStock, _stockMax)
+ProductionRessource::ProductionRessource(int _x, int _y, string _nom, string _desc, Ressource _ressourceStock, int _stockMax, Ressource _ressourceProduite, int _produitParTour, int _coutEnergie, int _coutVivre, int _coutMetal, int _coutPetrole) : Batiment(_x, _y, _nom, _desc, _ressourceStock, _stockMax, _coutEnergie, _coutVivre, _coutMetal, _coutPetrole)
 {
 	ressourceProduite = _ressourceProduite;
 	quantiteProduite = _produitParTour;

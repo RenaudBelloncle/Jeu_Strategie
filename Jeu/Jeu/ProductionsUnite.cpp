@@ -1,6 +1,6 @@
 #include "ProductionsUnite.h"
 
-ProductionsUnite::ProductionsUnite(int _x, int _y, string _nom, string _desc, ...) : Batiment(_x, _y, _nom, _desc, Ressource::AUCUNE, 0)
+ProductionsUnite::ProductionsUnite(int _x, int _y, string _nom, string _desc, int _coutEnergie, int _coutVivre, int _coutMetal, int _coutPetrole, ...) : Batiment(_x, _y, _nom, _desc, Ressource::AUCUNE, 0, _coutEnergie, _coutVivre, _coutMetal, _coutPetrole)
 {
 	va_list pa;
 
