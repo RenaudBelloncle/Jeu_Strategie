@@ -1,5 +1,10 @@
 #include "BatimentManager.h"
 
+BatimentManager::BatimentManager()
+{
+
+}
+
 BatimentManager::BatimentManager(UniteManager *manager)
 {
 	m_batiments["Ville"] = new Batiment(-1,-1,"Ville","Batiment permettant d'effectuer les actions de base", Ressource::AUCUNE, 0, 0, 0, 0, 0);
@@ -19,9 +24,18 @@ BatimentManager::BatimentManager(UniteManager *manager)
 	//m_batiments["Usine"] = new ProductionsUnite();
 	//m_batiments["Aeroport"] = new ProductionsUnite();
 	//m_batiments["Port"] = new ProductionsUnite();
-	m_batiments["Caserne"] = new ProductionsUnite(0, 0, "Puit à pétrole", "Batiment qui produit du pétrole", 10, 10, 10, 10, manager->getRef("Soldat"), NULL);
+	//m_batiments["Caserne"] = new ProductionsUnite(0, 0, "Puit à pétrole", "Batiment qui produit du pétrole", 10, 10, 10, 10, manager->getRef("Soldat"), NULL);
 }
 
+vector<Batiment*> BatimentManager::getBatimentConstructible() {
+	std::vector<Batiment*> listBatiments;
+	for (map<std::string, Batiment*>::iterator it = m_batiments.begin(); it != m_batiments.end(); ++it)
+	{
+		listBatiments.push_back(it->second);
+	}
+
+	return listBatiments;
+}
 
 void BatimentManager::addBatiment(const std::string& name, Batiment batiment)
 {

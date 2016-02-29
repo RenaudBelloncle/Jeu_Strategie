@@ -168,12 +168,15 @@
     <ClInclude Include="Outil.h">
       <Filter>Fichier entête\Entite</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
     <ClInclude Include="Button.h">
       <Filter>Fichier entête\Graphic</Filter>
     </ClInclude>
     <ClInclude Include="ButtonList.h">
       <Filter>Fichier entête\Graphic</Filter>
     </ClInclude>
+=======
+>>>>>>> Stashed changes
     <ClInclude Include="Meteo.h">
       <Filter>Fichier entête</Filter>
     </ClInclude>

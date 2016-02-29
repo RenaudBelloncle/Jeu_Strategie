@@ -38,7 +38,6 @@ public :
 	bool getPeutBougerEtAttaquer();
 	bool peutSeDeplacer(int distance);
 	bool peutAgir();
-	bool getPeutBougerEtAttaquer();
 
 	void reaprovisionnement();
 	void prendDegat(int degat);

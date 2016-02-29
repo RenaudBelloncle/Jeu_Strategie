@@ -11,8 +11,12 @@ class Interface
 {
 private:
 	bool modeNormal,  modeBatiment;
+	int width, height;
 public:
 	Interface();
+	Interface(int width, int height);
+
+	void resize(int width, int height);
 
 	bool getModeNormal();
 	bool getModeBatiment();

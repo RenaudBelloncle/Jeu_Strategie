@@ -1,6 +1,6 @@
 #include "UniteManager.h"
 UniteManager::UniteManager() {
-	m_unites["Soldat"] =  new UniteArmee(-1,-1,"Soldat","Unite de corps à corps basique." ,50, 5, 4, TypeUnite::INFANTERIE, 100, 0, 0, manager.getRef("ScieHache"), manager.getRef("null"), true);
+	m_unites["Soldat"] =  new UniteArmee(-1,-1,"Soldat","Unite de corps à corps basique." ,50, 5, 4, TypeUnite::INFANTERIE, 100, 1, 0, manager.getRef("ScieHache"), manager.getRef("null"), true);
 	m_unites["SoldatArmee"] =  new UniteArmee(-1, -1, "Soldat arme", "Unite de combat à distance.", 50, 5, 4, TypeUnite::INFANTERIE,20, 3, 0, manager.getRef("Balle"), manager.getRef("null"), true);
 	m_unites["Demolisseur"] = new UniteArmee(-1, -1, "Demolisseur", "Unite anti-vehicule.", 50, 4, 4, TypeUnite::INFANTERIE, 15, 4, 1, manager.getRef("Roquette"), manager.getRef("Balle"), true);
 	m_unites["Chasseur"] = new UniteArmee(-1, -1, "Chasseur", "Unite aerienne anti-aerienne.", 30, 12, 9, TypeUnite::AERIENNE, 10, 3, 0, manager.getRef("Missile"), manager.getRef("null"), true);

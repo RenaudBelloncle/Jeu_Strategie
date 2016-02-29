@@ -286,7 +286,3 @@ sf::Sprite Unite::getIconMaritime(SpriteManager *manager) {
 	}
 	return sprite;
 }
-
-bool Unite::getPeutBougerEtAttaquer() {
-	return peutBougerEtAttaquer;
-}

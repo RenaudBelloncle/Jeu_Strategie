@@ -28,8 +28,8 @@ public:
 
 	Tile getTile(int x, int y);
 
-    void render(sf::RenderWindow* renderWindow, SpriteManager *manager, Player *player, sf::Vector2i nbCase, sf::Vector2i caseCentrale);
-	void render(sf::RenderWindow* renderWindow, SpriteManager *manager, sf::Vector2i nbCase, sf::Vector2i caseCentrale);
+    void render(sf::RenderWindow* renderWindow, SpriteManager *manager, Player *player, sf::Vector2f nbCase, sf::Vector2f caseCentrale);
+	void render(sf::RenderWindow* renderWindow, SpriteManager *manager, sf::Vector2f nbCase, sf::Vector2f caseCentrale);
 
 	void loadMap(std::string nomMap);
 };

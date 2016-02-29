@@ -12,6 +12,7 @@
 #include "Interface.h"
 #include "Meteo.h"
 #include "MenuPrincipal.h"
+#include "BatimentManager.h"
 
 class Game
 {
@@ -25,7 +26,7 @@ private:
 	void definitionCaseUnite(int xOrig, int yOrig, int nbCase);
 	void definitionCaseUniteArmee(int xOrig, int yOrig, int nbCase, int nbCaseAttaque);
 	void definitionCaseUniteDistance(int xOrig, int yOrig, int nbCase, int rangeMin, int rangeMax);
-	void definitionCaseDeplacement();
+	void definitionCaseDeplacement(int x, int y, int profondeur);
 	void definitionCaseAttaque();
 	void definitionCaseAttaque(int x, int y);
 
@@ -37,6 +38,8 @@ private:
 	bool testUniteAlliee(int x, int y);
 	bool testEntiteEnnemie(int x, int y);
 	bool testUniteSelectionneTypeCase(int x, int y);
+	bool inDeplacement(sf::Vector2f item);
+	bool inAttaque(sf::Vector2f item);
 	void calculNombreTileAffichable();
 
 	bool tech, batiment;
@@ -45,6 +48,8 @@ private:
 	void afficherBatimentAConstruire();
     void afficherPrevTechAChercher();
     void afficherNextTechAChercher();
+	void afficherPrevBatiementConstruire();
+	void afficherNextBatiementConstruire();
 	std::vector<sf::Vector2f> nettoyerDoublon(std::vector<sf::Vector2f> vector);
 
     void buyTech();
@@ -52,13 +57,13 @@ private:
 	Meteo meteo;
 	sf::Clock weather_clock;
 	void initText();
-
+	BatimentManager m_batimentManager;
 public:
 	Game();
     sf::RenderWindow m_window;
     sf::View m_view, m_viewMinimap, m_viewInterface;
     int c_view[2], m_tour, m_nbJoueur, m_numJoueurActif, m_tileSize;
-	sf::Vector2i centreImage, nombreTileAffiche, m_winSize;
+	sf::Vector2f centreImage, nombreTileAffiche, m_winSize;
     TextureManager m_textureManager;
 	SpriteManager m_spriteManager;
 	sf::Font font;
@@ -98,7 +103,7 @@ public:
 	void selection(sf::Vector2i caseClique, int x, int y);
 	void deselection();
 
-
+	void resize();
 
 	int getState();
 };
