@@ -12,6 +12,9 @@ void Game::loadTextures() {
 	m_textureManager.loadTexture("filtre", "media/res/Filtre.png");
 	m_textureManager.loadTexture("ui", "media/res/Ui.png");
 	m_textureManager.loadTexture("gui", "media/res/gui.png");
+	m_textureManager.loadTexture("fin_de_tour", "media/res/fin_de_tour.png");
+	m_textureManager.loadTexture("bouton_technologies", "media/res/bouton_technologies.png");
+	m_textureManager.loadTexture("bouton_batiments", "media/res/bouton_batiments.png");
 }
 
 void Game::loadSprites()
@@ -21,6 +24,10 @@ void Game::loadSprites()
 
 	m_spriteManager.loadSprite("interface", m_textureManager.getRef("interface"), 800, 200, 0, 0);
 	m_spriteManager.getRef("interface").setPosition(0, WIN_HEIGTH - 200);
+
+	m_spriteManager.loadSprite("fin_de_tour", m_textureManager.getRef("fin_de_tour"), 113, 34, 0, 0);
+	m_spriteManager.loadSprite("bouton_technologies", m_textureManager.getRef("bouton_technologies"), 113, 34, 0, 0);
+	m_spriteManager.loadSprite("bouton_batiments", m_textureManager.getRef("bouton_batiments"), 113, 34, 0, 0);
 
 	m_spriteManager.loadSprite("filtre selection", m_textureManager.getRef("filtre"), 128, 128, 0, 0);
 	m_spriteManager.loadSprite("filtre attaque", m_textureManager.getRef("filtre"), 128, 128, 1, 0);
@@ -122,8 +129,12 @@ Game::Game()
 		std::cout << "Erreur chargement font" << std::endl;
 	}
 
-	Button* b = new Button("Test", sf::Vector2i(0, 0), sf::Vector2i(100, 100), &Game::afficherNextBatimentConstruire);
-	m_interface->ajouterBouton(b);
+	Button* bouton_fin_de_tour = new Button("fin de tour", sf::Vector2i(205, 550), m_spriteManager.getRef("fin_de_tour"), &Game::finTour);
+	m_interface->ajouterBouton(bouton_fin_de_tour);
+	Button* bouton_technologies = new Button("technologies", sf::Vector2i(323, 550), m_spriteManager.getRef("bouton_technologies"), &Game::afficherTechAChercher);
+	m_interface->ajouterBouton(bouton_technologies);
+	Button* bouton_batiments = new Button("batiments", sf::Vector2i(441, 550), m_spriteManager.getRef("bouton_batiments"), &Game::afficherBatimentAConstruire);
+	m_interface->ajouterBouton(bouton_batiments);
 
 	textEau.setFont(font);
 	textEau.setString(std::to_string(0));
@@ -453,7 +464,6 @@ void Game::afficherPrevBatiementConstruire()
 
 void Game::afficherNextBatimentConstruire()
 {
-	printf("next batiement");
 	if (indice < (m_batimentManager.getBatimentConstructible().size() - 1)) {
 		indice++;
 		m_batiment = m_batimentManager.getBatimentConstructible()[indice];
@@ -694,6 +704,9 @@ void Game::resize()
 	m_viewInterface = sf::View(sf::Vector2f(m_winSize.x / 2, m_winSize.y / 2), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_viewMinimap = sf::View(sf::Vector2f(m_winSize.x / 2, m_winSize.y / 2), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_interface->resize(m_winSize.x, m_winSize.y);
+	m_interface->getButton("fin de tour")->move(205, m_winSize.y - 50);
+	m_interface->getButton("technologies")->move(323, m_winSize.y - 50);
+	m_interface->getButton("batiments")->move(441, m_winSize.y - 50);
 }
 
 int Game::getState() {

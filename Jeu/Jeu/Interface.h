@@ -38,4 +38,5 @@ public:
 	
 	void clic(Game* game, int x, int y);
 	void ajouterBouton(Button* b);
+	Button* getButton(std::string name);
 };

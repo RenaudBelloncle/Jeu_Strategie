@@ -55,6 +55,17 @@ void Interface::ajouterBouton(Button* button)
 	m_buttons.push_back(button);
 }
 
+Button* Interface::getButton(std::string name)
+{
+	for (int i = 0; i < m_buttons.size(); i++)
+	{
+		if (m_buttons.at(i)->getNom() == name)
+		{
+			return m_buttons.at(i);
+		}
+	}
+}
+
 void Interface::render(sf::RenderWindow *renderWindow, SpriteManager *manager) {
 	int longueur = width / 10;
 	int hauteur = INTERFACE_HEIGTH / 30;
@@ -92,6 +103,11 @@ void Interface::render(sf::RenderWindow *renderWindow, SpriteManager *manager) {
 	manager->getRef("gui_bas_droite").setPosition(width - 10, height - 30);
 	renderWindow->draw(manager->getRef("gui_bas_droite"));
 
+
+	for (int i = 0; i < m_buttons.size(); i++)
+	{
+		m_buttons.at(i)->render(renderWindow);
+	}
 
 	//renderWindow->draw(manager->getRef("interface"));
 	//renderWindow->draw(manager->getRef("interfaceBarre"));
