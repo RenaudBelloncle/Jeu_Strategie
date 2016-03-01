@@ -14,6 +14,8 @@
 #include "MenuPrincipal.h"
 #include "BatimentManager.h"
 
+class Interface;
+
 class Game
 {
 private:
@@ -49,7 +51,7 @@ private:
     void afficherPrevTechAChercher();
     void afficherNextTechAChercher();
 	void afficherPrevBatiementConstruire();
-	void afficherNextBatiementConstruire();
+	void afficherNextBatimentConstruire();
 	std::vector<sf::Vector2f> nettoyerDoublon(std::vector<sf::Vector2f> vector);
 
     void buyTech();
@@ -88,7 +90,7 @@ public:
     Technologie* m_technologie;
 	Batiment* m_batiment;
 
-	Interface m_interface;
+	Interface* m_interface;
 
 	void actionUnite(sf::Vector2i caseClique);
 

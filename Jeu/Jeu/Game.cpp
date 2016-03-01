@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Constantes.h"
+#include "Button.h"
 
 void Game::loadTextures() {
 	m_textureManager.loadTexture("unite","media/res/SpriteSheetUnite.png");
@@ -88,7 +89,7 @@ Game::Game()
 	std::cout << "Chargement des sprites termine" << std::endl;
 	m_map = Map(MAP_WIDTH,MAP_HEIGTH);
 	m_minimap = Minimap(&m_map);
-	m_interface = Interface(m_winSize.x, m_winSize.y);
+	m_interface = new Interface(m_winSize.x, m_winSize.y);
     m_window.create(sf::VideoMode(m_winSize.x,m_winSize.y), "Jeu de Strategie");
 	centreImage.x = MAP_WIDTH / 2; centreImage.y = MAP_HEIGTH / 2;
 	m_tileSize = SPRITE;
@@ -120,6 +121,9 @@ Game::Game()
 	{
 		std::cout << "Erreur chargement font" << std::endl;
 	}
+
+	Button* b = new Button("Test", sf::Vector2i(0, 0), sf::Vector2i(100, 100), &Game::afficherNextBatimentConstruire);
+	m_interface->ajouterBouton(b);
 
 	textEau.setFont(font);
 	textEau.setString(std::to_string(0));
@@ -190,26 +194,26 @@ void Game::render() {
 		}
 		// Render de l'interface
 		m_window.setView(m_viewInterface);
-		m_interface.render(&m_window, &m_spriteManager);
+		m_interface->render(&m_window, &m_spriteManager);
 		if (m_uniteSelectionne != NULL) {
-			m_interface.renderInfoUnite(&m_window, font, m_uniteSelectionne);
+			m_interface->renderInfoUnite(&m_window, font, m_uniteSelectionne);
 		}
 		if (tech) {
-			m_interface.renderTechnologies(&m_window, font, m_technologie);
+			m_interface->renderTechnologies(&m_window, font, m_technologie);
 		}
 		if (batiment) {
-			m_interface.renderInfoBatiment(&m_window, font, m_batiment);
+			m_interface->renderInfoBatiment(&m_window, font, m_batiment);
 		}
 		const int tour = m_tour;
-		m_interface.ecrireMessage(&m_window, (float)630 * 1.25, (float)9 * 1.25, std::to_string(tour), font, 18, sf::Color::White);
+		m_interface->ecrireMessage(&m_window, (float)630 * 1.25, (float)9 * 1.25, std::to_string(tour), font, 18, sf::Color::White);
 		const int nbEau = m_playerActif->getEssence();
-		m_interface.ecrireMessage(&m_window, (float)30 * 1.25, (float)5 * 1.25, std::to_string(nbEau), font, 18, sf::Color::Black);
+		m_interface->ecrireMessage(&m_window, (float)30 * 1.25, (float)5 * 1.25, std::to_string(nbEau), font, 18, sf::Color::Black);
 		const int nbEnergie = m_playerActif->getEnergie();
-		m_interface.ecrireMessage(&m_window, (float)146 * 1.25, (float)5 * 1.25, std::to_string(nbEnergie), font, 18, sf::Color::Black);
+		m_interface->ecrireMessage(&m_window, (float)146 * 1.25, (float)5 * 1.25, std::to_string(nbEnergie), font, 18, sf::Color::Black);
 		const int nbVivres = m_playerActif->getVivre();
-		m_interface.ecrireMessage(&m_window, (float)30 * 1.25, (float)36 * 1.25, std::to_string(nbVivres), font, 18, sf::Color::Black);
+		m_interface->ecrireMessage(&m_window, (float)30 * 1.25, (float)36 * 1.25, std::to_string(nbVivres), font, 18, sf::Color::Black);
 		const int nbMetaux = m_playerActif->getMetaux();
-		m_interface.ecrireMessage(&m_window, (float)146 * 1.25, (float)36 * 1.25, std::to_string(nbMetaux), font, 18, sf::Color::Black);
+		m_interface->ecrireMessage(&m_window, (float)146 * 1.25, (float)36 * 1.25, std::to_string(nbMetaux), font, 18, sf::Color::Black);
 
 		// Render de la minimap
 		m_window.setView(m_viewMinimap);
@@ -238,12 +242,13 @@ void Game::clic(int x, int y) {
 	}
 
 	if (gameState == 1) {
-		if (testClicZoneJeu(x, y)) {
+		clicInterface(x, y);
+		/*if (testClicZoneJeu(x, y)) {
 			clicZoneJeu(x, y);
 		}// Zone clique interface
 		else {
 			clicInterface(x, y);
-		}
+		}*/
 	}
 }
 
@@ -352,13 +357,15 @@ void Game::clicZoneJeu(int x, int y) {
 
 void Game::clicUnite(int x, int y, Unite *unite) {
 	m_uniteSelectionne = unite;
-	m_interface.renderInfoUnite(&m_window, font, unite);
+	m_interface->renderInfoUnite(&m_window, font, unite);
 	definitionCase();
 	tech = false;
 	batiment = false;
 }
 
 void Game::clicInterface(int x, int y) {
+	m_interface->clic(this, x, y);
+	/*
 	if (x < 43 && 6 < x) {
 		if (y < 485 && 465 < y) {
 			m_minimap.changeModeTopo();
@@ -407,7 +414,7 @@ void Game::clicInterface(int x, int y) {
 	}
 	else if (x < 787 && 753 < x && y < 31 && 2 < y) {
 		m_window.close();
-	}
+	}*/
 }
 
 void Game::afficherTechAChercher() {
@@ -444,8 +451,9 @@ void Game::afficherPrevBatiementConstruire()
 	}
 }
 
-void Game::afficherNextBatiementConstruire()
+void Game::afficherNextBatimentConstruire()
 {
+	printf("next batiement");
 	if (indice < (m_batimentManager.getBatimentConstructible().size() - 1)) {
 		indice++;
 		m_batiment = m_batimentManager.getBatimentConstructible()[indice];
@@ -685,7 +693,7 @@ void Game::resize()
 	m_view = sf::View(sf::Vector2f((float)c_view[0], (float)c_view[1]), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_viewInterface = sf::View(sf::Vector2f(m_winSize.x / 2, m_winSize.y / 2), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_viewMinimap = sf::View(sf::Vector2f(m_winSize.x / 2, m_winSize.y / 2), sf::Vector2f(m_winSize.x, m_winSize.y));
-	m_interface.resize(m_winSize.x, m_winSize.y);
+	m_interface->resize(m_winSize.x, m_winSize.y);
 }
 
 int Game::getState() {

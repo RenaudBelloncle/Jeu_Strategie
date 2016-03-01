@@ -6,12 +6,18 @@
 #include "Technologie.h"
 #include "UniteArmee.h"
 #include "Batiment.h"
+#include "Button.h"
+
+class Button;
+
+class Game;
 
 class Interface
 {
 private:
 	bool modeNormal,  modeBatiment;
 	int width, height;
+	std::vector<Button*> m_buttons;
 public:
 	Interface();
 	Interface(int width, int height);
@@ -29,4 +35,7 @@ public:
 	void renderInfoUnite(sf::RenderWindow *renderWindow, sf::Font font, Unite *unite);
 	void renderInfoBatiment(sf::RenderWindow *renderWindow, sf::Font font, Batiment* batiment);
 	void ecrireMessage(sf::RenderWindow *renderWindow, float posX, float posY, std::string msg, sf::Font pathToFont, int fontSize, sf::Color color);
+	
+	void clic(Game* game, int x, int y);
+	void ajouterBouton(Button* b);
 };

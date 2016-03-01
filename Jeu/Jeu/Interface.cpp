@@ -1,5 +1,6 @@
 #include "Interface.h"
 #include "Technologie.h"
+#include "Button.h"
 
 Interface::Interface()
 {
@@ -36,6 +37,22 @@ void Interface::setModeBatiment() {
 
 bool Interface::getModeBatiment() {
 	return modeBatiment;
+}
+
+void Interface::clic(Game* game, int x, int y)
+{
+	for (int i = 0; i < m_buttons.size(); i++)
+	{
+		if (m_buttons.at(i)->clic(game, x, y))
+		{
+			return;
+		}
+	}
+}
+
+void Interface::ajouterBouton(Button* button)
+{
+	m_buttons.push_back(button);
 }
 
 void Interface::render(sf::RenderWindow *renderWindow, SpriteManager *manager) {
