@@ -92,6 +92,11 @@ int main()
 				}
 			}
 
+			if (event.type == sf::Event::Resized)
+			{
+				game.resize();
+			}
+
             /*if (event.type == sf::Event::MouseWheelMoved)
             {
                 if (event.mouseWheel.delta < 0)
@@ -200,7 +205,6 @@ int main()
 		game.m_window.clear(sf::Color::Black);
 		game.render();
 		game.m_window.display();
-		int framerate = 1000 /(m_clock.getElapsedTime().asMilliseconds() + 1);
 		m_clock.restart();
     }
 

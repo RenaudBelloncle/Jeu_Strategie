@@ -2,6 +2,10 @@
 #include <iostream>
 #include "Minimap.h"
 
+#define TAILLE_MINIMAP 165
+#define X 20
+#define Y 45
+
 Minimap::Minimap() {}
 
 Minimap::Minimap(Map *map) {
@@ -157,7 +161,7 @@ void Minimap::updateBrouillard(Map *map, Player *player) {
 	}
 }
 
-void Minimap::render(sf::RenderWindow *renderWindow) {
+void Minimap::render(sf::RenderWindow *renderWindow, int width, int height) {
 	sf::Sprite sprite;
 	sf::Texture texture;
 	sf::Image img;
@@ -176,21 +180,21 @@ void Minimap::render(sf::RenderWindow *renderWindow) {
 		return;
 	}
 
-	float scale = (float) 165.0 / m_width;
-	if ((float) 165.0 / m_heigth < scale) {
-		scale = (float) 165.0 / m_heigth;
+	float scale = (float)TAILLE_MINIMAP / m_width;
+	if ((float)TAILLE_MINIMAP / m_heigth < scale) {
+		scale = (float)TAILLE_MINIMAP / m_heigth;
 	}
 
 	sprite.scale(scale, scale);
 
-	int x = 33 + (165 - m_width*scale) / 2 +70;
-	int y = WIN_HEIGTH + 205 + (165 - m_heigth*scale) / 2 +20;
+	int x = X + (TAILLE_MINIMAP - m_width*scale) / 2;
+	int y = height - INTERFACE_HEIGTH + Y - (TAILLE_MINIMAP - m_heigth*scale) / 2;
 
 	sprite.setPosition(x, y);
 	renderWindow->draw(sprite);
 }
 
-void Minimap::renderPlayer(sf::RenderWindow *renderWindow, Player *player[], int nbJoueur) {
+void Minimap::renderPlayer(sf::RenderWindow *renderWindow, Player *player[], int nbJoueur, int width, int height) {
 	sf::Sprite sprite;
 	sf::Texture texture;
 	sf::Image img;
