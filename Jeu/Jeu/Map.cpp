@@ -107,7 +107,7 @@ Tile Map::getTile(int x, int y)
 	return m_tiles[x][y];
 }
 
-void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager, sf::Vector2i nbCase, sf::Vector2i caseCentrale)
+void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager, sf::Vector2f nbCase, sf::Vector2f caseCentrale)
 {
 	for (int i = caseCentrale.x - ((nbCase.x / 2) + 1); i < caseCentrale.x + ((nbCase.x / 2) + 1); ++i)
 	{
@@ -171,7 +171,7 @@ void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager, sf::Vec
 }
 
 // Render avec brouillard de guerre
-void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager, Player *player, sf::Vector2i nbCase, sf::Vector2i caseCentrale)
+void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager, Player *player, sf::Vector2f nbCase, sf::Vector2f caseCentrale)
 {
 	for (int i = caseCentrale.x - ((nbCase.x / 2) + 1); i < caseCentrale.x + ((nbCase.x / 2) + 1); ++i)
 	{
@@ -225,7 +225,7 @@ void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager, Player 
 							break;
 						}
 					}
-					terrain.setPosition(sf::Vector2f(i*SPRITE, j*SPRITE));
+					terrain.setPosition(sf::Vector2f(i*128, j*128));
 					ressource.setPosition(sf::Vector2f(i*SPRITE, j*SPRITE));
 					renderWindow->draw(terrain);
 					renderWindow->draw(ressource);

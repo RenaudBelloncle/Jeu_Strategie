@@ -163,6 +163,7 @@
     <ClCompile Include="ArmeManager.cpp" />
     <ClCompile Include="Batiment.cpp" />
     <ClCompile Include="BatimentManager.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="CouleurJoueur.h" />
     <ClCompile Include="Entite.cpp" />
     <ClCompile Include="EtatJeu.cpp" />
@@ -193,7 +194,6 @@
     <ClInclude Include="Batiment.h" />
     <ClInclude Include="BatimentManager.h" />
     <ClInclude Include="Button.h" />
-    <ClInclude Include="ButtonList.h" />
     <ClInclude Include="Constantes.h" />
     <ClInclude Include="Entite.h" />
     <ClInclude Include="Game.h" />

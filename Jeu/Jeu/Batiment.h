@@ -11,7 +11,7 @@ private:
 	Ressource ressourceStock;
 	int stock, maxStock;
 public:
-	Batiment(int _x, int _y, string _nom, string _desc, Ressource _ressourceStock, int _maxStock);
+	Batiment(int _x, int _y, string _nom, string _desc, Ressource _ressourceStock, int _maxStock, int _coutEnergie, int _coutVivre, int _coutMetal, int _coutPetrole);
     ~Batiment();
 
 	void prendDegat(int degat);
@@ -30,5 +30,14 @@ public:
 
 	int getStock();
 	int getMaxStock();
+
+	int getCoutEnergie();
+	int getCoutVivre();
+	int getCoutMetal();
+	int getCoutPetrole();
 private:
+	int coutEnergie;
+	int coutVivre;
+	int coutMetal;
+	int coutPetrole;
 };

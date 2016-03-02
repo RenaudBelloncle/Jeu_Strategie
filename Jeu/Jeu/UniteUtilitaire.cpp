@@ -60,7 +60,7 @@ void UniteUtilitaire::explorationDeSol(Player* joueur)
 
 void UniteUtilitaire::creationVille(Player* player) {
 	if (outil == Outil::fondation) {
-		player->creerBatiment(new Batiment(getCoordX(), getCoordY(), "Ville", "Batiment permettant d'effectuer les actions de base", Ressource::AUCUNE, 0));
+		player->creerBatiment(new Batiment(getCoordX(), getCoordY(), "Ville", "Batiment permettant d'effectuer les actions de base", Ressource::AUCUNE, 0, 0, 0, 0, 0));
 		int index = -1;
 		for (int i = 0; i < player->getNombreUnite(); i++) {
 			if (player->getUnite(i)->getCoordX() == getCoordX() && player->getUnite(i)->getCoordY() == getCoordY()) {

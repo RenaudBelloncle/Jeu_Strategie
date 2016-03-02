@@ -4,13 +4,11 @@
 #include "Unite.h"
 using namespace std;
 
-
 Unite::Unite(int _x, int _y, string _nom, string _desc, int _ressMax, int _deplacementMax, int _champVision, TypeUnite _type, bool _moveEtAttack) : Entite(_x, _y, _nom, _desc)
 {
 	estUnite = true;
 	estArmee = false;
 	estUtilitaire = false;
-	bougeEtAttaque = _moveEtAttack;
 	stockResssourceMax = _ressMax;
 	deplacementMax = _deplacementMax;
 	stockRessourceActuel = stockResssourceMax;
@@ -18,6 +16,7 @@ Unite::Unite(int _x, int _y, string _nom, string _desc, int _ressMax, int _depla
 	resistance = 0;
 	type = _type;
 	aAgi = false;
+	peutBougerEtAttaquer = _moveEtAttack;
 }
 
 int Unite::getStockMaxRess() const
@@ -66,7 +65,7 @@ bool Unite::peutAgir()
 
 bool Unite::getPeutBougerEtAttaquer()
 {
-	return bougeEtAttaque;
+	return peutBougerEtAttaquer;
 }
 
 void Unite::update()

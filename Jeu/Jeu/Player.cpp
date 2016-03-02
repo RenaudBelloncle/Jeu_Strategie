@@ -213,7 +213,7 @@ vector<Technologie*> Player::getTechnoARechercher() {
 	return  listTechRech;
 }
 
-void Player::render(sf::RenderWindow *renderWindow, SpriteManager *manager, sf::Vector2i nbCase, sf::Vector2i caseCentrale) {
+void Player::render(sf::RenderWindow *renderWindow, SpriteManager *manager, sf::Vector2f nbCase, sf::Vector2f caseCentrale) {
 
 	for (unsigned int i = 0; i < listUnite.size(); i++) {
 		if (caseCentrale.x - ((nbCase.x / 2) + 1) <= listUnite[i]->getCoordX() && listUnite[i]->getCoordX() <= caseCentrale.x + ((nbCase.x / 2) + 1)) {
@@ -231,7 +231,7 @@ void Player::render(sf::RenderWindow *renderWindow, SpriteManager *manager, sf::
 	}
 }
 
-void Player::render(sf::RenderWindow *renderWindow, SpriteManager *manager, Player *player, sf::Vector2i nbCase, sf::Vector2i caseCentrale) {
+void Player::render(sf::RenderWindow *renderWindow, SpriteManager *manager, Player *player, sf::Vector2f nbCase, sf::Vector2f caseCentrale) {
 	for (unsigned int i = 0; i < listUnite.size(); i++) {
 		if (player->aDecouvertLaCase(listUnite[i]->getCoordX(), listUnite[i]->getCoordY())) {
 			if (caseCentrale.x - ((nbCase.x / 2) + 1) <= listUnite[i]->getCoordX() && listUnite[i]->getCoordX() <= caseCentrale.x + ((nbCase.x / 2) + 1)) {
