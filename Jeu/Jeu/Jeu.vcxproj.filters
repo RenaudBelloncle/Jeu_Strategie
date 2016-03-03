@@ -1,68 +1,192 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Arme.cpp" />
-    <ClCompile Include="ArmeManager.cpp" />
-    <ClCompile Include="Batiment.cpp" />
-    <ClCompile Include="BatimentManager.cpp" />
-    <ClCompile Include="CouleurJoueur.h" />
-    <ClCompile Include="Entite.cpp" />
-    <ClCompile Include="EtatJeu.cpp" />
-    <ClCompile Include="EtatMenu.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Interface.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="map.cpp" />
-    <ClCompile Include="MenuPrincipal.cpp" />
-    <ClCompile Include="Meteo.cpp" />
-    <ClCompile Include="Minimap.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="ProductionsRessource.cpp" />
-    <ClCompile Include="ProductionsUnite.cpp" />
-    <ClCompile Include="SpriteManager.cpp" />
-    <ClCompile Include="Technologie.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="Tile.cpp" />
-    <ClCompile Include="TypeUnite.h" />
-    <ClCompile Include="Unite.cpp" />
-    <ClCompile Include="UniteArmee.cpp" />
-    <ClCompile Include="UniteManager.cpp" />
-    <ClCompile Include="UniteUtilitaire.cpp" />
-    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="CouleurJoueur.h">
+      <Filter>.h</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeUnite.h">
+      <Filter>.h</Filter>
+    </ClCompile>
+    <ClCompile Include="Arme.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="ArmeManager.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Batiment.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="BatimentManager.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Entite.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="EtatJeu.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="EtatMenu.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuPrincipal.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Meteo.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Minimap.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductionsRessource.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductionsUnite.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteManager.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Technologie.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Unite.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="UniteArmee.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="UniteManager.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="UniteUtilitaire.cpp">
+      <Filter>.cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Arme.h" />
-    <ClInclude Include="ArmeManager.h" />
-    <ClInclude Include="Batiment.h" />
-    <ClInclude Include="BatimentManager.h" />
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="Constantes.h" />
-    <ClInclude Include="Entite.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Interface.h" />
-    <ClInclude Include="map.h" />
-    <ClInclude Include="MenuPrincipal.h" />
-    <ClInclude Include="Meteo.h" />
-    <ClInclude Include="Minimap.h" />
-    <ClInclude Include="Outil.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="ProductionsRessource.h" />
-    <ClInclude Include="Etat.h" />
-    <ClInclude Include="EtatJeu.h" />
-    <ClInclude Include="EtatMenu.h" />
-    <ClInclude Include="ProductionsUnite.h" />
-    <ClInclude Include="Ressource.h" />
-    <ClInclude Include="SpriteManager.h" />
-    <ClInclude Include="Technologie.h" />
-    <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="Tile.h" />
-    <ClInclude Include="TypeCase.h" />
-    <ClInclude Include="Unite.h" />
-    <ClInclude Include="UniteArmee.h" />
-    <ClInclude Include="UniteManager.h" />
-    <ClInclude Include="UniteUtilitaire.h" />
+    <ClInclude Include="Arme.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="ArmeManager.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Batiment.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="BatimentManager.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Constantes.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Entite.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Etat.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="EtatJeu.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="EtatMenu.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuPrincipal.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Meteo.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Minimap.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Outil.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductionsRessource.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductionsUnite.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Ressource.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteManager.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Technologie.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeCase.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Unite.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="UniteArmee.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="UniteManager.h">
+      <Filter>.h</Filter>
+    </ClInclude>
+    <ClInclude Include="UniteUtilitaire.h">
+      <Filter>.h</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include=".cpp">
+      <UniqueIdentifier>{40c6a5a5-7bed-40d3-ae61-af3fff4de064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=".h">
+      <UniqueIdentifier>{94a22b1b-6be2-4991-9f1c-af462f165a53}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

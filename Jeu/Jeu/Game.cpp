@@ -254,12 +254,12 @@ void Game::clic(int x, int y) {
 
 	if (gameState == 1) {
 		clicInterface(x, y);
-		/*if (testClicZoneJeu(x, y)) {
+		if (testClicZoneJeu(x, y)) {
 			clicZoneJeu(x, y);
 		}// Zone clique interface
 		else {
 			clicInterface(x, y);
-		}*/
+		}
 	}
 }
 
@@ -273,7 +273,7 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	// Variable à modifier pour gérer le zoom
 	int tailleCaseSurEcran = m_tileSize;
 	int nbCaseAfficheParLigne = round(m_winSize.x / tailleCaseSurEcran);
-	int nbCaseAfficheParColonne = round((float)(m_winSize.y - INTERFACE_HEIGTH ) / (float)tailleCaseSurEcran);
+	int nbCaseAfficheParColonne = round((float)(m_winSize.y - INTERFACE_HEIGTH) / (float)tailleCaseSurEcran);
 	int decalageX = round((m_winSize.x - (nbCaseAfficheParLigne * tailleCaseSurEcran)) / 2);
 	int decalageY = INTERFACE_HAUT_HEIGHT;
 
@@ -487,6 +487,7 @@ void Game::joueurSuivant() {
 		m_tour++;
 		m_numJoueurActif = 0;
 	}
+	cout << m_numJoueurActif << endl;
 	std::cout << "c'est au tour du joueur " << m_numJoueurActif << std::endl;
 	m_playerActif = m_players[m_numJoueurActif];
 	m_playerActif->decouvre();
