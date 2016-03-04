@@ -273,18 +273,22 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	sf::Vector2i caseClique(-1, -1);
 	// Variable à modifier pour gérer le zoom
 	int tailleCaseSurEcran = m_tileSize;
-	int nbCaseAfficheParLigne = round(m_winSize.x / tailleCaseSurEcran);
-	int nbCaseAfficheParColonne = round((float)(m_winSize.y - INTERFACE_HEIGTH) / (float)tailleCaseSurEcran);
-	int decalageX = round((m_winSize.x - (nbCaseAfficheParLigne * tailleCaseSurEcran)) / 2);
-	int decalageY = 0;
-
+	int nbCaseAfficheParLigne = round((double)m_winSize.x / (double)tailleCaseSurEcran);
+	int nbCaseAfficheParColonne = round((double)m_winSize.y / (double)tailleCaseSurEcran);
+	cout << "Ligne : " << nbCaseAfficheParLigne << endl;
+	cout << "Colonne : " << nbCaseAfficheParColonne << endl;
+	int decalageX = round((double)(m_winSize.x - (nbCaseAfficheParLigne * tailleCaseSurEcran)) / 2);
+	int decalageY = round((double)(m_winSize.y - (nbCaseAfficheParColonne * tailleCaseSurEcran)) / 2);
+	
+	cout << "decalage X :" << decalageX << endl;
+	cout << "decalage Y :" << decalageY << endl;
 	// Défini les zones de clics des cases
 	for (int i = 0; i < nbCaseAfficheParLigne; i++) {
 		for (int j = 0; j < nbCaseAfficheParColonne; j++) {
 			if (x >= decalageX + i*tailleCaseSurEcran && x < decalageX + (i + 1)*tailleCaseSurEcran
 				&& y < decalageY + (j + 1)*tailleCaseSurEcran  && y >= (j*tailleCaseSurEcran) + decalageY) {
-				caseClique.y = centreImage.y + (-nbCaseAfficheParLigne / 2 + 1 + j);
-				caseClique.x = centreImage.x + (-nbCaseAfficheParColonne + 1 / 2 + i);
+				caseClique.y = centreImage.y - (nbCaseAfficheParColonne / 2) + j;
+				caseClique.x = centreImage.x - (nbCaseAfficheParLigne / 2) + i;
 				break;
 			}
 		}
