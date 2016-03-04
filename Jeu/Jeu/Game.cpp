@@ -110,7 +110,7 @@ Game::Game()
 	else
 		c_view[1] = ((MAP_HEIGTH - 1) * m_tileSize) / 2;
 
-    m_view = sf::View(sf::Vector2f((float)c_view[0],(float)c_view[1]),sf::Vector2f(m_winSize.x,m_winSize.y));
+    m_view = sf::View(sf::Vector2f((float)c_view[0],(float)c_view[1]-INTERFACE_HEIGTH),sf::Vector2f(m_winSize.x,m_winSize.y));
 	m_viewInterface = sf::View(sf::Vector2f(m_winSize.x/2, m_winSize.y/2), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_viewMinimap = sf::View(sf::Vector2f(m_winSize.x / 2, m_winSize.y / 2), sf::Vector2f(m_winSize.x, m_winSize.y));
     //m_view.zoom(SPRITE >> 6);
@@ -255,6 +255,7 @@ void Game::clic(int x, int y) {
 	if (gameState == 1) {
 		clicInterface(x, y);
 		if (testClicZoneJeu(x, y)) {
+			cout << "clic en " << x << " " << y << endl;
 			clicZoneJeu(x, y);
 		}// Zone clique interface
 		else {
@@ -275,12 +276,12 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	int nbCaseAfficheParLigne = round(m_winSize.x / tailleCaseSurEcran);
 	int nbCaseAfficheParColonne = round((float)(m_winSize.y - INTERFACE_HEIGTH) / (float)tailleCaseSurEcran);
 	int decalageX = round((m_winSize.x - (nbCaseAfficheParLigne * tailleCaseSurEcran)) / 2);
-	int decalageY = INTERFACE_HAUT_HEIGHT;
+	int decalageY = 0;
 
 	// Défini les zones de clics des cases
 	for (int i = 0; i < nbCaseAfficheParLigne; i++) {
 		for (int j = 0; j < nbCaseAfficheParColonne; j++) {
-			if (x >= decalageX + i*tailleCaseSurEcran && x < decalageX + (i + 1)*tailleCaseSurEcran 
+			if (x >= decalageX + i*tailleCaseSurEcran && x < decalageX + (i + 1)*tailleCaseSurEcran
 				&& y < decalageY + (j + 1)*tailleCaseSurEcran  && y >= (j*tailleCaseSurEcran) + decalageY) {
 				caseClique.y = centreImage.y + (-nbCaseAfficheParLigne / 2 + 1 + j);
 				caseClique.x = centreImage.x + (-nbCaseAfficheParColonne + 1 / 2 + i);
@@ -288,6 +289,7 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 			}
 		}
 	}
+	cout << "case cliqué : " << caseClique.x << " " << caseClique.y << endl;
 	return caseClique;
 }
 
@@ -600,8 +602,8 @@ void Game::definitionCaseAttaque(int x, int y) {
 }
 
 void Game::calculNombreTileAffichable() {
-	 nombreTileAffiche.x = m_winSize.x / m_tileSize + 2;
-	 nombreTileAffiche.y = m_winSize.y / m_tileSize + 2;
+	 nombreTileAffiche.x = m_winSize.x / m_tileSize;
+	 nombreTileAffiche.y = (m_winSize.y - INTERFACE_HEIGTH) / m_tileSize ;
 }
 
 void Game::surbrillanceCaseDeplacement() {
@@ -701,7 +703,7 @@ void Game::resize()
 {
 	m_winSize.x = m_window.getSize().x;
 	m_winSize.y = m_window.getSize().y;
-	m_view = sf::View(sf::Vector2f((float)c_view[0], (float)c_view[1]), sf::Vector2f(m_winSize.x, m_winSize.y));
+	m_view = sf::View(sf::Vector2f((float)c_view[0], (float)c_view[1] - INTERFACE_HEIGTH), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_viewInterface = sf::View(sf::Vector2f(m_winSize.x / 2, m_winSize.y / 2), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_viewMinimap = sf::View(sf::Vector2f(m_winSize.x / 2, m_winSize.y / 2), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_interface->resize(m_winSize.x, m_winSize.y);

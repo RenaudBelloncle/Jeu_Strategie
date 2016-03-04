@@ -7,8 +7,6 @@
 
 #define INTERFACE_HEIGTH 225
 
-#define INTERFACE_HAUT_HEIGHT 45
-
 #define MAP_WIDTH 20
 #define MAP_HEIGTH 20
 
