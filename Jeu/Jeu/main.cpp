@@ -100,19 +100,11 @@ int main()
             {
                 if (event.mouseWheel.delta < 0)
                 {
-                    if (zoom < 5)
-                    {
-                        game.m_view.zoom(1.1);
-                        zoom = zoom * 1.1f;
-                    }
+					
                 }
                 else
                 {
-                    if (zoom > 1)
-                    {
-                        game.m_view.zoom(0.9);
-                        zoom = zoom * 0.9f;
-                    }
+                    
                 }
             }
 

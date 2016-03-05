@@ -25,9 +25,6 @@ private:
 	void loadSprites();
 
 	void definitionCase();
-	void definitionCaseUnite(int xOrig, int yOrig, int nbCase);
-	void definitionCaseUniteArmee(int xOrig, int yOrig, int nbCase, int nbCaseAttaque);
-	void definitionCaseUniteDistance(int xOrig, int yOrig, int nbCase, int rangeMin, int rangeMax);
 	void definitionCaseDeplacement(int x, int y, int profondeur);
 	void definitionCaseAttaque();
 	void definitionCaseAttaque(int x, int y);
@@ -52,8 +49,7 @@ private:
     void afficherNextTechAChercher();
 	void afficherPrevBatiementConstruire();
 	void afficherNextBatimentConstruire();
-	std::vector<sf::Vector2f> nettoyerDoublon(std::vector<sf::Vector2f> vector);
-
+	
     void buyTech();
 	MenuPrincipal menu_p;
 	Meteo meteo;

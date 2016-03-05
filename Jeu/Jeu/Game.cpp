@@ -275,8 +275,6 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	int tailleCaseSurEcran = m_tileSize;
 	int nbCaseAfficheParLigne = floor((double)m_winSize.x / (double)tailleCaseSurEcran);
 	int nbCaseAfficheParColonne = floor((double)m_winSize.y / (double)tailleCaseSurEcran);
-	cout << "Ligne : " << nbCaseAfficheParLigne << endl;
-	cout << "Colonne : " << nbCaseAfficheParColonne << endl;
 	int decalageX = round((double)(m_winSize.x - (nbCaseAfficheParLigne * tailleCaseSurEcran)) / 2);
 	int decalageY = round((double)(m_winSize.y - (nbCaseAfficheParColonne * tailleCaseSurEcran)) / 2);
 	if (nbCaseAfficheParLigne % 2 == 1) {
@@ -285,8 +283,6 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	if (nbCaseAfficheParColonne % 2 == 1) {
 		decalageY = tailleCaseSurEcran / 2 + decalageY;
 	}
-	cout << "decalage X :" << decalageX << endl;
-	cout << "decalage Y :" << decalageY << endl;
 	// Défini les zones de clics des cases
 	for (int i = 0; i < nbCaseAfficheParLigne; i++) {
 		for (int j = 0; j < nbCaseAfficheParColonne; j++) {
@@ -298,7 +294,6 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 			}
 		}
 	}
-	cout << "case cliqué : " << caseClique.x << " " << caseClique.y << endl;
 	return caseClique;
 }
 
@@ -554,32 +549,60 @@ bool Game::inAttaque(sf::Vector2f item) {
 }
 
 void Game::definitionCaseDeplacement(int x, int y, int profondeur) {
-	if (profondeur == 1) {
+	if (profondeur <= 1) {
 		return;
 	}
 	if (m_map.isInBound(x + 1, y)  && testUniteSelectionneTypeCase(x + 1,y) && !testEntiteEnnemie(x + 1, y)) {
 		if (!inDeplacement(sf::Vector2f((x + 1)*m_tileSize, y*m_tileSize)) && !testUniteAlliee(x + 1, y)) {
 			m_deplacement.push_back(sf::Vector2f((x + 1)*m_tileSize, y*m_tileSize));
 		}
-		definitionCaseDeplacement(x + 1, y, profondeur - 1);
+		if (m_map.getTile(x + 1, y).getTypeCase() == TypeCase::FORET ||
+			m_map.getTile(x + 1, y).getTypeCase() == TypeCase::COLINE ||
+			m_map.getTile(x + 1, y).getTypeCase() == TypeCase::MARAIS) {
+			definitionCaseDeplacement(x + 1, y, profondeur - 2);
+		}
+		else {
+			definitionCaseDeplacement(x + 1, y, profondeur - 1);
+		}
 	}
 	if (m_map.isInBound(x - 1, y)  && testUniteSelectionneTypeCase(x - 1, y) && !testEntiteEnnemie(x - 1, y)) {
 		if (!inDeplacement(sf::Vector2f((x - 1)*m_tileSize, y*m_tileSize)) && !testUniteAlliee(x - 1, y)) {
 			m_deplacement.push_back(sf::Vector2f((x - 1)*m_tileSize, y*m_tileSize));
 		}
-		definitionCaseDeplacement(x - 1, y, profondeur - 1);
+		if (m_map.getTile(x - 1, y).getTypeCase() == TypeCase::FORET ||
+			m_map.getTile(x - 1, y).getTypeCase() == TypeCase::COLINE ||
+			m_map.getTile(x - 1, y).getTypeCase() == TypeCase::MARAIS) {
+			definitionCaseDeplacement(x - 1, y, profondeur - 2);
+		}
+		else {
+			definitionCaseDeplacement(x - 1, y, profondeur - 1);
+		}
 	}
 	if (m_map.isInBound(x, y + 1)  && testUniteSelectionneTypeCase(x, y + 1) && !testEntiteEnnemie(x, y + 1)) {
 		if (!inDeplacement(sf::Vector2f(x*m_tileSize, (y + 1)*m_tileSize)) && !testUniteAlliee(x, y + 1)) {
 			m_deplacement.push_back(sf::Vector2f(x*m_tileSize, (y + 1)*m_tileSize));
 		}
-		definitionCaseDeplacement(x, y + 1, profondeur - 1);
+		if (m_map.getTile(x, y + 1).getTypeCase() == TypeCase::FORET ||
+			m_map.getTile(x, y + 1).getTypeCase() == TypeCase::COLINE ||
+			m_map.getTile(x, y + 1).getTypeCase() == TypeCase::MARAIS) {
+			definitionCaseDeplacement(x, y + 1, profondeur - 2);
+		}
+		else {
+			definitionCaseDeplacement(x, y + 1, profondeur - 1);
+		}
 	}
 	if (m_map.isInBound(x, y - 1) && testUniteSelectionneTypeCase(x, y - 1) && !testEntiteEnnemie(x, y - 1)) {
 		if (!inDeplacement(sf::Vector2f(x*m_tileSize, (y - 1)*m_tileSize)) && !testUniteAlliee(x, y - 1)) {
 			m_deplacement.push_back(sf::Vector2f(x*m_tileSize, (y - 1)*m_tileSize));
 		}
-		definitionCaseDeplacement(x, y - 1, profondeur - 1);
+		if (m_map.getTile(x, y - 1).getTypeCase() == TypeCase::FORET ||
+			m_map.getTile(x, y - 1).getTypeCase() == TypeCase::COLINE ||
+			m_map.getTile(x, y - 1).getTypeCase() == TypeCase::MARAIS) {
+			definitionCaseDeplacement(x, y - 1, profondeur - 2);
+		}
+		else {
+			definitionCaseDeplacement(x, y - 1, profondeur - 1);
+		}
 	}
 }
 
