@@ -130,7 +130,7 @@ Game::Game()
 	m_playerActif = m_players[m_numJoueurActif];
 	m_players[0]->decouvre();
 
-	if (!font.loadFromFile("media/Constantine.ttf"))
+	if (!font.loadFromFile("media/kenvector_future.ttf"))
 	{
 		std::cout << "Erreur chargement font" << std::endl;
 	}
@@ -147,33 +147,7 @@ Game::Game()
 	m_interface->ajouterBouton(bouton_minimap_ress);
 	Button* bouton_minimap_unite = new Button("unite", sf::Vector2i(200, m_winSize.y - 75), m_spriteManager.getRef("bouton_unite"), &Game::changeModeUnite);
 	m_interface->ajouterBouton(bouton_minimap_unite);
-	textEau.setFont(font);
-	textEau.setString(std::to_string(0));
-	textEau.setCharacterSize(12);
-	textEau.setColor(sf::Color::White);
-	textEau.setStyle(sf::Text::Bold);
-	textEau.setPosition(c_view[0] - 370, c_view[1] - 295);
-
-	textEnergie.setFont(font);
-	textEnergie.setString(std::to_string(0));
-	textEnergie.setCharacterSize(12);
-	textEnergie.setColor(sf::Color::White);
-	textEnergie.setStyle(sf::Text::Bold);
-	textEnergie.setPosition(c_view[0] - 254, c_view[1] - 295);
-
-	textPetrole.setFont(font);
-	textPetrole.setString(std::to_string(0));
-	textPetrole.setCharacterSize(12);
-	textPetrole.setColor(sf::Color::White);
-	textPetrole.setStyle(sf::Text::Bold);
-	textPetrole.setPosition(c_view[0] - 370, c_view[1] - 264);
-
-	textMetaux.setFont(font);
-	textMetaux.setString(std::to_string(0));
-	textMetaux.setCharacterSize(12);
-	textMetaux.setColor(sf::Color::White);
-	textMetaux.setStyle(sf::Text::Bold);
-	textMetaux.setPosition(c_view[0] - 254, c_view[1] - 264);
+	
 	if (brouillardDeGuerre)
 	{
 		m_minimap = Minimap(&m_map, m_playerActif);
@@ -218,7 +192,7 @@ void Game::render() {
 		m_window.setView(m_viewInterface);
 		m_interface->render(&m_window, &m_spriteManager);
 		if (m_uniteSelectionne != NULL) {
-			m_interface->renderInfoUnite(&m_window, font, m_uniteSelectionne);
+			m_interface->renderInfoUnite(&m_window, font, m_uniteSelectionne,320,m_winSize.y - INTERFACE_HEIGTH + 40);
 		}
 		if (tech) {
 			m_interface->renderTechnologies(&m_window, font, m_technologie);
@@ -226,17 +200,7 @@ void Game::render() {
 		if (batiment) {
 			m_interface->renderInfoBatiment(&m_window, font, m_batiment);
 		}
-		const int tour = m_tour;
-		m_interface->ecrireMessage(&m_window, (float)630 * 1.25, (float)9 * 1.25, std::to_string(tour), font, 18, sf::Color::White);
-		const int nbEau = m_playerActif->getEssence();
-		m_interface->ecrireMessage(&m_window, (float)30 * 1.25, (float)5 * 1.25, std::to_string(nbEau), font, 18, sf::Color::Black);
-		const int nbEnergie = m_playerActif->getEnergie();
-		m_interface->ecrireMessage(&m_window, (float)146 * 1.25, (float)5 * 1.25, std::to_string(nbEnergie), font, 18, sf::Color::Black);
-		const int nbVivres = m_playerActif->getVivre();
-		m_interface->ecrireMessage(&m_window, (float)30 * 1.25, (float)36 * 1.25, std::to_string(nbVivres), font, 18, sf::Color::Black);
-		const int nbMetaux = m_playerActif->getMetaux();
-		m_interface->ecrireMessage(&m_window, (float)146 * 1.25, (float)36 * 1.25, std::to_string(nbMetaux), font, 18, sf::Color::Black);
-
+		m_interface->renderPlayer(&m_window, m_playerActif, font,m_winSize.y-INTERFACE_HEIGTH + 5);
 		// Render de la minimap
 		m_window.setView(m_viewMinimap);
 		m_minimap.render(&m_window, m_winSize.x, m_winSize.y);
@@ -382,7 +346,6 @@ void Game::clicZoneJeu(int x, int y) {
 
 void Game::clicUnite(int x, int y, Unite *unite) {
 	m_uniteSelectionne = unite;
-	m_interface->renderInfoUnite(&m_window, font, unite);
 	definitionCase();
 	tech = false;
 	batiment = false;
@@ -391,21 +354,7 @@ void Game::clicUnite(int x, int y, Unite *unite) {
 void Game::clicInterface(int x, int y) {
 	m_interface->clic(this, x, y);
 	/*
-	if (x < 43 && 6 < x) {
-		if (y < 485 && 465 < y) {
-			m_minimap.changeModeTopo();
-		}
-		else if (y < 530 && 510 < y) {
-			m_minimap.changeModeRessource();
-		}
-		else if (y < 575 && 555 < y) {
-			m_minimap.changeModeUnite();
-		}
-	}
-	else if (x < 233 && 64 < x && y < 485 && 460 < y) {
-		finTour();
-	}
-	else if (x < 312 && 266 < x && y < 575 && 490 < y) {
+	if (x < 312 && 266 < x && y < 575 && 490 < y) {
 		std::cout << "Fleche gauche " << std::endl;
         if (tech) afficherPrevTechAChercher();
 		if (batiment) afficherPrevBatiementConstruire();
@@ -425,12 +374,6 @@ void Game::clicInterface(int x, int y) {
 		afficherTechAChercher();
 		batiment = false;
 	}
-	else if (x < 544 && 410 < x && y < 30 && 4 < y) {
-		std::cout << "Construction " << std::endl;
-		deselection();
-		afficherBatimentAConstruire();
-		tech = false;
-	}
 	else if (x < 744 && 710 < x && y < 31 && 2 < y) {
 		std::cout << "Options " << std::endl;
 		deselection();
@@ -443,6 +386,8 @@ void Game::clicInterface(int x, int y) {
 }
 
 void Game::afficherTechAChercher() {
+	m_uniteSelectionne = NULL;
+	m_batimentSelectionne = NULL;
     tech = true;
     indice = 0;
     m_technologie = m_playerActif->getTechnoARechercher()[indice];
