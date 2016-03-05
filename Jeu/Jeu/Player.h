@@ -1,6 +1,7 @@
 #pragma once
 #include "Unite.h"
 #include "Batiment.h"
+#include "ProductionsRessource.h"
 #include "CouleurJoueur.h"
 #include "SpriteManager.h"
 #include "Technologie.h"
@@ -14,6 +15,7 @@ private :
 	int essence;
 	int metaux;
 	int vivre;
+	int stockMaxMetaux, stockMaxEssence, stockMaxEnergie, stockMaxVivre;
 	std::vector<Unite*> listUnite;
 	std::vector<Batiment*> listBatiment;
 	std::vector<Technologie> listTechnologie;
