@@ -273,13 +273,18 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	sf::Vector2i caseClique(-1, -1);
 	// Variable à modifier pour gérer le zoom
 	int tailleCaseSurEcran = m_tileSize;
-	int nbCaseAfficheParLigne = round((double)m_winSize.x / (double)tailleCaseSurEcran);
-	int nbCaseAfficheParColonne = round((double)m_winSize.y / (double)tailleCaseSurEcran);
+	int nbCaseAfficheParLigne = floor((double)m_winSize.x / (double)tailleCaseSurEcran);
+	int nbCaseAfficheParColonne = floor((double)m_winSize.y / (double)tailleCaseSurEcran);
 	cout << "Ligne : " << nbCaseAfficheParLigne << endl;
 	cout << "Colonne : " << nbCaseAfficheParColonne << endl;
 	int decalageX = round((double)(m_winSize.x - (nbCaseAfficheParLigne * tailleCaseSurEcran)) / 2);
 	int decalageY = round((double)(m_winSize.y - (nbCaseAfficheParColonne * tailleCaseSurEcran)) / 2);
-	
+	if (nbCaseAfficheParLigne % 2 == 1) {
+		decalageX = tailleCaseSurEcran/2+decalageX;
+	}
+	if (nbCaseAfficheParColonne % 2 == 1) {
+		decalageY = tailleCaseSurEcran / 2 + decalageY;
+	}
 	cout << "decalage X :" << decalageX << endl;
 	cout << "decalage Y :" << decalageY << endl;
 	// Défini les zones de clics des cases
@@ -707,7 +712,7 @@ void Game::resize()
 {
 	m_winSize.x = m_window.getSize().x;
 	m_winSize.y = m_window.getSize().y;
-	m_view = sf::View(sf::Vector2f((float)c_view[0], (float)c_view[1] - INTERFACE_HEIGTH), sf::Vector2f(m_winSize.x, m_winSize.y));
+	m_view = sf::View(sf::Vector2f((float)c_view[0], (float)c_view[1]), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_viewInterface = sf::View(sf::Vector2f(m_winSize.x / 2, m_winSize.y / 2), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_viewMinimap = sf::View(sf::Vector2f(m_winSize.x / 2, m_winSize.y / 2), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_interface->resize(m_winSize.x, m_winSize.y);

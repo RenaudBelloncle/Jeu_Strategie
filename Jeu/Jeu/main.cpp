@@ -10,7 +10,6 @@ int main()
     Game game;
 
 	bool leftPressed(false), rightPressed(false), upPressed(false), downPressed(false);
-	//float zoom = SPRITE >> 6;
 	float zoom = 1;
 	sf::Clock m_clock;
 
@@ -97,7 +96,7 @@ int main()
 				game.resize();
 			}
 
-            /*if (event.type == sf::Event::MouseWheelMoved)
+            if (event.type == sf::Event::MouseWheelMoved)
             {
                 if (event.mouseWheel.delta < 0)
                 {
@@ -115,7 +114,7 @@ int main()
                         zoom = zoom * 0.9f;
                     }
                 }
-            }*/
+            }
 
 			if (event.type == sf::Event::MouseButtonPressed) {
 
