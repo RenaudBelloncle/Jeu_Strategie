@@ -15,6 +15,9 @@ void Game::loadTextures() {
 	m_textureManager.loadTexture("fin_de_tour", "media/res/fin_de_tour.png");
 	m_textureManager.loadTexture("bouton_technologies", "media/res/bouton_technologies.png");
 	m_textureManager.loadTexture("bouton_batiments", "media/res/bouton_batiments.png");
+	m_textureManager.loadTexture("bouton_topo", "media/res/bouton_topo.png");
+	m_textureManager.loadTexture("bouton_ress", "media/res/bouton_ress.png");
+	m_textureManager.loadTexture("bouton_unite", "media/res/bouton_unite.png");
 }
 
 void Game::loadSprites()
@@ -26,6 +29,9 @@ void Game::loadSprites()
 	m_spriteManager.getRef("interface").setPosition(0, WIN_HEIGTH - 200);
 
 	m_spriteManager.loadSprite("fin_de_tour", m_textureManager.getRef("fin_de_tour"), 113, 34, 0, 0);
+	m_spriteManager.loadSprite("bouton_ress", m_textureManager.getRef("bouton_ress"), 113, 34, 0, 0);
+	m_spriteManager.loadSprite("bouton_unite", m_textureManager.getRef("bouton_unite"), 113, 34, 0, 0);
+	m_spriteManager.loadSprite("bouton_topo", m_textureManager.getRef("bouton_topo"), 113, 34, 0, 0);
 	m_spriteManager.loadSprite("bouton_technologies", m_textureManager.getRef("bouton_technologies"), 113, 34, 0, 0);
 	m_spriteManager.loadSprite("bouton_batiments", m_textureManager.getRef("bouton_batiments"), 113, 34, 0, 0);
 
@@ -129,13 +135,18 @@ Game::Game()
 		std::cout << "Erreur chargement font" << std::endl;
 	}
 
-	Button* bouton_fin_de_tour = new Button("fin de tour", sf::Vector2i(205, 550), m_spriteManager.getRef("fin_de_tour"), &Game::finTour);
+	Button* bouton_fin_de_tour = new Button("fin de tour", sf::Vector2i(m_winSize.x - (113 + 25), m_winSize.y - 175), m_spriteManager.getRef("fin_de_tour"), &Game::finTour);
 	m_interface->ajouterBouton(bouton_fin_de_tour);
-	Button* bouton_technologies = new Button("technologies", sf::Vector2i(323, 550), m_spriteManager.getRef("bouton_technologies"), &Game::afficherTechAChercher);
+	Button* bouton_technologies = new Button("technologies", sf::Vector2i(m_winSize.x - (113 + 25), m_winSize.y - 125), m_spriteManager.getRef("bouton_technologies"), &Game::afficherTechAChercher);
 	m_interface->ajouterBouton(bouton_technologies);
-	Button* bouton_batiments = new Button("batiments", sf::Vector2i(441, 550), m_spriteManager.getRef("bouton_batiments"), &Game::afficherBatimentAConstruire);
+	Button* bouton_batiments = new Button("batiments", sf::Vector2i(m_winSize.x - (113 + 25), m_winSize.y - 75), m_spriteManager.getRef("bouton_batiments"), &Game::afficherBatimentAConstruire);
 	m_interface->ajouterBouton(bouton_batiments);
-
+	Button* bouton_minimap_topo = new Button("topo", sf::Vector2i(200, m_winSize.y - 175), m_spriteManager.getRef("bouton_topo"), &Game::changeModeTopo);
+	m_interface->ajouterBouton(bouton_minimap_topo);
+	Button* bouton_minimap_ress = new Button("ress", sf::Vector2i(200, m_winSize.y - 125), m_spriteManager.getRef("bouton_ress"), &Game::changeModeRessource);
+	m_interface->ajouterBouton(bouton_minimap_ress);
+	Button* bouton_minimap_unite = new Button("unite", sf::Vector2i(200, m_winSize.y - 75), m_spriteManager.getRef("bouton_unite"), &Game::changeModeUnite);
+	m_interface->ajouterBouton(bouton_minimap_unite);
 	textEau.setFont(font);
 	textEau.setString(std::to_string(0));
 	textEau.setCharacterSize(12);
@@ -253,9 +264,7 @@ void Game::clic(int x, int y) {
 	}
 
 	if (gameState == 1) {
-		clicInterface(x, y);
 		if (testClicZoneJeu(x, y)) {
-			cout << "clic en " << x << " " << y << endl;
 			clicZoneJeu(x, y);
 		}// Zone clique interface
 		else {
@@ -265,7 +274,6 @@ void Game::clic(int x, int y) {
 }
 
 bool Game::testClicZoneJeu(int x, int y) {
-	// Zone principale
 	return y < m_winSize.y - INTERFACE_HEIGTH;
 }
 
@@ -486,14 +494,11 @@ Player* Game::getPlayerActif() {
 }
 
 void Game::joueurSuivant() {
-	m_deplacement.clear();
-	m_attaque.clear();
 	m_numJoueurActif++;
 	if (m_numJoueurActif >= m_nbJoueur) {
 		m_tour++;
 		m_numJoueurActif = 0;
 	}
-	cout << m_numJoueurActif << endl;
 	std::cout << "c'est au tour du joueur " << m_numJoueurActif << std::endl;
 	m_playerActif = m_players[m_numJoueurActif];
 	m_playerActif->decouvre();
@@ -502,6 +507,8 @@ void Game::joueurSuivant() {
 void Game::finTour() {
 	m_batimentSelectionne = NULL;
 	m_uniteSelectionne = NULL;
+	m_deplacement.clear();
+	m_attaque.clear();
 	m_playerActif->update();
 	joueurSuivant();
 	// Ca pourrait etre sympa d'afficher en plus "C'est au tour de joueur : "
@@ -705,15 +712,6 @@ void Game::selection(sf::Vector2i caseClique, int x, int y) {
 		for (int i = 0; i < m_playerActif->getNombreUnite(); i++) {
 			if (m_playerActif->getUnite(i)->getCoordX() == caseClique.x && m_playerActif->getUnite(i)->getCoordY() == caseClique.y && m_playerActif->getUnite(i)->peutAgir()) {
 				clicUnite(x, y, m_playerActif->getUnite(i));
-				std::cout << "Nom : " << m_uniteSelectionne->getNom() << std::endl;
-				std::cout << "Description : " << m_uniteSelectionne->getDescription() << std::endl;
-				std::cout << "PV : " << m_uniteSelectionne->getPvRestant()<< "/" << 10 << std::endl;
-				std::cout << "Ressource : " << m_uniteSelectionne->getStockRessActuel()<<"/"<< m_uniteSelectionne->getStockMaxRess() <<std::endl;
-				if (m_uniteSelectionne->isArmee()) {
-					UniteArmee* unite = (UniteArmee*)m_uniteSelectionne;
-					std::cout << "Munition : " << unite->getStockMunActuel() << "/" << unite->getStockMaxMun() << std::endl;
-					std::cout << "Portée entre " << unite->getRangeMin() << " et " << unite->getRangeMax() << std::endl;
-				}
 			}
 		}
 		if (m_uniteSelectionne == NULL) {
@@ -739,11 +737,26 @@ void Game::resize()
 	m_viewInterface = sf::View(sf::Vector2f(m_winSize.x / 2, m_winSize.y / 2), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_viewMinimap = sf::View(sf::Vector2f(m_winSize.x / 2, m_winSize.y / 2), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_interface->resize(m_winSize.x, m_winSize.y);
-	m_interface->getButton("fin de tour")->move(205, m_winSize.y - 50);
-	m_interface->getButton("technologies")->move(323, m_winSize.y - 50);
-	m_interface->getButton("batiments")->move(441, m_winSize.y - 50);
+	m_interface->getButton("fin de tour")->move(m_winSize.x-(113 + 25), m_winSize.y - 175);
+	m_interface->getButton("technologies")->move(m_winSize.x - (113 + 25), m_winSize.y - 125);
+	m_interface->getButton("batiments")->move(m_winSize.x - (113 + 25), m_winSize.y - 75);
+	m_interface->getButton("topo")->move(200, m_winSize.y - 175);
+	m_interface->getButton("ress")->move(200, m_winSize.y - 125);
+	m_interface->getButton("unite")->move(200, m_winSize.y - 75);
 }
 
 int Game::getState() {
 	return gameState;
+}
+
+void Game::changeModeTopo() {
+	m_minimap.changeModeTopo();
+}
+
+void Game::changeModeRessource() {
+	m_minimap.changeModeRessource();
+}
+
+void Game::changeModeUnite() {
+	m_minimap.changeModeUnite();
 }

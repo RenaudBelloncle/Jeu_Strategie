@@ -56,6 +56,7 @@ private:
 	sf::Clock weather_clock;
 	void initText();
 	BatimentManager m_batimentManager;
+	bool boutonClique;
 public:
 	Game();
     sf::RenderWindow m_window;
@@ -75,6 +76,9 @@ public:
 
     Map m_map;
 	Minimap m_minimap;
+	void changeModeTopo();
+	void changeModeUnite();
+	void changeModeRessource();
 
 	Player **m_players, *m_playerActif;
 
