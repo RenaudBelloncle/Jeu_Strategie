@@ -89,7 +89,7 @@ Game::Game()
 	: meteo(&m_window), menu_p(&m_window)
 {
 	gameState = 1;
-	brouillardDeGuerre = false;
+	brouillardDeGuerre = true;
 	m_uniteSelectionne = NULL;
 	m_batimentSelectionne = NULL;
 	m_tour = 0;
@@ -257,15 +257,30 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	}
 	// Défini les zones de clics des cases
 	for (int i = 0; i < nbCaseAfficheParLigne; i++) {
-		for (int j = 0; j < nbCaseAfficheParColonne; j++) {
-			if (x >= decalageX + i*tailleCaseSurEcran && x < decalageX + (i + 1)*tailleCaseSurEcran
-				&& y < decalageY + (j + 1)*tailleCaseSurEcran  && y >= (j*tailleCaseSurEcran) + decalageY) {
-				caseClique.y = centreImage.y - (nbCaseAfficheParColonne / 2) + j;
-				caseClique.x = centreImage.x - (nbCaseAfficheParLigne / 2) + i;
-				break;
-			}
+		if (x >= decalageX + i*tailleCaseSurEcran && x < decalageX + (i + 1)*tailleCaseSurEcran) {
+			caseClique.x = centreImage.x - (nbCaseAfficheParLigne / 2) + i;
+			break;
 		}
 	}
+	for (int j = 0; j < nbCaseAfficheParColonne; j++) {
+		if(y < decalageY + (j + 1)*tailleCaseSurEcran  && y >= (j*tailleCaseSurEcran) + decalageY) {
+			caseClique.y = centreImage.y - (nbCaseAfficheParColonne / 2) + j;
+			break;
+		}
+	}
+	if (x < decalageX) {
+		caseClique.x = centreImage.x - (nbCaseAfficheParLigne / 2) - 1;
+	}
+	else if (x > decalageX + nbCaseAfficheParLigne*tailleCaseSurEcran) {
+		caseClique.x = centreImage.x + (nbCaseAfficheParLigne / 2);
+	}
+	if (y < decalageY) {
+		caseClique.y = centreImage.y - (nbCaseAfficheParColonne / 2) - 1;
+	}
+	else if (y > decalageY + nbCaseAfficheParColonne*tailleCaseSurEcran) {
+		caseClique.y = centreImage.y + (nbCaseAfficheParColonne / 2);
+	}
+	cout <<"Case clique : "<<caseClique.x <<" "<< caseClique.y<< endl;
 	return caseClique;
 }
 

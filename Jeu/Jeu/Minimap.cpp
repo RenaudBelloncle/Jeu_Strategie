@@ -22,31 +22,31 @@ Minimap::Minimap(Map *map) {
 		for (unsigned int j = 0; j < m_heigth;j++) {
 			switch (map->getTile(i, j).getTypeCase()) {
 			case TypeCase::PLAINE:
-				m_imageMinimap.setPixel(i, j, sf::Color(193, 198, 111));
+				m_imageMinimap.setPixel(i, j, sf::Color(45,200,111));
 				break;
 
 			case TypeCase::PLAGE:
-				m_imageMinimap.setPixel(i, j, sf::Color(233, 231, 186));
+				m_imageMinimap.setPixel(i, j, sf::Color(236,220,184));
 				break;
 
 			case TypeCase::MONTAGNE:
-				m_imageMinimap.setPixel(i, j, sf::Color(58, 51, 44));
+				m_imageMinimap.setPixel(i, j, sf::Color(137, 164, 166));
 				break;
 
 			case TypeCase::MER:
-				m_imageMinimap.setPixel(i, j, sf::Color(122, 182, 145));
+				m_imageMinimap.setPixel(i, j, sf::Color(166,255,245));
 				break;
 
 			case TypeCase::FORET:
-				m_imageMinimap.setPixel(i, j, sf::Color(36, 66, 45));
+				m_imageMinimap.setPixel(i, j, sf::Color(27,145,77));
 				break;
 
 			case TypeCase::MARAIS:
-				m_imageMinimap.setPixel(i, j, sf::Color(32, 36, 24));
+				m_imageMinimap.setPixel(i, j, sf::Color(88,167,140));
 				break;
 
 			case TypeCase::COLINE:
-				m_imageMinimap.setPixel(i, j, sf::Color(170, 140, 100));
+				m_imageMinimap.setPixel(i, j, sf::Color(187,128,68));
 				break;
 
 			case TypeCase::VILLE:
