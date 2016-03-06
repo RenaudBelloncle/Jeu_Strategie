@@ -191,7 +191,7 @@ void Minimap::render(sf::RenderWindow *renderWindow, int width, int height) {
 	renderWindow->draw(sprite);
 }
 
-void Minimap::renderPlayer(sf::RenderWindow *renderWindow, Player *player[], int nbJoueur, int width, int height) {
+void Minimap::renderPlayer(sf::RenderWindow *renderWindow, vector<Player*> player, int nbJoueur, int width, int height) {
 	sf::Sprite sprite;
 	sf::Texture texture;
 	sf::Image img;

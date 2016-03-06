@@ -123,9 +123,9 @@ Game::Game()
 
     m_window.setFramerateLimit(60);
 	m_nbJoueur = 2;
-	m_players = new Player*[m_nbJoueur];
- 	m_players[0] = new Player(sf::Color(127,127,127));
-	m_players[1] = new Player(sf::Color(0, 127, 127));
+	for (int i = 0; i < m_nbJoueur; i++) {
+		m_players.push_back(new Player(sf::Color(127+i*10, 127-i * 10, 127-i * 5)));
+	}
 	m_numJoueurActif = 0;
 	m_playerActif = m_players[m_numJoueurActif];
 	m_players[0]->decouvre();
@@ -284,13 +284,20 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	return caseClique;
 }
 
-void Game::actionUnite(sf::Vector2i caseClique) {
+bool Game::deplacement(sf::Vector2i caseClique) {
 	for (int i = 0; i < m_deplacement.size(); i++) {
 		if (caseClique.x == m_deplacement[i].x / m_tileSize && caseClique.y == m_deplacement[i].y / m_tileSize) {
 			m_uniteSelectionne->seDeplace(caseClique.x, caseClique.y, &m_window, m_playerActif->getColor(), &m_spriteManager);
-			m_playerActif->decouvre();
+			if (brouillardDeGuerre) {
+				m_playerActif->decouvre();
+			}
+			return true;
 		}
 	}
+	return false;
+}
+
+bool Game::attaque(sf::Vector2i caseClique) {
 	for (int i = 0; i < m_attaque.size(); i++) {
 		if (caseClique.x == m_attaque[i].x / m_tileSize && caseClique.y == m_attaque[i].y / m_tileSize) {
 			UniteArmee *unite = (UniteArmee*)m_uniteSelectionne;
@@ -307,16 +314,34 @@ void Game::actionUnite(sf::Vector2i caseClique) {
 								m_playerActif->decouvre();
 							}
 							unite->attaque(m_players[j]->getUnite(k));
-							
+
 							if (m_players[j]->getUnite(k)->estDetruit()) {
 								m_players[j]->detruireUnite(k);
 							}
+							if (m_players[j]->aPerdu()) {
+								m_nbJoueur--;
+								// Annoncer défaite joueur
+								cout << "Le joueur " << j << " a perdu" << endl;
+								m_players.erase(m_players.begin()+(j-1));
+								if (m_players.size() == 1) {
+									// Victoire du joueur
+									cout << "Victoire du joueur" << endl;
+								}
+							}
+							return true;
 						}
 					}
 				}
 			}
 		}
+	}
+	return false;
+}
 
+void Game::actionUnite(sf::Vector2i caseClique) {
+	//m_interface->afficherActionUnite(m_uniteSelectionne,caseClique);
+	if (!attaque(caseClique)) {
+		deplacement(caseClique);
 	}
 }
 
@@ -349,7 +374,6 @@ void Game::deplacementAutoPourAttaque(int ecartX, int ecartY, int distance, Unit
 void Game::clicZoneJeu(int x, int y) {
 	sf::Vector2i caseClique = definitionCaseClique(x, y);
 	//tech = false;
-
 	if (m_uniteSelectionne != NULL && m_uniteSelectionne->peutAgir()) {
 		actionUnite(caseClique);
 		deselection();
@@ -357,13 +381,6 @@ void Game::clicZoneJeu(int x, int y) {
 	else {
 		selection(caseClique, x, y);
 	}
-}
-
-void Game::clicUnite(int x, int y, Unite *unite) {
-	m_uniteSelectionne = unite;
-	definitionCase();
-	tech = false;
-	batiment = false;
 }
 
 void Game::clicInterface(int x, int y) {
@@ -472,6 +489,13 @@ void Game::finTour() {
 	m_playerActif->update();
 	joueurSuivant();
 	// Ca pourrait etre sympa d'afficher en plus "C'est au tour de joueur : "
+}
+
+void Game::clicUnite(int x, int y, Unite *unite) {
+	m_uniteSelectionne = unite;
+	definitionCase();
+	tech = false;
+	batiment = false;
 }
 
 void Game::definitionCase() {

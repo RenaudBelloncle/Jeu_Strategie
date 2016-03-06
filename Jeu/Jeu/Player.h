@@ -51,4 +51,5 @@ public :
 	bool aDecouvertLaRessource(int x, int y);
 	void decouvre();
 	void decouvreRessource(int x, int y);
+	bool aPerdu();
 };

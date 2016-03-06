@@ -5,14 +5,6 @@ Player::Player(sf::Color color) {
 	couleur = color;
 	initTechnologies();
 
-	for (int i = 0; i < MAP_WIDTH; i++) {
-		for (int j = 0; j < MAP_HEIGTH; j++) {
-			caseDecouverte[i][j] = false;
-			ressourceDecouverte[i][j] = false;
-		}
-	}
-	decouvre();
-
     energie = 10;
     essence = 10;
     metaux = 10;
@@ -39,7 +31,12 @@ int Player::getVivre() {
 void Player::creerUnite(Unite *unite,int resistance) {
 	unite->setResistance(resistance);
 	listUnite.push_back(unite);
-	decouvre();
+	for (int i = 0; i < MAP_WIDTH; i++) {
+		for (int j = 0; j < MAP_HEIGTH; j++) {
+			caseDecouverte[i][j] = false;
+			ressourceDecouverte[i][j] = false; 
+		}
+	}
 }
 
 void Player::detruireUnite(int index) {
@@ -337,4 +334,8 @@ void Player::decouvreRessource(int x, int y) {
 			}
 		}
 	}
+}
+
+bool Player::aPerdu() {
+	return listBatiment.size() == 0 && listUnite.size() == 0;
 }

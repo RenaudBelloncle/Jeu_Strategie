@@ -49,6 +49,9 @@ private:
     void afficherNextTechAChercher();
 	void afficherPrevBatiementConstruire();
 	void afficherNextBatimentConstruire();
+
+	bool attaque(sf::Vector2i caseClique);
+	bool deplacement(sf::Vector2i caseClique);
 	
     void buyTech();
 	MenuPrincipal menu_p;
@@ -74,8 +77,8 @@ public:
 	void changeModeTopo();
 	void changeModeUnite();
 	void changeModeRessource();
-
-	Player **m_players, *m_playerActif;
+	vector<Player*> m_players;
+	Player *m_playerActif;
 
     void render();
 	Player* getPlayerActif();
