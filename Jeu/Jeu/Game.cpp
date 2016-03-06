@@ -479,7 +479,7 @@ void Game::definitionCase() {
 	m_attaque.clear();
 	m_deplacement.clear();
 	// Unite armee
-	definitionCaseDeplacement(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY(), m_uniteSelectionne->getDeplacementMax());
+	definitionCaseDeplacement(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY(), m_uniteSelectionne->getDeplacementMax(),0);
 	if (m_uniteSelectionne->isArmee()) {
 		UniteArmee* unite = (UniteArmee*)m_uniteSelectionne;
 		if (unite->peutAttaquer()) {
@@ -515,60 +515,60 @@ bool Game::inAttaque(sf::Vector2f item) {
 	return false;
 }
 
-void Game::definitionCaseDeplacement(int x, int y, int profondeur) {
+void Game::definitionCaseDeplacement(int x, int y, int profondeur, int sens) {
 	if (profondeur <= 1) {
 		return;
 	}
-	if (m_map.isInBound(x + 1, y)  && testUniteSelectionneTypeCase(x + 1,y) && !testEntiteEnnemie(x + 1, y)) {
+	if (m_map.isInBound(x + 1, y)  && testUniteSelectionneTypeCase(x + 1,y) && !testEntiteEnnemie(x + 1, y) && sens != 1) {
 		if (!inDeplacement(sf::Vector2f((x + 1)*m_tileSize, y*m_tileSize)) && !testUniteAlliee(x + 1, y)) {
 			m_deplacement.push_back(sf::Vector2f((x + 1)*m_tileSize, y*m_tileSize));
 		}
 		if (m_map.getTile(x + 1, y).getTypeCase() == TypeCase::FORET ||
 			m_map.getTile(x + 1, y).getTypeCase() == TypeCase::COLINE ||
 			m_map.getTile(x + 1, y).getTypeCase() == TypeCase::MARAIS) {
-			definitionCaseDeplacement(x + 1, y, profondeur - 2);
+			definitionCaseDeplacement(x + 1, y, profondeur - 2,2);
 		}
 		else {
-			definitionCaseDeplacement(x + 1, y, profondeur - 1);
+			definitionCaseDeplacement(x + 1, y, profondeur - 1,2);
 		}
 	}
-	if (m_map.isInBound(x - 1, y)  && testUniteSelectionneTypeCase(x - 1, y) && !testEntiteEnnemie(x - 1, y)) {
+	if (m_map.isInBound(x - 1, y)  && testUniteSelectionneTypeCase(x - 1, y) && !testEntiteEnnemie(x - 1, y) && sens != 2) {
 		if (!inDeplacement(sf::Vector2f((x - 1)*m_tileSize, y*m_tileSize)) && !testUniteAlliee(x - 1, y)) {
 			m_deplacement.push_back(sf::Vector2f((x - 1)*m_tileSize, y*m_tileSize));
 		}
 		if (m_map.getTile(x - 1, y).getTypeCase() == TypeCase::FORET ||
 			m_map.getTile(x - 1, y).getTypeCase() == TypeCase::COLINE ||
 			m_map.getTile(x - 1, y).getTypeCase() == TypeCase::MARAIS) {
-			definitionCaseDeplacement(x - 1, y, profondeur - 2);
+			definitionCaseDeplacement(x - 1, y, profondeur - 2,1);
 		}
 		else {
-			definitionCaseDeplacement(x - 1, y, profondeur - 1);
+			definitionCaseDeplacement(x - 1, y, profondeur - 1,1);
 		}
 	}
-	if (m_map.isInBound(x, y + 1)  && testUniteSelectionneTypeCase(x, y + 1) && !testEntiteEnnemie(x, y + 1)) {
+	if (m_map.isInBound(x, y + 1)  && testUniteSelectionneTypeCase(x, y + 1) && !testEntiteEnnemie(x, y + 1) && sens != 3) {
 		if (!inDeplacement(sf::Vector2f(x*m_tileSize, (y + 1)*m_tileSize)) && !testUniteAlliee(x, y + 1)) {
 			m_deplacement.push_back(sf::Vector2f(x*m_tileSize, (y + 1)*m_tileSize));
 		}
 		if (m_map.getTile(x, y + 1).getTypeCase() == TypeCase::FORET ||
 			m_map.getTile(x, y + 1).getTypeCase() == TypeCase::COLINE ||
 			m_map.getTile(x, y + 1).getTypeCase() == TypeCase::MARAIS) {
-			definitionCaseDeplacement(x, y + 1, profondeur - 2);
+			definitionCaseDeplacement(x, y + 1, profondeur - 2,4);
 		}
 		else {
-			definitionCaseDeplacement(x, y + 1, profondeur - 1);
+			definitionCaseDeplacement(x, y + 1, profondeur - 1,4);
 		}
 	}
-	if (m_map.isInBound(x, y - 1) && testUniteSelectionneTypeCase(x, y - 1) && !testEntiteEnnemie(x, y - 1)) {
+	if (m_map.isInBound(x, y - 1) && testUniteSelectionneTypeCase(x, y - 1) && !testEntiteEnnemie(x, y - 1) && sens != 4) {
 		if (!inDeplacement(sf::Vector2f(x*m_tileSize, (y - 1)*m_tileSize)) && !testUniteAlliee(x, y - 1)) {
 			m_deplacement.push_back(sf::Vector2f(x*m_tileSize, (y - 1)*m_tileSize));
 		}
 		if (m_map.getTile(x, y - 1).getTypeCase() == TypeCase::FORET ||
 			m_map.getTile(x, y - 1).getTypeCase() == TypeCase::COLINE ||
 			m_map.getTile(x, y - 1).getTypeCase() == TypeCase::MARAIS) {
-			definitionCaseDeplacement(x, y - 1, profondeur - 2);
+			definitionCaseDeplacement(x, y - 1, profondeur - 2,3);
 		}
 		else {
-			definitionCaseDeplacement(x, y - 1, profondeur - 1);
+			definitionCaseDeplacement(x, y - 1, profondeur - 1,3);
 		}
 	}
 }

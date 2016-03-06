@@ -25,7 +25,7 @@ private:
 	void loadSprites();
 
 	void definitionCase();
-	void definitionCaseDeplacement(int x, int y, int profondeur);
+	void definitionCaseDeplacement(int x, int y, int profondeur, int sens);
 	void definitionCaseAttaque();
 	void definitionCaseAttaque(int x, int y);
 
