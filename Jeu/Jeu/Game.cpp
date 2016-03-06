@@ -85,7 +85,7 @@ void Game::loadSprites()
 	m_spriteManager.loadSprite("gui_bas_droite", m_textureManager.getRef("gui"), 10, 30, 8, 0);
 }
 
-Game::Game()
+Game::Game(int nbJoueur)
 	: meteo(&m_window), menu_p(&m_window)
 {
 	gameState = 1;
@@ -120,15 +120,17 @@ Game::Game()
 	m_viewInterface = sf::View(sf::Vector2f(m_winSize.x/2, m_winSize.y/2), sf::Vector2f(m_winSize.x, m_winSize.y));
 	m_viewMinimap = sf::View(sf::Vector2f(m_winSize.x / 2, m_winSize.y / 2), sf::Vector2f(m_winSize.x, m_winSize.y));
     //m_view.zoom(SPRITE >> 6);
-
+	vector<string> noms;
+	noms.push_back("Banane");
+	noms.push_back("Kiwi");
+	noms.push_back("Mangue");
     m_window.setFramerateLimit(60);
-	m_nbJoueur = 2;
-	for (int i = 0; i < m_nbJoueur; i++) {
-		m_players.push_back(new Player(sf::Color(127+i*10, 127-i * 10, 127-i * 5)));
+	for (int i = 0; i < nbJoueur; i++) {
+		m_players.push_back(new Player(sf::Color(127+i*10, 127-i * 10, 127-i * 5), noms.at(i)));
 	}
 	m_numJoueurActif = 0;
 	m_playerActif = m_players[m_numJoueurActif];
-	m_players[0]->decouvre();
+	//m_players[0]->decouvre();
 
 	if (!font.loadFromFile("media/kenvector_future.ttf"))
 	{
@@ -177,7 +179,7 @@ void Game::render() {
 		else {
 			m_map.render(&m_window, &m_spriteManager, nombreTileAffiche, centreImage);
 		}
-		for (int i = 0; i < m_nbJoueur; i++) {
+		for (int i = 0; i < m_players.size(); i++) {
 			if (brouillardDeGuerre) {
 				m_players[i]->render(&m_window, &m_spriteManager, m_playerActif, nombreTileAffiche, centreImage);
 			}
@@ -205,7 +207,7 @@ void Game::render() {
 		m_window.setView(m_viewMinimap);
 		m_minimap.render(&m_window, m_winSize.x, m_winSize.y);
 		if (m_minimap.getUniteMode()) {
-			m_minimap.renderPlayer(&m_window, m_players, m_nbJoueur, m_winSize.x, m_winSize.y);
+			m_minimap.renderPlayer(&m_window, m_players, m_players.size(), m_winSize.x, m_winSize.y);
 		}
 
 		if (weather_clock.getElapsedTime().asMilliseconds() < 16) { // 60 fps
@@ -280,7 +282,6 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	else if (y > decalageY + nbCaseAfficheParColonne*tailleCaseSurEcran) {
 		caseClique.y = centreImage.y + (nbCaseAfficheParColonne / 2);
 	}
-	cout <<"Case clique : "<<caseClique.x <<" "<< caseClique.y<< endl;
 	return caseClique;
 }
 
@@ -301,7 +302,7 @@ bool Game::attaque(sf::Vector2i caseClique) {
 	for (int i = 0; i < m_attaque.size(); i++) {
 		if (caseClique.x == m_attaque[i].x / m_tileSize && caseClique.y == m_attaque[i].y / m_tileSize) {
 			UniteArmee *unite = (UniteArmee*)m_uniteSelectionne;
-			for (int j = 0; j < m_nbJoueur; j++) {
+			for (int j = 0; j < m_players.size(); j++) {
 				if (!j == m_numJoueurActif) {
 					for (int k = 0; k < m_players[j]->getNombreUnite(); k++) {
 						if (m_players[j]->getUnite(k)->getCoordX() == caseClique.x && m_players[j]->getUnite(k)->getCoordY() == caseClique.y) {
@@ -319,13 +320,12 @@ bool Game::attaque(sf::Vector2i caseClique) {
 								m_players[j]->detruireUnite(k);
 							}
 							if (m_players[j]->aPerdu()) {
-								m_nbJoueur--;
 								// Annoncer défaite joueur
-								cout << "Le joueur " << j << " a perdu" << endl;
-								m_players.erase(m_players.begin()+(j-1));
+								cout << "Le joueur " << m_players[j]->getNom() << " a perdu" << endl;
+								m_players.erase(m_players.begin() + j);
 								if (m_players.size() == 1) {
 									// Victoire du joueur
-									cout << "Victoire du joueur" << endl;
+									cout << "Victoire du joueur "<<m_players[0]->getNom() << endl;
 								}
 							}
 							return true;
@@ -472,7 +472,7 @@ Player* Game::getPlayerActif() {
 
 void Game::joueurSuivant() {
 	m_numJoueurActif++;
-	if (m_numJoueurActif >= m_nbJoueur) {
+	if (m_numJoueurActif >= m_players.size()) {
 		m_tour++;
 		m_numJoueurActif = 0;
 	}
@@ -659,7 +659,7 @@ bool Game::testUniteAlliee(int x, int y) {
 }
 
 bool Game::testEntiteEnnemie(int x, int y) {
-	for (int j = 0; j < m_nbJoueur; j++) {
+	for (int j = 0; j < m_players.size(); j++) {
 		if (!j == m_numJoueurActif) {
 			for (int i = 0; i < m_players[j]->getNombreUnite(); i++) {
 				if (m_players[j]->getUnite(i)->getCoordX() == x && m_players[j]->getUnite(i)->getCoordY() == y) {

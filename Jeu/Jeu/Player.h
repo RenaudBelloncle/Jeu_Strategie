@@ -10,6 +10,7 @@
 
 class Player {
 private : 
+	std::string nom;
 	sf::Color couleur;
 	int energie;
 	int essence;
@@ -23,8 +24,9 @@ private :
 	bool ressourceDecouverte[MAP_WIDTH][MAP_HEIGTH];
 
 public : 
-	Player(sf::Color color);
+	Player(sf::Color color, string _nom);
 
+	string getNom();
 	int getEnergie();
 	int getEssence();
 	int getMetaux();

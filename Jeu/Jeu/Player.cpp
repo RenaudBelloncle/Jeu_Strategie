@@ -1,15 +1,19 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(sf::Color color) {
+Player::Player(sf::Color color, string _nom) {
 	couleur = color;
 	initTechnologies();
-
+	nom = _nom;
     energie = 10;
     essence = 10;
     metaux = 10;
     vivre = 10;
 	stockMaxEnergie = stockMaxEssence = stockMaxMetaux = stockMaxVivre = 20;
+}
+
+string Player::getNom() {
+	return nom;
 }
 
 int Player::getEnergie() {

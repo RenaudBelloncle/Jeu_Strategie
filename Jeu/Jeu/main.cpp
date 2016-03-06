@@ -7,7 +7,7 @@
 int main()
 {
 	UniteManager unites;
-    Game game;
+    Game game = (3);
 
 	bool leftPressed(false), rightPressed(false), upPressed(false), downPressed(false);
 	float zoom = 1;
@@ -23,6 +23,7 @@ int main()
 	game.m_playerActif->creerUnite(unites.creerUnite("Recruteur", 10, 11), game.m_map.getTile(10, 11).getBonusRes());
 
 	game.m_players[1]->creerUnite(unites.creerUnite("SoldatArmee",11,11), game.m_map.getTile(11, 11).getBonusRes());
+	game.m_players[2]->creerUnite(unites.creerUnite("SoldatArmee", 8, 8), game.m_map.getTile(8, 8).getBonusRes());
 	game.getPlayerActif()->decouvre();
 
     while(game.m_window.isOpen())
