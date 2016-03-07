@@ -22,7 +22,7 @@ public:
 	void updateBrouillard(Map *map, Player *player);
 
 	void render(sf::RenderWindow* renderWindow, int width, int height);
-	void renderPlayer(sf::RenderWindow *renderWindow, Player *player[], int nbJoueur, int width, int height);
+	void renderPlayer(sf::RenderWindow *renderWindow, vector<Player*> players, int nbJoueur, int width, int height);
 
 
 

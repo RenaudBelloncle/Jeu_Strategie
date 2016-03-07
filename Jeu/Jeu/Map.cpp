@@ -225,7 +225,7 @@ void Map::render(sf::RenderWindow *renderWindow, SpriteManager *manager, Player 
 							break;
 						}
 					}
-					terrain.setPosition(sf::Vector2f(i*128, j*128));
+					terrain.setPosition(sf::Vector2f(i*SPRITE, j*SPRITE));
 					ressource.setPosition(sf::Vector2f(i*SPRITE, j*SPRITE));
 					renderWindow->draw(terrain);
 					renderWindow->draw(ressource);

@@ -9,6 +9,7 @@ Player::Player(sf::Color color) {
     essence = 10;
     metaux = 10;
     vivre = 10;
+	stockMaxEnergie = stockMaxEssence = stockMaxMetaux = stockMaxVivre = 20;
 }
 
 int Player::getEnergie() {
@@ -44,6 +45,20 @@ void Player::detruireUnite(int index) {
 
 void Player::creerBatiment(Batiment* batiment) {
 	listBatiment.push_back(batiment);
+	switch (batiment->getRessourceStocked()) {
+	case Ressource::ENERGIE:
+		stockMaxEnergie += batiment->getMaxStock();
+		break;
+	case Ressource::METAL:
+		stockMaxMetaux += batiment->getMaxStock();;
+		break;
+	case Ressource::PETROLE:
+		stockMaxEssence += batiment->getMaxStock();;
+		break;
+	case Ressource::VIVRES:
+		stockMaxVivre += batiment->getMaxStock();;
+		break;
+	}
 }
 
 void Player::detruireBatiment(int index) {
@@ -256,6 +271,34 @@ void Player::update() {
 	for (unsigned int i = 0; i < listUnite.size(); i++) {
 		listUnite[i]->update();
 	}
+	for (unsigned int i = 0; i < listBatiment.size(); i++) {
+		Batiment* b = listBatiment.at(i);
+		if (b->isProductionRessource()) {
+			ProductionRessource* p = (ProductionRessource*)b;
+			switch (p->getRessourceProduite()) {
+			case Ressource::ENERGIE:
+				energie += p->getQuantiteProduite();
+				break;
+			case Ressource::METAL:
+				metaux += p->getQuantiteProduite();
+				break;
+			case Ressource::PETROLE:
+				essence += p->getQuantiteProduite();
+				break;
+			case Ressource::VIVRES:
+				vivre += p->getQuantiteProduite();
+				break;
+			}
+		}
+	}
+	if (metaux > stockMaxMetaux)
+		metaux = stockMaxMetaux;
+	if (energie > stockMaxEnergie)
+		energie = stockMaxEnergie;
+	if (essence > stockMaxEssence)
+		essence = stockMaxEssence;
+	if (vivre > stockMaxVivre)
+		vivre = stockMaxVivre;
 }
 
 bool Player::aDecouvertLaCase(int x, int y) {
@@ -291,4 +334,8 @@ void Player::decouvreRessource(int x, int y) {
 			}
 		}
 	}
+}
+
+bool Player::aPerdu() {
+	return listBatiment.size() == 0 && listUnite.size() == 0;
 }
