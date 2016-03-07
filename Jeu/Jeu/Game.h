@@ -25,10 +25,7 @@ private:
 	void loadSprites();
 
 	void definitionCase();
-	void definitionCaseUnite(int xOrig, int yOrig, int nbCase);
-	void definitionCaseUniteArmee(int xOrig, int yOrig, int nbCase, int nbCaseAttaque);
-	void definitionCaseUniteDistance(int xOrig, int yOrig, int nbCase, int rangeMin, int rangeMax);
-	void definitionCaseDeplacement(int x, int y, int profondeur);
+	void definitionCaseDeplacement(int x, int y, int profondeur, int sens);
 	void definitionCaseAttaque();
 	void definitionCaseAttaque(int x, int y);
 
@@ -52,14 +49,17 @@ private:
     void afficherNextTechAChercher();
 	void afficherPrevBatiementConstruire();
 	void afficherNextBatimentConstruire();
-	std::vector<sf::Vector2f> nettoyerDoublon(std::vector<sf::Vector2f> vector);
 
+	bool attaque(sf::Vector2i caseClique);
+	bool deplacement(sf::Vector2i caseClique);
+	
     void buyTech();
 	MenuPrincipal menu_p;
 	Meteo meteo;
 	sf::Clock weather_clock;
 	void initText();
 	BatimentManager m_batimentManager;
+	bool boutonClique;
 public:
 	Game();
     sf::RenderWindow m_window;
@@ -69,18 +69,16 @@ public:
     TextureManager m_textureManager;
 	SpriteManager m_spriteManager;
 	sf::Font font;
-	sf::Text textTour;
-	sf::Text textEau;
-	sf::Text textEnergie;
-	sf::Text textPetrole;
-	sf::Text textMetaux;
 
 	std::vector<sf::Vector2f> m_deplacement, m_attaque;
 
     Map m_map;
 	Minimap m_minimap;
-
-	Player **m_players, *m_playerActif;
+	void changeModeTopo();
+	void changeModeUnite();
+	void changeModeRessource();
+	vector<Player*> m_players;
+	Player *m_playerActif;
 
     void render();
 	Player* getPlayerActif();

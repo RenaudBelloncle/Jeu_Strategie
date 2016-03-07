@@ -22,31 +22,31 @@ Minimap::Minimap(Map *map) {
 		for (unsigned int j = 0; j < m_heigth;j++) {
 			switch (map->getTile(i, j).getTypeCase()) {
 			case TypeCase::PLAINE:
-				m_imageMinimap.setPixel(i, j, sf::Color(193, 198, 111));
+				m_imageMinimap.setPixel(i, j, sf::Color(45,200,111));
 				break;
 
 			case TypeCase::PLAGE:
-				m_imageMinimap.setPixel(i, j, sf::Color(233, 231, 186));
+				m_imageMinimap.setPixel(i, j, sf::Color(236,220,184));
 				break;
 
 			case TypeCase::MONTAGNE:
-				m_imageMinimap.setPixel(i, j, sf::Color(58, 51, 44));
+				m_imageMinimap.setPixel(i, j, sf::Color(137, 164, 166));
 				break;
 
 			case TypeCase::MER:
-				m_imageMinimap.setPixel(i, j, sf::Color(122, 182, 145));
+				m_imageMinimap.setPixel(i, j, sf::Color(166,255,245));
 				break;
 
 			case TypeCase::FORET:
-				m_imageMinimap.setPixel(i, j, sf::Color(36, 66, 45));
+				m_imageMinimap.setPixel(i, j, sf::Color(27,145,77));
 				break;
 
 			case TypeCase::MARAIS:
-				m_imageMinimap.setPixel(i, j, sf::Color(32, 36, 24));
+				m_imageMinimap.setPixel(i, j, sf::Color(88,167,140));
 				break;
 
 			case TypeCase::COLINE:
-				m_imageMinimap.setPixel(i, j, sf::Color(170, 140, 100));
+				m_imageMinimap.setPixel(i, j, sf::Color(187,128,68));
 				break;
 
 			case TypeCase::VILLE:
@@ -94,42 +94,39 @@ void Minimap::updateBrouillard(Map *map, Player *player) {
 			if (player->aDecouvertLaCase(i, j)) {
 				switch (map->getTile(i, j).getTypeCase()) {
 				case TypeCase::PLAINE:
-					m_imageMinimap.setPixel(i, j, sf::Color(0, 255, 0));
+					m_imageMinimap.setPixel(i, j, sf::Color(45, 200, 111));
 					break;
 
 				case TypeCase::PLAGE:
-					m_imageMinimap.setPixel(i, j, sf::Color(255, 255, 0));
+					m_imageMinimap.setPixel(i, j, sf::Color(236, 220, 184));
 					break;
 
 				case TypeCase::MONTAGNE:
-					m_imageMinimap.setPixel(i, j, sf::Color(90, 60, 30));
+					m_imageMinimap.setPixel(i, j, sf::Color(137, 164, 166));
 					break;
 
 				case TypeCase::MER:
-					m_imageMinimap.setPixel(i, j, sf::Color(0, 0, 255));
+					m_imageMinimap.setPixel(i, j, sf::Color(166, 255, 245));
 					break;
 
 				case TypeCase::FORET:
-					m_imageMinimap.setPixel(i, j, sf::Color(0, 100, 0));
+					m_imageMinimap.setPixel(i, j, sf::Color(27, 145, 77));
 					break;
 
 				case TypeCase::MARAIS:
-					m_imageMinimap.setPixel(i, j, sf::Color(150, 255, 150));
+					m_imageMinimap.setPixel(i, j, sf::Color(88, 167, 140));
 					break;
 
 				case TypeCase::COLINE:
-					m_imageMinimap.setPixel(i, j, sf::Color(170, 140, 100));
+					m_imageMinimap.setPixel(i, j, sf::Color(187, 128, 68));
 					break;
 
 				case TypeCase::VILLE:
-					m_imageMinimap.setPixel(i, j, sf::Color(0, 0, 10));
+					m_imageMinimap.setPixel(i, j, sf::Color(83, 72, 57));
 					break;
-
-				case TypeCase::RUINE:
-					m_imageMinimap.setPixel(i, j, sf::Color(150, 150, 150));
-					break;
+				
 				default:
-					m_imageMinimap.setPixel(i, j, sf::Color(0, 0, 0));
+					m_imageMinimap.setPixel(i, j, sf::Color::Black);
 					break;
 				}
 				if (player->aDecouvertLaRessource(i, j)) {
@@ -154,8 +151,8 @@ void Minimap::updateBrouillard(Map *map, Player *player) {
 				}
 			}
 			else {
-				m_imageMinimap.setPixel(i, j, sf::Color());
-				m_imageRessource.setPixel(i, j, sf::Color());
+				m_imageMinimap.setPixel(i, j, sf::Color::Black);
+				m_imageRessource.setPixel(i, j, sf::Color::Black);
 			}
 		}
 	}
@@ -194,7 +191,7 @@ void Minimap::render(sf::RenderWindow *renderWindow, int width, int height) {
 	renderWindow->draw(sprite);
 }
 
-void Minimap::renderPlayer(sf::RenderWindow *renderWindow, Player *player[], int nbJoueur, int width, int height) {
+void Minimap::renderPlayer(sf::RenderWindow *renderWindow, vector<Player*> player, int nbJoueur, int width, int height) {
 	sf::Sprite sprite;
 	sf::Texture texture;
 	sf::Image img;
@@ -223,9 +220,9 @@ void Minimap::renderPlayer(sf::RenderWindow *renderWindow, Player *player[], int
 		}
 	}
 
-	float scale = (float) 165.0 / m_width;
-	if ((float) 165.0 / m_heigth < scale) {
-		scale = (float) 165.0 / m_heigth;
+	float scale = (float) TAILLE_MINIMAP / m_width;
+	if ((float) TAILLE_MINIMAP / m_heigth < scale) {
+		scale = (float) TAILLE_MINIMAP / m_heigth;
 	}
 
 	texture.loadFromImage(img);
@@ -233,8 +230,8 @@ void Minimap::renderPlayer(sf::RenderWindow *renderWindow, Player *player[], int
 
 	sprite.scale(scale, scale);
 
-	int x = 33 + (165 - m_width*scale) / 2 + 70;
-	int y = WIN_HEIGTH + 205 + (165 - m_heigth*scale) / 2+20;
+	int x = X + (TAILLE_MINIMAP - m_width*scale) / 2;
+	int y = height - INTERFACE_HEIGTH + Y - (TAILLE_MINIMAP - m_heigth*scale) / 2;
 
 	sprite.setPosition(x, y);
 	renderWindow->draw(sprite);
