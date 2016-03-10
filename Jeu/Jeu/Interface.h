@@ -37,7 +37,11 @@ public:
 	void renderInfoBatiment(sf::RenderWindow *renderWindow, sf::Font font, Batiment* batiment);
 	void ecrireMessage(sf::RenderWindow *renderWindow, float posX, float posY, std::string msg, sf::Font pathToFont, int fontSize, sf::Color color);
 	
-	void clic(Game* game, int x, int y);
+	void afficherActionUnite(Unite* unite, sf::Vector2i caseClique, SpriteManager* manager);
+	void removeActionUnite();
+	void removeButton(string nom);
+
+	bool clic(Game* game, int x, int y);
 	void ajouterBouton(Button* b);
 	Button* getButton(std::string name);
 };

@@ -18,6 +18,16 @@ void Game::loadTextures() {
 	m_textureManager.loadTexture("bouton_topo", "media/res/bouton_topo.png");
 	m_textureManager.loadTexture("bouton_ress", "media/res/bouton_ress.png");
 	m_textureManager.loadTexture("bouton_unite", "media/res/bouton_unite.png");
+
+	m_textureManager.loadTexture("bouton_annuler", "media/res/bouton_annuler.png");
+	m_textureManager.loadTexture("bouton_attaque", "media/res/bouton_attaque.png");
+	m_textureManager.loadTexture("bouton_deplacement", "media/res/bouton_deplacement.png");
+	m_textureManager.loadTexture("bouton_convertir", "media/res/bouton_convertir.png");
+	m_textureManager.loadTexture("bouton_fondation", "media/res/bouton_fondation.png");
+	m_textureManager.loadTexture("bouton_exploration", "media/res/bouton_exploration.png");
+	m_textureManager.loadTexture("bouton_reapprovision", "media/res/bouton_reapprovision.png");
+	m_textureManager.loadTexture("bouton_charger", "media/res/bouton_charger.png");
+	m_textureManager.loadTexture("bouton_decharger", "media/res/bouton_decharger.png");
 }
 
 void Game::loadSprites()
@@ -34,6 +44,16 @@ void Game::loadSprites()
 	m_spriteManager.loadSprite("bouton_topo", m_textureManager.getRef("bouton_topo"), 113, 34, 0, 0);
 	m_spriteManager.loadSprite("bouton_technologies", m_textureManager.getRef("bouton_technologies"), 113, 34, 0, 0);
 	m_spriteManager.loadSprite("bouton_batiments", m_textureManager.getRef("bouton_batiments"), 113, 34, 0, 0);
+
+	m_spriteManager.loadSprite("button_annuler", m_textureManager.getRef("bouton_annuler"), 113, 34, 0, 0);
+	m_spriteManager.loadSprite("button_attaque", m_textureManager.getRef("bouton_attaque"), 113, 34, 0, 0);
+	m_spriteManager.loadSprite("button_deplacement", m_textureManager.getRef("bouton_deplacement"), 113, 34, 0, 0);
+	m_spriteManager.loadSprite("button_convertir", m_textureManager.getRef("bouton_convertir"), 113, 34, 0, 0);
+	m_spriteManager.loadSprite("button_fondation", m_textureManager.getRef("bouton_fondation"), 113, 34, 0, 0);
+	m_spriteManager.loadSprite("button_exploration", m_textureManager.getRef("bouton_exploration"), 113, 34, 0, 0);
+	m_spriteManager.loadSprite("button_reapprovision", m_textureManager.getRef("bouton_reapprovision"), 113, 34, 0, 0);
+	m_spriteManager.loadSprite("button_chargerUnite", m_textureManager.getRef("bouton_charger"), 113, 34, 0, 0);
+	m_spriteManager.loadSprite("button_dechargerUnite", m_textureManager.getRef("bouton_decharger"), 113, 34, 0, 0);
 
 	m_spriteManager.loadSprite("filtre selection", m_textureManager.getRef("filtre"), 128, 128, 0, 0);
 	m_spriteManager.loadSprite("filtre attaque", m_textureManager.getRef("filtre"), 128, 128, 1, 0);
@@ -162,6 +182,13 @@ Game::Game(int nbJoueur)
 	tech = false;
 	batiment = false;
     indice = 0;
+
+	attaqueSelectionne = false;
+	deplacementSelectionne = false;
+	convertirSelectionne = false;
+	reapproSelectionne = false;
+	chargeUniteSelectionne = false;
+	dechargeUniteSelectionne = false;
 }
 
 void Game::render() {
@@ -230,11 +257,10 @@ void Game::clic(int x, int y) {
 	}
 
 	if (gameState == 1) {
-		if (testClicZoneJeu(x, y)) {
-			clicZoneJeu(x, y);
-		}// Zone clique interface
-		else {
-			clicInterface(x, y);
+		if (!m_interface->clic(this, x, y)) {
+			if (testClicZoneJeu(x, y)) {
+				clicZoneJeu(x, y);
+			}
 		}
 	}
 }
@@ -282,23 +308,22 @@ sf::Vector2i Game::definitionCaseClique(int x, int y) {
 	else if (y > decalageY + nbCaseAfficheParColonne*tailleCaseSurEcran) {
 		caseClique.y = centreImage.y + (nbCaseAfficheParColonne / 2);
 	}
+	cout << caseClique.x << " " << caseClique.y << endl;
 	return caseClique;
 }
 
-bool Game::deplacement(sf::Vector2i caseClique) {
+void Game::deplacement() {
 	for (int i = 0; i < m_deplacement.size(); i++) {
 		if (caseClique.x == m_deplacement[i].x / m_tileSize && caseClique.y == m_deplacement[i].y / m_tileSize) {
 			m_uniteSelectionne->seDeplace(caseClique.x, caseClique.y, &m_window, m_playerActif->getColor(), &m_spriteManager);
 			if (brouillardDeGuerre) {
 				m_playerActif->decouvre();
 			}
-			return true;
 		}
 	}
-	return false;
 }
 
-bool Game::attaque(sf::Vector2i caseClique) {
+void Game::attaque() {
 	for (int i = 0; i < m_attaque.size(); i++) {
 		if (caseClique.x == m_attaque[i].x / m_tileSize && caseClique.y == m_attaque[i].y / m_tileSize) {
 			UniteArmee *unite = (UniteArmee*)m_uniteSelectionne;
@@ -317,6 +342,17 @@ bool Game::attaque(sf::Vector2i caseClique) {
 							unite->attaque(m_players[j]->getUnite(k));
 
 							if (m_players[j]->getUnite(k)->estDetruit()) {
+								if (m_players[j]->getUnite(k)->isUtilitaire()) {
+									UniteUtilitaire* u = (UniteUtilitaire*)m_players[j]->getUnite(k);
+									if (u->estPlein()) {
+										Unite* temp = u->getUnite();
+										for (int i = 0; i < m_players[j]->getNombreUnite(); i++) {
+											if (m_players[j]->getUnite(i)->getCoordX() == temp->getCoordX() && m_players[j]->getUnite(i)->getCoordY() == temp->getCoordY()) {
+												m_players[j]->detruireUnite(i);
+											}
+										}
+									}
+								}
 								m_players[j]->detruireUnite(k);
 							}
 							if (m_players[j]->aPerdu()) {
@@ -328,20 +364,83 @@ bool Game::attaque(sf::Vector2i caseClique) {
 									cout << "Victoire du joueur "<<m_players[0]->getNom() << endl;
 								}
 							}
-							return true;
 						}
 					}
 				}
 			}
 		}
 	}
-	return false;
 }
 
-void Game::actionUnite(sf::Vector2i caseClique) {
-	//m_interface->afficherActionUnite(m_uniteSelectionne,caseClique);
-	if (!attaque(caseClique)) {
-		deplacement(caseClique);
+void Game::convertir() {
+	UniteUtilitaire* u = (UniteUtilitaire*)m_uniteSelectionne;
+	for (int j = 0; j < m_players.size(); j++) {
+		if (!j == m_numJoueurActif) {
+			for (int k = 0; k < m_players[j]->getNombreUnite(); k++) {
+				if (m_players[j]->getUnite(k)->getCoordX() == caseClique.x && m_players[j]->getUnite(k)->getCoordY() == caseClique.y) {
+					Unite* ennemi = m_players[j]->getUnite(k);
+					u->convertir(ennemi, m_playerActif, m_players[j]);
+				}
+			}
+		}
+	}
+}
+
+void Game::reapprovisionne() {
+	UniteUtilitaire* u = (UniteUtilitaire*)m_uniteSelectionne;
+	for (int k = 0; k < m_playerActif->getNombreUnite(); k++) {
+		if (m_playerActif->getUnite(k)->getCoordX() == caseClique.x && m_playerActif->getUnite(k)->getCoordY() == caseClique.y) {
+			Unite* allie = m_playerActif->getUnite(k);
+			u->reapprovisionne(allie);
+		}
+	}
+}
+
+void Game::chargeUnite() {
+	UniteUtilitaire* u = (UniteUtilitaire*)m_uniteSelectionne;
+	for (int k = 0; k < m_playerActif->getNombreUnite(); k++) {
+		if (m_playerActif->getUnite(k)->getCoordX() == caseClique.x && m_playerActif->getUnite(k)->getCoordY() == caseClique.y) {
+			Unite* allie = m_playerActif->getUnite(k);
+			u->chargeUnite(allie);
+		}
+	}
+}
+
+void Game::dechargeUnite() {
+	UniteUtilitaire* u = (UniteUtilitaire*)m_uniteSelectionne;
+	u->dechargeUnite(caseClique.x,caseClique.y);
+}
+
+void Game::actionUnite() {
+	if (caseClique.x != -1 && caseClique.y != -1) {
+		if (attaqueSelectionne) {
+			attaque();
+			deselection();
+		}
+		else if (deplacementSelectionne) {
+			deplacement();
+			deselection();
+		}
+		else if (convertirSelectionne) {
+			cout << "Convertir ! " << endl;
+			convertir();
+			deselection();
+		}
+		else if (reapproSelectionne) {
+			cout << "Reappro ! " << endl;
+			reapprovisionne();
+			deselection();
+		}
+		else if (chargeUniteSelectionne) {
+			cout << " " << endl;
+			chargeUnite();
+			deselection();
+		}
+		else if (dechargeUniteSelectionne) {
+			cout << " " << endl;
+			dechargeUnite();
+			deselection();
+		}
 	}
 }
 
@@ -372,11 +471,9 @@ void Game::deplacementAutoPourAttaque(int ecartX, int ecartY, int distance, Unit
 }
 
 void Game::clicZoneJeu(int x, int y) {
-	sf::Vector2i caseClique = definitionCaseClique(x, y);
-	//tech = false;
+	caseClique = definitionCaseClique(x, y);
 	if (m_uniteSelectionne != NULL && m_uniteSelectionne->peutAgir()) {
-		actionUnite(caseClique);
-		deselection();
+		
 	}
 	else {
 		selection(caseClique, x, y);
@@ -493,13 +590,12 @@ void Game::finTour() {
 
 void Game::clicUnite(int x, int y, Unite *unite) {
 	m_uniteSelectionne = unite;
-	definitionCase();
+	m_interface->afficherActionUnite(m_uniteSelectionne, caseClique, &m_spriteManager);
 	tech = false;
 	batiment = false;
 }
 
 void Game::definitionCase() {
-	cout << m_uniteSelectionne->getDeplacementMax() << endl;
 	m_attaque.clear();
 	m_deplacement.clear();
 	// Unite armee
@@ -658,6 +754,19 @@ bool Game::testUniteAlliee(int x, int y) {
 	return false;
 }
 
+bool Game::testUniteEnnemie(int x, int y) {
+	for (int j = 0; j < m_players.size(); j++) {
+		if (!j == m_numJoueurActif) {
+			for (int i = 0; i < m_players[j]->getNombreUnite(); i++) {
+				if (m_players[j]->getUnite(i)->getCoordX() == x && m_players[j]->getUnite(i)->getCoordY() == y) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
 bool Game::testEntiteEnnemie(int x, int y) {
 	for (int j = 0; j < m_players.size(); j++) {
 		if (!j == m_numJoueurActif) {
@@ -693,6 +802,8 @@ bool Game::testUniteSelectionneTypeCase(int x, int y) {
 
 void Game::selection(sf::Vector2i caseClique, int x, int y) {
 	if(m_uniteSelectionne == NULL && m_batimentSelectionne == NULL){
+		m_deplacement.clear();
+		m_attaque.clear();
 		for (int i = 0; i < m_playerActif->getNombreUnite(); i++) {
 			if (m_playerActif->getUnite(i)->getCoordX() == caseClique.x && m_playerActif->getUnite(i)->getCoordY() == caseClique.y && m_playerActif->getUnite(i)->peutAgir()) {
 				clicUnite(x, y, m_playerActif->getUnite(i));
@@ -709,8 +820,16 @@ void Game::selection(sf::Vector2i caseClique, int x, int y) {
 }
 
 void Game::deselection() {
+	attaqueSelectionne = false;
+	deplacementSelectionne = false;
+	convertirSelectionne = false;
+	reapproSelectionne = false;
+	chargeUniteSelectionne = false;
+	dechargeUniteSelectionne = false;
+	caseClique.x = caseClique.y = -1;
 	m_uniteSelectionne = NULL;
 	m_batimentSelectionne = NULL;
+	m_interface->removeActionUnite();
 }
 
 void Game::resize()
@@ -743,4 +862,192 @@ void Game::changeModeRessource() {
 
 void Game::changeModeUnite() {
 	m_minimap.changeModeUnite();
+}
+
+void Game::selectionneEnnemiAdjacent() {
+	if (m_map.isInBound(m_uniteSelectionne->getCoordX() - 1, m_uniteSelectionne->getCoordY())) {
+		if (testUniteEnnemie(m_uniteSelectionne->getCoordX() - 1, m_uniteSelectionne->getCoordY())) {
+			m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX() - 1)*m_tileSize, (m_uniteSelectionne->getCoordY())*m_tileSize));
+		}
+	}
+	if (m_map.isInBound(m_uniteSelectionne->getCoordX() + 1, m_uniteSelectionne->getCoordY())) {
+		if (testUniteEnnemie(m_uniteSelectionne->getCoordX() + 1, m_uniteSelectionne->getCoordY())) {
+			m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX() + 1)*m_tileSize, (m_uniteSelectionne->getCoordY())*m_tileSize));
+		}
+	}
+	if (m_map.isInBound(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() - 1)) {
+		if (testUniteEnnemie(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() - 1)) {
+			m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX())*m_tileSize, (m_uniteSelectionne->getCoordY() - 1)*m_tileSize));
+		}
+	}
+	if (m_map.isInBound(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() + 1)) {
+		if (testUniteEnnemie(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() + 1)) {
+			m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX())*m_tileSize, (m_uniteSelectionne->getCoordY() + 1)*m_tileSize));
+		}
+	}
+}
+
+void Game::selectionneAllieAdjacent() {
+	if (m_map.isInBound(m_uniteSelectionne->getCoordX() - 1, m_uniteSelectionne->getCoordY())) {
+		if (testUniteAlliee(m_uniteSelectionne->getCoordX() - 1, m_uniteSelectionne->getCoordY())) {
+			m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX() - 1)*m_tileSize, (m_uniteSelectionne->getCoordY())*m_tileSize));
+		}
+	}
+	if (m_map.isInBound(m_uniteSelectionne->getCoordX() + 1, m_uniteSelectionne->getCoordY())) {
+		if (testUniteAlliee(m_uniteSelectionne->getCoordX() + 1, m_uniteSelectionne->getCoordY())) {
+			m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX() + 1)*m_tileSize, (m_uniteSelectionne->getCoordY())*m_tileSize));
+		}
+	}
+	if (m_map.isInBound(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() - 1)) {
+		if (testUniteAlliee(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() - 1)) {
+			m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX())*m_tileSize, (m_uniteSelectionne->getCoordY() - 1)*m_tileSize));
+		}
+	}
+	if (m_map.isInBound(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() + 1)) {
+		if (testUniteAlliee(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() + 1)) {
+			m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX())*m_tileSize, (m_uniteSelectionne->getCoordY() + 1)*m_tileSize));
+		}
+	}
+}
+
+void Game::selectCaseDechargeable() {
+	if (m_map.isInBound(m_uniteSelectionne->getCoordX() - 1, m_uniteSelectionne->getCoordY())) {
+		if (m_map.getTile(m_uniteSelectionne->getCoordX() - 1, m_uniteSelectionne->getCoordY()).getTypeCase() != TypeCase::MONTAGNE &&
+			m_map.getTile(m_uniteSelectionne->getCoordX() - 1, m_uniteSelectionne->getCoordY()).getTypeCase() != TypeCase::MER) {
+			if(m_uniteSelectionne->isMaritime() && m_map.getTile(m_uniteSelectionne->getCoordX() - 1, m_uniteSelectionne->getCoordY()).getTypeCase() == TypeCase::PLAGE )
+				m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX() - 1)*m_tileSize, (m_uniteSelectionne->getCoordY())*m_tileSize));
+			else if (!m_uniteSelectionne->isMaritime()) {
+				m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX() - 1)*m_tileSize, (m_uniteSelectionne->getCoordY())*m_tileSize));
+			}
+		}
+	}
+	if (m_map.isInBound(m_uniteSelectionne->getCoordX() + 1, m_uniteSelectionne->getCoordY())) {
+		if (m_map.getTile(m_uniteSelectionne->getCoordX() + 1, m_uniteSelectionne->getCoordY()).getTypeCase() != TypeCase::MONTAGNE &&
+			m_map.getTile(m_uniteSelectionne->getCoordX() + 1, m_uniteSelectionne->getCoordY()).getTypeCase() != TypeCase::MER) {
+			if (m_uniteSelectionne->isMaritime() && m_map.getTile(m_uniteSelectionne->getCoordX() + 1, m_uniteSelectionne->getCoordY()).getTypeCase() == TypeCase::PLAGE)
+				m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX() + 1)*m_tileSize, (m_uniteSelectionne->getCoordY())*m_tileSize));
+			else if (!m_uniteSelectionne->isMaritime()) {
+				m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX() + 1)*m_tileSize, (m_uniteSelectionne->getCoordY())*m_tileSize));
+			}
+		}
+	}
+	if (m_map.isInBound(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() - 1)) {
+		if (m_map.getTile(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() - 1).getTypeCase() != TypeCase::MONTAGNE &&
+			m_map.getTile(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() - 1).getTypeCase() != TypeCase::MER) {
+			if (m_uniteSelectionne->isMaritime() && m_map.getTile(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() - 1).getTypeCase() == TypeCase::PLAGE)
+				m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX())*m_tileSize, (m_uniteSelectionne->getCoordY() - 1)*m_tileSize));
+			else if (!m_uniteSelectionne->isMaritime()) {
+				m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX())*m_tileSize, (m_uniteSelectionne->getCoordY() - 1)*m_tileSize));
+			}
+		}
+	}
+	if (m_map.isInBound(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() + 1)) {
+		if (m_map.getTile(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() + 1).getTypeCase() != TypeCase::MONTAGNE &&
+			m_map.getTile(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() + 1).getTypeCase() != TypeCase::MER) {
+			if (m_uniteSelectionne->isMaritime() && m_map.getTile(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY() + 1).getTypeCase() == TypeCase::PLAGE)
+				m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX())*m_tileSize, (m_uniteSelectionne->getCoordY() + 1)*m_tileSize));
+			else if (!m_uniteSelectionne->isMaritime()) {
+				m_attaque.push_back(sf::Vector2f((m_uniteSelectionne->getCoordX())*m_tileSize, (m_uniteSelectionne->getCoordY() + 1)*m_tileSize));
+			}
+		}
+	}
+}
+
+void Game::selectAttaque() {
+	m_deplacement.clear();
+	m_attaque.clear();
+	caseClique.x = caseClique.y = -1;
+	definitionCaseAttaque(m_uniteSelectionne->getCoordX(),m_uniteSelectionne->getCoordY());
+	attaqueSelectionne = true;
+	deplacementSelectionne = false;
+	convertirSelectionne = false;
+	reapproSelectionne = false;
+	chargeUniteSelectionne = false;
+	dechargeUniteSelectionne = false;
+	actionUnite();
+}
+
+void Game::selectDeplacement() {
+	m_deplacement.clear();
+	m_attaque.clear();
+	caseClique.x = caseClique.y = -1;
+	definitionCaseDeplacement(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY(), m_uniteSelectionne->getDeplacementMax(), 0);
+	attaqueSelectionne = false;
+	deplacementSelectionne = true;
+	convertirSelectionne = false;
+	reapproSelectionne = false;
+	chargeUniteSelectionne = false;
+	dechargeUniteSelectionne = false;
+	actionUnite();
+}
+
+void Game::selectConvertir() {
+	m_deplacement.clear();
+	m_attaque.clear();
+	caseClique.x = caseClique.y = -1;
+	selectionneEnnemiAdjacent();
+	attaqueSelectionne = false;
+	deplacementSelectionne = false;
+	convertirSelectionne = true;
+	reapproSelectionne = false;
+	chargeUniteSelectionne = false;
+	dechargeUniteSelectionne = false;
+	actionUnite();
+}
+
+void Game::selectReapprovisionne() {
+	m_deplacement.clear();
+	m_attaque.clear();
+	caseClique.x = caseClique.y = -1;
+	selectionneAllieAdjacent();
+	attaqueSelectionne = false;
+	deplacementSelectionne = false;
+	convertirSelectionne = false;
+	reapproSelectionne = true;
+	chargeUniteSelectionne = false;
+	dechargeUniteSelectionne = false;
+	actionUnite();
+}
+
+void Game::selectChargeUnite() {
+	m_deplacement.clear();
+	m_attaque.clear();
+	caseClique.x = caseClique.y = -1;
+	selectionneAllieAdjacent();
+	attaqueSelectionne = false;
+	deplacementSelectionne = false;
+	convertirSelectionne = false;
+	reapproSelectionne = false;
+	chargeUniteSelectionne = true;
+	dechargeUniteSelectionne = false;
+	actionUnite();
+}
+
+void Game::selectDechargeUnite() {
+	m_deplacement.clear();
+	m_attaque.clear();
+	caseClique.x = caseClique.y = -1;
+	selectCaseDechargeable();
+	attaqueSelectionne = false;
+	deplacementSelectionne = false;
+	convertirSelectionne = false;
+	reapproSelectionne = false;
+	chargeUniteSelectionne = false;
+	dechargeUniteSelectionne = true;
+	actionUnite();
+}
+
+void Game::creerVille() {
+	m_deplacement.clear();
+	m_attaque.clear();
+	definitionCaseAttaque(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY());
+	deselection();
+}
+
+void Game::exploreSol() {
+	m_deplacement.clear();
+	m_attaque.clear();
+	UniteUtilitaire* u = (UniteUtilitaire*)m_uniteSelectionne;
+	u->explorationDeSol(m_playerActif);
+	deselection();
 }

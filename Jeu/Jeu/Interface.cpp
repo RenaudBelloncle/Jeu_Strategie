@@ -39,15 +39,16 @@ bool Interface::getModeBatiment() {
 	return modeBatiment;
 }
 
-void Interface::clic(Game* game, int x, int y)
+bool Interface::clic(Game* game, int x, int y)
 {
 	for (int i = 0; i < m_buttons.size(); i++)
 	{
 		if (m_buttons.at(i)->clic(game, x, y))
 		{
-			return;
+			return true;
 		}
 	}
+	return false;
 }
 
 void Interface::ajouterBouton(Button* button)
@@ -110,6 +111,96 @@ void Interface::render(sf::RenderWindow *renderWindow, SpriteManager *manager) {
 	}
 
 	return;
+}
+
+void Interface::removeButton(string nom) {
+	for (int i = 0; i < m_buttons.size(); i++) {
+		if (m_buttons.at(i)->getNom() == nom) {
+			m_buttons.erase(m_buttons.begin() + i);
+			return;
+		}
+	}
+}
+
+void Interface::removeActionUnite() {
+	removeButton("annuler");
+	removeButton("deplacement");
+	removeButton("attaque");
+	removeButton("convertir");
+	removeButton("creation_ville");
+	removeButton("exploration");
+	removeButton("reapprovision");
+	removeButton("charger");
+	removeButton("decharger");
+}
+
+void Interface::afficherActionUnite(Unite* unite, sf::Vector2i caseClique, SpriteManager* manager) {
+	int y = 0;
+	Button* annuler = new Button("annuler", sf::Vector2i(0, y), manager->getRef("button_annuler"), &Game::deselection);
+	ajouterBouton(annuler);
+	y += 34;
+	Button* deplacement = new Button("deplacement", sf::Vector2i(0, y), manager->getRef("button_deplacement"), &Game::selectDeplacement);
+	ajouterBouton(deplacement);
+	y += 34;
+	if (unite->isArmee()) {
+		Button* attaque = new Button("attaque", sf::Vector2i(0, y), manager->getRef("button_attaque"), &Game::selectAttaque);
+		ajouterBouton(attaque);
+		y += 34;
+	}
+	else if (unite->isUtilitaire()) {
+		UniteUtilitaire* u = (UniteUtilitaire*)unite;		
+		cout << "c'est une unite util." << endl;
+		int t = (int)u->getOutil();
+		cout << t << endl;
+		if (u->getOutil() == Outil::convertisseur) {
+			cout << "convert" << endl;
+			if (u->getOutilRestant() > 0) {
+				cout << "button" << endl;
+				Button* convertir = new Button("convertir", sf::Vector2i(0, y), manager->getRef("button_convertir"), &Game::selectConvertir);
+				ajouterBouton(convertir);
+				y += 34;
+			}
+		}
+		else if (u->getOutil() == Outil::fondation) {
+			cout << "fond" << endl;
+			if (u->getOutilRestant()) {
+				cout << "button" << endl;
+				Button* fondation = new Button("creation_ville", sf::Vector2i(0,y), manager->getRef("button_fondation"), &Game::creerVille);
+				ajouterBouton(fondation);
+				y += 34;
+			}
+		}
+		else if (u->getOutil() == Outil::kitDeGeologue) {
+			cout << "geo" << endl;
+			if (u->getOutilRestant()) {
+				cout << "button" << endl;
+				Button* exploration = new Button("exploration", sf::Vector2i(0, y), manager->getRef("button_exploration"), &Game::exploreSol);
+				ajouterBouton(exploration);
+				y += 34;
+			}
+		}
+		else if (u->getOutil() == Outil::transport) {
+			cout << "trans" << endl;
+			if (u->getReaproRestante()) {
+				cout << "button" << endl;
+				Button* reappro = new Button("reapprovision", sf::Vector2i(0, y), manager->getRef("button_reapprovision"), &Game::selectReapprovisionne);
+				ajouterBouton(reappro);
+				y += 34;
+			}
+			if (!u->estPlein()) {
+				cout << "button" << endl;
+				Button* charger = new Button("charger", sf::Vector2i(0, y), manager->getRef("button_chargerUnite"), &Game::selectChargeUnite);
+				ajouterBouton(charger);
+				y += 34;
+			}
+			if (u->estPlein()) {
+				cout << "button" << endl;
+				Button* decharger = new Button("decharger", sf::Vector2i(0, y), manager->getRef("button_dechargerUnite"), &Game::selectDechargeUnite);
+				ajouterBouton(decharger);
+				y += 34;
+			}
+		}
+	}
 }
 
 void Interface::renderPlayer(sf::RenderWindow *renderWindow, Player* player, sf::Font font,float y) {

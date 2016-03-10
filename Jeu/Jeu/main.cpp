@@ -235,6 +235,7 @@ int main()
 		}
 
 		game.m_window.clear(sf::Color::Black);
+		game.actionUnite();
 		game.render();
 		game.m_window.display();
 		m_clock.restart();

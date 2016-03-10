@@ -7,7 +7,7 @@
 class UniteUtilitaire : public Unite {
 
 private:
-	int reaproRestante, outilRestant;
+	int reaproRestante, outilRestant, outilMax;
 	Outil outil;
 	bool peutReaprovisionner;
 	Unite* uniteTransporté;
@@ -22,4 +22,9 @@ public:
 	void convertir(Unite* ennemi, Player* joueur, Player* joueurEnnemi);
 	void explorationDeSol(Player *joueur);
 	void creationVille(Player *player);
+	Outil getOutil();
+	int getOutilRestant();
+	int getReaproRestante();
+	bool estPlein();
+	Unite* getUnite();
 };

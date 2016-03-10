@@ -35,6 +35,7 @@ private:
 
 	bool testClicZoneJeu(int x, int y);
 	bool testUniteAlliee(int x, int y);
+	bool testUniteEnnemie(int x, int y);
 	bool testEntiteEnnemie(int x, int y);
 	bool testUniteSelectionneTypeCase(int x, int y);
 	bool inDeplacement(sf::Vector2f item);
@@ -49,9 +50,6 @@ private:
     void afficherNextTechAChercher();
 	void afficherPrevBatiementConstruire();
 	void afficherNextBatimentConstruire();
-
-	bool attaque(sf::Vector2i caseClique);
-	bool deplacement(sf::Vector2i caseClique);
 	
     void buyTech();
 	MenuPrincipal menu_p;
@@ -59,7 +57,8 @@ private:
 	sf::Clock weather_clock;
 	void initText();
 	BatimentManager m_batimentManager;
-	bool boutonClique;
+	bool attaqueSelectionne, deplacementSelectionne, convertirSelectionne, reapproSelectionne, chargeUniteSelectionne, dechargeUniteSelectionne;
+	sf::Vector2i caseClique;
 public:
 	Game(int nbJoueur);
     sf::RenderWindow m_window;
@@ -69,6 +68,13 @@ public:
     TextureManager m_textureManager;
 	SpriteManager m_spriteManager;
 	sf::Font font;
+
+	void attaque();
+	void deplacement();
+	void convertir();
+	void reapprovisionne();
+	void dechargeUnite();
+	void chargeUnite();
 
 	std::vector<sf::Vector2f> m_deplacement, m_attaque;
 
@@ -90,7 +96,7 @@ public:
 
 	Interface* m_interface;
 
-	void actionUnite(sf::Vector2i caseClique);
+	void actionUnite();
 
 	void clic(int x, int y);
 	void clicInterface(int x, int y);
@@ -106,4 +112,17 @@ public:
 	void resize();
 
 	int getState();
+
+	void selectAttaque();
+	void selectConvertir();
+	void creerVille();
+	void exploreSol();
+	void selectReapprovisionne();
+	void selectChargeUnite();
+	void selectDechargeUnite();
+	void selectDeplacement();
+
+	void selectionneEnnemiAdjacent();
+	void selectionneAllieAdjacent();
+	void selectCaseDechargeable();
 };
