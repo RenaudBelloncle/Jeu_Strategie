@@ -31,13 +31,13 @@ private:
 
 	sf::Vector2i definitionCaseClique(int x, int y);
 	void surbrillanceCaseDeplacement();
-	void deplacementAutoPourAttaque(int ecartX, int ecartY, int distance, UniteArmee* unite, int posXEnnemi, int posYEnnemi);
 
 	bool testClicZoneJeu(int x, int y);
 	bool testUniteAlliee(int x, int y);
 	bool testUniteEnnemie(int x, int y);
 	bool testEntiteEnnemie(int x, int y);
 	bool testUniteSelectionneTypeCase(int x, int y);
+	bool testUniteAllieeInfanterie(int x, int y);
 	bool inDeplacement(sf::Vector2f item);
 	bool inAttaque(sf::Vector2f item);
 	void calculNombreTileAffichable();
@@ -122,6 +122,7 @@ public:
 	void selectDechargeUnite();
 	void selectDeplacement();
 
+	void selectionneInfanterieAdjacent();
 	void selectionneEnnemiAdjacent();
 	void selectionneAllieAdjacent();
 	void selectCaseDechargeable();

@@ -9,15 +9,17 @@ UniteUtilitaire::UniteUtilitaire(int _x, int _y, std::string _nom, std::string _
 	outilRestant = _outilRestant;
 	outilMax = outilRestant;
 	outil = _outil;
-	int t = (int)outil;
-	cout << t << endl;
 	peutReaprovisionner = peutReappro;
+	uniteTransporté = NULL;
 }
 
 Outil UniteUtilitaire::getOutil() {
-	int t = (int)outil;
-	cout << t << endl;
 	return outil;
+}
+
+void UniteUtilitaire::reaprovisionnement() {
+	Unite::reaprovisionnement();
+	outilRestant = outilMax;
 }
 
 void UniteUtilitaire::reapprovisionne(Unite* unite)
@@ -25,7 +27,7 @@ void UniteUtilitaire::reapprovisionne(Unite* unite)
 	if (peutReaprovisionner && reaproRestante > 0) {
 		unite->reaprovisionnement();
 		reaproRestante--;
-		aAgi == true;
+		setAAgi();
 	}
 }
 
@@ -34,7 +36,6 @@ void UniteUtilitaire::chargeUnite(Unite* unite)
 	if (outil == Outil::transport) {
 		unite->setCoord(-1, -1);
 		uniteTransporté = unite;
-		aAgi == true;
 	}
 }
 
@@ -43,7 +44,7 @@ void UniteUtilitaire::dechargeUnite(int x, int y)
 	if (outil == Outil::transport) {
 		uniteTransporté->setCoord(x,y);
 		uniteTransporté = NULL;
-		aAgi == true;
+		setAAgi();
 	}
 }
 
@@ -57,10 +58,21 @@ void UniteUtilitaire::convertir(Unite* ennemi , Player* joueur, Player* joueurEn
 				break;
 			}
 		}
+		if (joueurEnnemi->getUnite(index)->isUtilitaire()) {
+			UniteUtilitaire* u = (UniteUtilitaire*)joueurEnnemi->getUnite(index);
+			if (u->estPlein()) {
+				Unite* temp = u->getUnite();
+				for (int i = 0; i < joueurEnnemi->getNombreUnite(); i++) {
+					if (joueurEnnemi->getUnite(i)->getCoordX() == temp->getCoordX() && joueurEnnemi->getUnite(i)->getCoordY() == temp->getCoordY()) {
+						joueurEnnemi->detruireUnite(i);
+					}
+				}
+			}
+		}
 		joueur->creerUnite(ennemi, ennemi->getResistance());
 		joueurEnnemi->detruireUnite(index);
 		outilRestant--;
-		aAgi == true;
+		setAAgi();
 	}
 }
 
@@ -69,7 +81,7 @@ void UniteUtilitaire::explorationDeSol(Player* joueur)
 	if (outil == Outil::kitDeGeologue) {
 		joueur->decouvreRessource(getCoordX(), getCoordY());
 		outilRestant--;
-		aAgi == true;
+		setAAgi();
 	}
 }
 
@@ -84,7 +96,7 @@ void UniteUtilitaire::creationVille(Player* player) {
 			}
 		}
 		player->detruireUnite(index);
-		aAgi == true;
+		cout << player->getNombreBatiment() << endl;
 	}
 }
 

@@ -39,11 +39,12 @@ public :
 	bool peutSeDeplacer(int distance);
 	bool peutAgir();
 
-	void reaprovisionnement();
+	virtual void reaprovisionnement();
 	void prendDegat(int degat);
 	void seDeplace(int x, int y, sf::RenderWindow *renderWindow, sf::Color color, SpriteManager *manager);
 	void soin();
 	bool estDetruit();
+	void setAAgi();
 
 	bool isArmee() { return estArmee; }
 	bool isUtilitaire(){ return estUtilitaire; }

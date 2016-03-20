@@ -23,6 +23,7 @@ public:
 	void explorationDeSol(Player *joueur);
 	void creationVille(Player *player);
 	Outil getOutil();
+	void reaprovisionnement();
 	int getOutilRestant();
 	int getReaproRestante();
 	bool estPlein();
