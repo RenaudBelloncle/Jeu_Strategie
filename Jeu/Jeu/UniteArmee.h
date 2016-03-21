@@ -22,5 +22,7 @@ public :
 
 	bool peutAttaquer();
 
+	void reaprovisionnement();
+
 	//void attaqueBatiment();
 };

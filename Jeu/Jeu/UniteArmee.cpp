@@ -95,3 +95,8 @@ bool UniteArmee::peutAttaquer() {
 	}
 	return false;
 }
+
+void UniteArmee::reaprovisionnement() {
+	Unite::reaprovisionnement();
+	munRestante = munMax;
+}

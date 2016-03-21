@@ -39,7 +39,7 @@ Unite* UniteManager::creerUnite(const std::string &unite, int x, int y)
 		nouvelleUnite = new UniteArmee(*(UniteArmee*)getRef(unite));
 	}
 	else {
-		nouvelleUnite = new Unite(*getRef(unite));
+		nouvelleUnite = new UniteUtilitaire(*(UniteUtilitaire*)getRef(unite));
 	}
 	
 	nouvelleUnite->setCoord(x, y);

@@ -31,12 +31,13 @@ private:
 
 	sf::Vector2i definitionCaseClique(int x, int y);
 	void surbrillanceCaseDeplacement();
-	void deplacementAutoPourAttaque(int ecartX, int ecartY, int distance, UniteArmee* unite, int posXEnnemi, int posYEnnemi);
 
 	bool testClicZoneJeu(int x, int y);
 	bool testUniteAlliee(int x, int y);
+	bool testUniteEnnemie(int x, int y);
 	bool testEntiteEnnemie(int x, int y);
 	bool testUniteSelectionneTypeCase(int x, int y);
+	bool testUniteAllieeInfanterie(int x, int y);
 	bool inDeplacement(sf::Vector2f item);
 	bool inAttaque(sf::Vector2f item);
 	void calculNombreTileAffichable();
@@ -49,9 +50,6 @@ private:
     void afficherNextTechAChercher();
 	void afficherPrevBatiementConstruire();
 	void afficherNextBatimentConstruire();
-
-	bool attaque(sf::Vector2i caseClique);
-	bool deplacement(sf::Vector2i caseClique);
 	
     void buyTech();
 	MenuPrincipal menu_p;
@@ -59,16 +57,24 @@ private:
 	sf::Clock weather_clock;
 	void initText();
 	BatimentManager m_batimentManager;
-	bool boutonClique;
+	bool attaqueSelectionne, deplacementSelectionne, convertirSelectionne, reapproSelectionne, chargeUniteSelectionne, dechargeUniteSelectionne;
+	sf::Vector2i caseClique;
 public:
-	Game();
+	Game(int nbJoueur);
     sf::RenderWindow m_window;
     sf::View m_view, m_viewMinimap, m_viewInterface;
-    int c_view[2], m_tour, m_nbJoueur, m_numJoueurActif, m_tileSize;
+    int c_view[2], m_tour, m_numJoueurActif, m_tileSize;
 	sf::Vector2f centreImage, nombreTileAffiche, m_winSize;
     TextureManager m_textureManager;
 	SpriteManager m_spriteManager;
 	sf::Font font;
+
+	void attaque();
+	void deplacement();
+	void convertir();
+	void reapprovisionne();
+	void dechargeUnite();
+	void chargeUnite();
 
 	std::vector<sf::Vector2f> m_deplacement, m_attaque;
 
@@ -90,7 +96,7 @@ public:
 
 	Interface* m_interface;
 
-	void actionUnite(sf::Vector2i caseClique);
+	void actionUnite();
 
 	void clic(int x, int y);
 	void clicInterface(int x, int y);
@@ -106,4 +112,18 @@ public:
 	void resize();
 
 	int getState();
+
+	void selectAttaque();
+	void selectConvertir();
+	void creerVille();
+	void exploreSol();
+	void selectReapprovisionne();
+	void selectChargeUnite();
+	void selectDechargeUnite();
+	void selectDeplacement();
+
+	void selectionneInfanterieAdjacent();
+	void selectionneEnnemiAdjacent();
+	void selectionneAllieAdjacent();
+	void selectCaseDechargeable();
 };

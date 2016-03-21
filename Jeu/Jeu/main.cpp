@@ -7,7 +7,7 @@
 int main()
 {
 	UniteManager unites;
-    Game game;
+    Game game = (2);
 
 	bool leftPressed(false), rightPressed(false), upPressed(false), downPressed(false);
 	float zoom = 1;
@@ -17,11 +17,9 @@ int main()
 	int fps_move_mouse = 200; //fps des déplacmeents de la caméra à la souris
 	int detecte_zone = 3; //zone de détection pour la caméra à la souris
 	game.m_playerActif->creerUnite(unites.creerUnite("Soldat",9,9), game.m_map.getTile(9,9).getBonusRes());
-	game.m_playerActif->creerUnite(unites.creerUnite("Transporteur", 10, 10), game.m_map.getTile(10, 10).getBonusRes());
 	game.m_playerActif->creerUnite(unites.creerUnite("Colon", 9, 10), game.m_map.getTile(9, 10).getBonusRes());
 	game.m_playerActif->creerUnite(unites.creerUnite("Explorateur", 10, 9), game.m_map.getTile(10, 9).getBonusRes());
-	game.m_playerActif->creerUnite(unites.creerUnite("Recruteur", 10, 11), game.m_map.getTile(10, 11).getBonusRes());
-
+	
 	game.m_players[1]->creerUnite(unites.creerUnite("SoldatArmee",11,11), game.m_map.getTile(11, 11).getBonusRes());
 	game.getPlayerActif()->decouvre();
 
@@ -115,8 +113,6 @@ int main()
 				}
 				if (event.mouseButton.button == sf::Mouse::Right) {
 					game.deselection();
-					std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-					std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 				}
 			}
 
@@ -234,6 +230,7 @@ int main()
 		}
 
 		game.m_window.clear(sf::Color::Black);
+		game.actionUnite();
 		game.render();
 		game.m_window.display();
 		m_clock.restart();
