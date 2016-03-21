@@ -134,70 +134,58 @@ void Interface::removeActionUnite() {
 	removeButton("decharger");
 }
 
-void Interface::afficherActionUnite(Unite* unite, sf::Vector2i caseClique, SpriteManager* manager) {
-	int y = 0;
-	Button* annuler = new Button("annuler", sf::Vector2i(0, y), manager->getRef("button_annuler"), &Game::deselection);
+void Interface::afficherActionUnite(Unite* unite, SpriteManager* manager, int y) {
+	y -= 34;
+	int x = 0;
+	Button* annuler = new Button("annuler", sf::Vector2i(x, y), manager->getRef("button_annuler"), &Game::deselection);
 	ajouterBouton(annuler);
-	y += 34;
-	Button* deplacement = new Button("deplacement", sf::Vector2i(0, y), manager->getRef("button_deplacement"), &Game::selectDeplacement);
+	x += 114;
+	Button* deplacement = new Button("deplacement", sf::Vector2i(x, y), manager->getRef("button_deplacement"), &Game::selectDeplacement);
 	ajouterBouton(deplacement);
-	y += 34;
+	x += 114;
 	if (unite->isArmee()) {
-		Button* attaque = new Button("attaque", sf::Vector2i(0, y), manager->getRef("button_attaque"), &Game::selectAttaque);
+		Button* attaque = new Button("attaque", sf::Vector2i(x, y), manager->getRef("button_attaque"), &Game::selectAttaque);
 		ajouterBouton(attaque);
-		y += 34;
+		x += 114;
 	}
 	else if (unite->isUtilitaire()) {
 		UniteUtilitaire* u = (UniteUtilitaire*)unite;		
-		cout << "c'est une unite util." << endl;
-		int t = (int)u->getOutil();
-		cout << t << endl;
 		if (u->getOutil() == Outil::convertisseur) {
-			cout << "convert" << endl;
 			if (u->getOutilRestant() > 0) {
-				cout << "button" << endl;
-				Button* convertir = new Button("convertir", sf::Vector2i(0, y), manager->getRef("button_convertir"), &Game::selectConvertir);
+				Button* convertir = new Button("convertir", sf::Vector2i(x, y), manager->getRef("button_convertir"), &Game::selectConvertir);
 				ajouterBouton(convertir);
-				y += 34;
+				x += 114;
 			}
 		}
 		else if (u->getOutil() == Outil::fondation) {
-			cout << "fond" << endl;
 			if (u->getOutilRestant()) {
-				cout << "button" << endl;
-				Button* fondation = new Button("creation_ville", sf::Vector2i(0,y), manager->getRef("button_fondation"), &Game::creerVille);
+				Button* fondation = new Button("creation_ville", sf::Vector2i(x,y), manager->getRef("button_fondation"), &Game::creerVille);
 				ajouterBouton(fondation);
-				y += 34;
+				x += 114;
 			}
 		}
 		else if (u->getOutil() == Outil::kitDeGeologue) {
-			cout << "geo" << endl;
 			if (u->getOutilRestant()) {
-				cout << "button" << endl;
-				Button* exploration = new Button("exploration", sf::Vector2i(0, y), manager->getRef("button_exploration"), &Game::exploreSol);
+				Button* exploration = new Button("exploration", sf::Vector2i(x, y), manager->getRef("button_exploration"), &Game::exploreSol);
 				ajouterBouton(exploration);
-				y += 34;
+				x += 114;
 			}
 		}
 		else if (u->getOutil() == Outil::transport) {
-			cout << "trans" << endl;
 			if (u->getReaproRestante()) {
-				cout << "button" << endl;
-				Button* reappro = new Button("reapprovision", sf::Vector2i(0, y), manager->getRef("button_reapprovision"), &Game::selectReapprovisionne);
+				Button* reappro = new Button("reapprovision", sf::Vector2i(x, y), manager->getRef("button_reapprovision"), &Game::selectReapprovisionne);
 				ajouterBouton(reappro);
-				y += 34;
+				x += 114;
 			}
 			if (!u->estPlein()) {
-				cout << "button" << endl;
-				Button* charger = new Button("charger", sf::Vector2i(0, y), manager->getRef("button_chargerUnite"), &Game::selectChargeUnite);
+				Button* charger = new Button("charger", sf::Vector2i(x, y), manager->getRef("button_chargerUnite"), &Game::selectChargeUnite);
 				ajouterBouton(charger);
-				y += 34;
+				x += 114;
 			}
 			if (u->estPlein()) {
-				cout << "button" << endl;
-				Button* decharger = new Button("decharger", sf::Vector2i(0, y), manager->getRef("button_dechargerUnite"), &Game::selectDechargeUnite);
+				Button* decharger = new Button("decharger", sf::Vector2i(x, y), manager->getRef("button_dechargerUnite"), &Game::selectDechargeUnite);
 				ajouterBouton(decharger);
-				y += 34;
+				x += 114;
 			}
 		}
 	}

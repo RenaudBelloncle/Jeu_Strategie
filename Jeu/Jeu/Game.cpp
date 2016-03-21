@@ -82,9 +82,9 @@ void Game::loadSprites()
 	m_spriteManager.loadSprite("soldat", m_textureManager.getRef("unite"), 128, 128, 1, 0);
 	m_spriteManager.loadSprite("soldat_arme", m_textureManager.getRef("unite"), 128, 128, 2, 0);
 	m_spriteManager.loadSprite("demolisseur", m_textureManager.getRef("unite"), 128, 128, 3, 0);
-	m_spriteManager.loadSprite("colon", m_textureManager.getRef("unite"), 128, 128, 3, 0);
+	m_spriteManager.loadSprite("colon", m_textureManager.getRef("unite"), 128, 128, 0, 4);
 	m_spriteManager.loadSprite("recruteur", m_textureManager.getRef("unite"), 128, 128, 3, 0);
-	m_spriteManager.loadSprite("explorateur", m_textureManager.getRef("unite"), 128, 128, 3, 0);
+	m_spriteManager.loadSprite("explorateur", m_textureManager.getRef("unite"), 128, 128, 4, 0);
 
 	m_spriteManager.loadSprite("maritime", m_textureManager.getRef("unite"), 128, 128, 0, 1);
 
@@ -109,7 +109,7 @@ Game::Game(int nbJoueur)
 	: meteo(&m_window), menu_p(&m_window)
 {
 	gameState = 1;
-	brouillardDeGuerre = true;
+	brouillardDeGuerre = false;
 	m_uniteSelectionne = NULL;
 	m_batimentSelectionne = NULL;
 	m_tour = 0;
@@ -143,15 +143,19 @@ Game::Game(int nbJoueur)
 	vector<string> noms;
 	noms.push_back("Banane");
 	noms.push_back("Kiwi");
-	noms.push_back("Mangue");
     m_window.setFramerateLimit(60);
 	for (int i = 0; i < nbJoueur; i++) {
-		m_players.push_back(new Player(sf::Color(127+i*10, 127-i * 10, 127-i * 5), noms.at(i)));
+		if (i == 0) {
+			m_players.push_back(new Player(sf::Color::Cyan, noms.at(i), m_map.getWidth(), m_map.getHeigth()));
+		}
+		else {
+			m_players.push_back(new Player(sf::Color::Red, noms.at(i), m_map.getWidth(), m_map.getHeigth()));
+		}
+		
 	}
 	m_numJoueurActif = 0;
 	m_playerActif = m_players[m_numJoueurActif];
-	//m_players[0]->decouvre();
-
+	
 	if (!font.loadFromFile("media/kenvector_future.ttf"))
 	{
 		std::cout << "Erreur chargement font" << std::endl;
@@ -564,7 +568,7 @@ void Game::finTour() {
 
 void Game::clicUnite(int x, int y, Unite *unite) {
 	m_uniteSelectionne = unite;
-	m_interface->afficherActionUnite(m_uniteSelectionne, caseClique, &m_spriteManager);
+	m_interface->afficherActionUnite(m_uniteSelectionne, &m_spriteManager,m_winSize.y-INTERFACE_HEIGTH);
 	tech = false;
 	batiment = false;
 }
@@ -832,6 +836,10 @@ void Game::resize()
 	m_interface->getButton("topo")->move(200, m_winSize.y - 175);
 	m_interface->getButton("ress")->move(200, m_winSize.y - 125);
 	m_interface->getButton("unite")->move(200, m_winSize.y - 75);
+	if (m_uniteSelectionne != NULL) {
+		m_interface->removeActionUnite();
+		m_interface->afficherActionUnite(m_uniteSelectionne, &m_spriteManager, m_winSize.y - INTERFACE_HEIGTH);
+	}
 }
 
 int Game::getState() {
@@ -1049,7 +1057,8 @@ void Game::selectDechargeUnite() {
 void Game::creerVille() {
 	m_deplacement.clear();
 	m_attaque.clear();
-	definitionCaseAttaque(m_uniteSelectionne->getCoordX(), m_uniteSelectionne->getCoordY());
+	UniteUtilitaire* u = (UniteUtilitaire*)m_uniteSelectionne;
+	u->creationVille(m_playerActif);
 	deselection();
 }
 
