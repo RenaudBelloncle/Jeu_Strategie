@@ -1,15 +1,23 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(sf::Color color) {
+Player::Player(sf::Color color, string _nom, int mapWidth, int mapHeight) {
 	couleur = color;
 	initTechnologies();
-
+	nom = _nom;
     energie = 10;
     essence = 10;
     metaux = 10;
     vivre = 10;
 	stockMaxEnergie = stockMaxEssence = stockMaxMetaux = stockMaxVivre = 20;
+	for (int i = 0; i < mapWidth; i++) {
+		caseDecouverte.push_back(vector<bool>(mapHeight,false));
+		ressourceDecouverte.push_back(vector<bool>(mapHeight, false));
+	}
+}
+
+string Player::getNom() {
+	return nom;
 }
 
 int Player::getEnergie() {
@@ -31,12 +39,6 @@ int Player::getVivre() {
 void Player::creerUnite(Unite *unite,int resistance) {
 	unite->setResistance(resistance);
 	listUnite.push_back(unite);
-	for (int i = 0; i < MAP_WIDTH; i++) {
-		for (int j = 0; j < MAP_HEIGTH; j++) {
-			caseDecouverte[i][j] = false;
-			ressourceDecouverte[i][j] = false; 
-		}
-	}
 }
 
 void Player::detruireUnite(int index) {
@@ -313,9 +315,9 @@ void Player::decouvre() {
 	for (unsigned int i = 0; i < listUnite.size(); i++) {
 		Unite* unite = listUnite[i];
 		for (int j = unite->getCoordY() - unite->getChampVision(); j < unite->getCoordY() + unite->getChampVision(); j++) {
-			if (j >= 0 && j < MAP_HEIGTH) {
+			if (j >= 0 && j < caseDecouverte.size()) {
 				for (int k = 1 + unite->getCoordX() - (unite->getChampVision() - abs(j - unite->getCoordY())); k < unite->getCoordX() + (unite->getChampVision() - abs(j - unite->getCoordY()));k++) {
-					if (k >= 0 && k < MAP_WIDTH) {
+					if (k >= 0 && k < caseDecouverte[j].size()) {
 						caseDecouverte[k][j] = true;
 					}
 				}
@@ -326,9 +328,9 @@ void Player::decouvre() {
 
 void Player::decouvreRessource(int x, int y) {
 	for (int i = x-1; i < x + 1; i++) {
-		if (0 < i && i < MAP_WIDTH) {
+		if (0 < i && i < caseDecouverte.size()) {
 			for (int j = y - 1; j < y + 1; j++) {
-				if (0 < j && j < MAP_HEIGTH) {
+				if (0 < j && j < caseDecouverte[i].size()) {
 					ressourceDecouverte[i][j] = true;
 				}
 			}

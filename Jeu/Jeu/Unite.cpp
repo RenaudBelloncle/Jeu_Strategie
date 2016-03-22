@@ -286,3 +286,7 @@ sf::Sprite Unite::getIconMaritime(SpriteManager *manager) {
 	}
 	return sprite;
 }
+
+void Unite::setAAgi() {
+	aAgi = true;
+}
